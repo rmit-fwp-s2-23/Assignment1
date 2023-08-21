@@ -1,6 +1,14 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 function MovieCard({ movie: { imdbID, Year, Poster, Title, Type } }) {
+
+  let navigate = useNavigate(); 
+
+  const handleCardClick = () => {
+    navigate(`./MoviePage`); 
+  };
+
   return (
     <div className="movie" key={imdbID}>
       <div>
@@ -8,7 +16,7 @@ function MovieCard({ movie: { imdbID, Year, Poster, Title, Type } }) {
       </div>
 
       <div>
-        <img src={Poster !== "N/A" ? Poster : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"} alt={Title} />
+        <img src={Poster !== "N/A" ? Poster : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"} alt={Title} onClick={handleCardClick} />
       </div>
 
       <div>
