@@ -30,19 +30,29 @@
 }
 
 
-.login-button{
-    width:100%;
-    height:55px;
-    width: 100px;
-    border:none;
-    border-radius:5px;
-    font-size:17px;
-    font-weight:600;
-    color:#850E35;
-    background-color: #FFF5E4;
-    cursor:pointer;
+.login-button {
+    width: 70px;  
+    height: 25px;          /* Increased height */
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;     /* Decreased font size */
+    font-weight: 600;
+    color: #850E35;
+    background-color: #E76161;
+    cursor: pointer;
+    font-display: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
-.login-button:hover{
-    background-color: #E76161;
+.login-button:hover {
+    background-color: #850E35;
+}
+
+.button-div {
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }

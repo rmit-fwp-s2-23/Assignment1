@@ -8,32 +8,44 @@
 
 .login-box {
     background-color: white;
-    padding: 20px;
+    padding: 30px;  /* Increased padding */
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 350px;  /* Increased width */
 }
 
 .form-control {
-    padding: 10px;
+    padding: 12px;  /* Increased padding */
     border-radius: 4px;
     border: 1px solid #ddd;
-    margin-bottom: 10px;
+    margin-bottom: 20px;  /* Increased margin-bottom */
+    font-size: 16px;  /* Optional: Increase font size */
+}
+
+/* Styling for labels (like the username label) */
+.login-box label {
+    display: block;
+    margin-bottom: 8px;  /* Add space between label and input */
+    color: #850E35;  /* Using one of your preferred colors */
+    font-weight: bold;  /* Make it bold */
 }
 
 .btn-primary {
-    background-color: #007bff;
+    background-color: #E76161;  /* Using one of your preferred colors */
     border: none;
-    padding: 10px 20px;
+    padding: 12px 24px;  /* Increased padding */
     border-radius: 4px;
     transition: background-color 0.3s;
+    color: white;  /* Font color is white */
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #850E35;  /* Using the other preferred color on hover */
 }
 
 .text-danger {
     font-weight: bold;
+    color: #850E35;  /* Using one of your preferred colors */
 }
 
 .form-group:last-child {
