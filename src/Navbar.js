@@ -1,28 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 import "./Nav.css";
 
-function Header() { 
-return (
+function Header(props) {
+    return (
+        <div className="navbar">
+            <Link className="logo" to="/"> Loop Cinemas </Link>
 
-<div className="navbar">
+            <Link to="/">Movies</Link>
+            <Link to="/">Events & Festivals</Link>
+            <Link to="/">Book Movies & Events</Link>
+            <Link to="/">Food & Drink</Link>
+            <Link to="/">Cinemas & Venues</Link>
 
-<div className="logo"><Link to="/">Loop Cinemas</Link></div>
-
-    <Link to="/">Movies</Link>
-    <Link to="/">Events & Festivals</Link>
-    <Link to="/">Book Movies & Events</Link>
-    <Link to="/">Food & Drink</Link>
-    <Link to="/">Cinemas & Venues</Link>
-
-    <div class="button-div">
-
-    <button class="login-button">Login</button>
-    
-</div>
-</div>
-)
+            <div className="button-div">
+                {props.username ? 
+                    <>
+                        <span>Welcome, {props.username}</span>
+                        <Link to="/" onClick={props.logoutUser} className="login-button">Logout</Link>
+                    </>
+                    :
+                    <Link to="/login" className="login-button">Login</Link>
+                }
+            </div>
+        </div>
+    );
 }
 
 export default Header;
