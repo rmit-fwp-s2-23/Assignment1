@@ -11,11 +11,15 @@ function initUsers() {
   const users = [
     {
       username: "saif",
-      password: "abc123"
+      password: "abc123",
+      email: "saif@example.com",
+      // ... add more fields as needed
     },
     {
       username: "ahmad",
-      password: "def456"
+      password: "def456",
+      email: "ahmad@example.com",
+      // ... add more fields as needed
     }
   ];
 
@@ -42,6 +46,22 @@ function verifyUser(username, password) {
     }
   }
 
+  return false;
+}
+
+function getUserProfile(username) {
+  const users = getUsers();
+  return users.find(user => user.username === username);
+}
+
+function updateUserProfile(updatedProfile) {
+  const users = getUsers();
+  const index = users.findIndex(user => user.username === updatedProfile.username);
+  if (index !== -1) {
+    users[index] = updatedProfile;
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    return true;
+  }
   return false;
 }
 
@@ -81,5 +101,7 @@ export {
   verifyUser,
   getUser,
   removeUser,
-  registerUser
+  registerUser,
+  getUserProfile,
+  updateUserProfile
 }

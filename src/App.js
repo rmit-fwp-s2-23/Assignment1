@@ -9,6 +9,7 @@ import Login from "./Login";
 import { getUser, removeUser } from "./repository";
 import MoviePage from "./MoviePage";
 import Signup from "./Signup"; 
+import MyProfile from "./MyProfile";
 
 function App() {
   const [username, setUsername] = useState(getUser());
@@ -30,6 +31,7 @@ function App() {
         <Route path="/login" element={<Login loginUser={loginUser} />} />
         <Route path="/MoviePage" element={<MoviePage />} />
         <Route path="/signup" element={<Signup />} /> 
+        <Route path="/myprofile" element={<MyProfile username={username} />} />
       </Routes>
     </Router>
   );
