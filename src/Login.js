@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { verifyUser, registerUser } from "./repository";
 import "./login.css";
+import { Link } from "react-router-dom";
 
 function Login(props) {
   const [fields, setFields] = useState({ username: "", password: "" });
@@ -94,19 +95,7 @@ function Login(props) {
                 </div>
               }
             </form>
-            <form onSubmit={handleSignUp}>
-      <div className="form-group">
-        <label htmlFor="signupUsername" className="control-label">New Username</label>
-        <input name="signupUsername" id="signupUsername" className="form-control" />
-      </div>
-      <div className="form-group">
-        <label htmlFor="signupPassword" className="control-label">New Password</label>
-        <input type="password" name="signupPassword" id="signupPassword" className="form-control" />
-      </div>
-      <div className="form-group">
-        <input type="submit" className="btn btn-primary" value="Sign Up" />
-      </div>
-    </form>
+            <p>Don't have an account? <Link to="/signup">Signup</Link></p>  
           </div>
         </div>
       </div>

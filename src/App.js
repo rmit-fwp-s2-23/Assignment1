@@ -8,6 +8,7 @@ import "./App.css";
 import Login from "./Login";
 import { getUser, removeUser } from "./repository";
 import MoviePage from "./MoviePage";
+import Signup from "./Signup"; 
 
 function App() {
   const [username, setUsername] = useState(getUser());
@@ -28,6 +29,7 @@ function App() {
         <Route path="/" element={<Content />} />
         <Route path="/login" element={<Login loginUser={loginUser} />} />
         <Route path="/MoviePage" element={<MoviePage />} />
+        <Route path="/signup" element={<Signup />} /> 
       </Routes>
     </Router>
   );
