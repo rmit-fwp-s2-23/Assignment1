@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import "./App.css";
 import Login from "./Login";
 import { getUser, removeUser } from "./repository";
+import MoviePage from "./MoviePage";
 
 function App() {
   const [username, setUsername] = useState(getUser());
@@ -26,7 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Content />} />
         <Route path="/login" element={<Login loginUser={loginUser} />} />
-        {/* Add other routes as needed */}
+        <Route path="/MoviePage" element={<MoviePage />} />
       </Routes>
     </Router>
   );
