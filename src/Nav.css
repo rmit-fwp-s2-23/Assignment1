@@ -1,7 +1,6 @@
 .navbar {
     background: #850E35;
     padding: 50px;
-    color: #FFF5E4;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,6 +17,7 @@
     text-decoration: none;
 }
 
+
 .navbar a:last-child {
     margin-right: 0;
 }
@@ -31,23 +31,29 @@
 
 
 .login-button {
-    width: 70px;  
-    height: 35px;          /* Increased height */
     border: none;
     border-radius: 5px;
-    font-size: 15px;     /* Decreased font size */
+    font-size: 15px;     
     font-weight: 600;
-    color: #850E35;
-    background-color: #E76161;
+    background-color: #FFF5E4;
     cursor: pointer;
     font-display: center;
     align-items: center;
     justify-content: center;
     display: flex;
+
+}
+
+.button-div a {
+    color:#850E35;
 }
 
 .login-button:hover {
-    background-color: #850E35;
+    background-color: #E76161;
+}
+
+.button-div:hover a{
+    color: #FFF5E4;
 }
 
 .button-div {

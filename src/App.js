@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MovieCard from "./MovieCard";
 import Content from "./Content"
-import SearchIcon from "./search.svg";
 import Navbar from "./Navbar";
 import "./App.css";
 import Login from "./Login";
@@ -10,6 +9,7 @@ import { getUser, removeUser } from "./repository";
 import MoviePage from "./MoviePage";
 import Signup from "./Signup"; 
 import MyProfile from "./MyProfile";
+import Footer from "./Footer"
 
 function App() {
   const [username, setUsername] = useState(getUser());
@@ -33,6 +33,7 @@ function App() {
         <Route path="/signup" element={<Signup />} /> 
         <Route path="/myprofile" element={<MyProfile username={username} />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };
