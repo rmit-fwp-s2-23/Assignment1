@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./MyProfile.css";
 import { getUserProfile, updateUserProfile } from "./repository";
 
 function MyProfile(props) {
@@ -32,38 +33,43 @@ function MyProfile(props) {
   };
 
   return (
-    <div>
-      <h1 className="display-4">My Profile</h1>
-      <h4><strong>Hello {userDetails.username}!</strong></h4>
-      {isEditing ? (
-        <div>
-          <label>
-            Username:
-            <input
-              name="username"
-              value={userDetails.username}
-              onChange={handleInputChange}
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              name="email"
-              value={userDetails.email}
-              onChange={handleInputChange}
-            />
-          </label>
-          <button onClick={handleSave}>Save</button>
-        </div>
-      ) : (
-        <div>
-          <p>Username: {userDetails.username}</p>
-          <p>Email: {userDetails.email}</p>
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-        </div>
-      )}
+    <div className="my-profile-container">
+    <div className="profile-box">
+        <h1 className="display-4">My Profile</h1>
+        {isEditing ? (
+            <div>
+                <label>
+                    Username:
+                    <input
+                      name="username"
+                      value={userDetails.username}
+                      onChange={handleInputChange}
+                    />
+                </label>
+                <label>
+                    Email:
+                    <input
+                      name="email"
+                      value={userDetails.email}
+                      onChange={handleInputChange}
+                    />
+                </label>
+                <button onClick={handleSave}>Save</button>
+            </div>
+        ) : (
+            <div className="user-details">
+                <div className="user-detail-box">
+                    <strong>User Details:</strong>
+                    <p>Username: {userDetails.username}</p>
+                    <p>Email: {userDetails.email}</p>
+                </div>
+                <button onClick={() => setIsEditing(true)}>Edit</button>
+            </div>
+        )}
     </div>
-  );
+</div>
+);
+
 }
 
 export default MyProfile;

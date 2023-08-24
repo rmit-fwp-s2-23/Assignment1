@@ -32,7 +32,7 @@
 
 .login-button {
     width: 70px;  
-    height: 25px;          /* Increased height */
+    height: 35px;          /* Increased height */
     border: none;
     border-radius: 5px;
     font-size: 15px;     /* Decreased font size */
@@ -55,4 +55,24 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+
+.navbar .button-div span {
+    margin-right: 20px;  /* Add space to the right of the welcome message */
+}
+
+.navbar .button-div a {
+    margin-left: 20px;   /* Add space to the left of the My Profile link */
+}
+
+.username-link {
+    color: #FFF5E4;  /* Assuming this is the color you want for the link */
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;  /* Add some space between "Welcome," and the username */
+}
+
+.username-link:hover {
+    /* You can add some hover styles if you like, e.g., underline or change color */
+    text-decoration: underline;
 }
