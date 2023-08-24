@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { registerUser } from "./repository";
 
 function Signup(props) {
-  const [fields, setFields] = useState({ username: "", password: "" });
+  const [fields, setFields] = useState({ username: "", password: "", confirmPassword: ""});
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
@@ -19,8 +19,18 @@ function Signup(props) {
 
   const handleSignUp = (event) => {
     event.preventDefault();
+    const specialCharPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    if (!specialCharPattern.test(fields.password)) {
+      setErrorMessage("Password must contain at least one special character!");
+      return;
+    }
     const username = fields.username;
     const password = fields.password;
+
+    if (fields.password !== fields.confirmPassword) {
+      setErrorMessage("Passwords do not match!");
+      return;
+    }
     const registered = registerUser(username, password);
 
     if(registered) {
@@ -44,6 +54,16 @@ function Signup(props) {
             <div className="form-group">
             <label htmlFor="password">Password</label>
             <input type="password" name="password" className="form-control" value={fields.password} onChange={handleInputChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input 
+                type="password" 
+                name="confirmPassword" 
+                className="form-control" 
+                value={fields.confirmPassword} 
+                onChange={handleInputChange}
+              />
             </div>
             <button type="submit" className="btn-primary">Signup</button>
         </form>
