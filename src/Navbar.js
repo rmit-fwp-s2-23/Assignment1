@@ -17,8 +17,7 @@ function Header(props) {
             <div className="button-div">
                 {props.username ? 
                     <>
-                        <span>Welcome, {props.username}</span>
-                        <Link to="/myprofile" className="profile-button">My Profile</Link>
+                        <Link to="/myprofile" className="username-link">Welcome, {props.username}</Link>
                         <Link to="/" onClick={props.logoutUser} className="login-button">Logout</Link>
                     </>
                     :
