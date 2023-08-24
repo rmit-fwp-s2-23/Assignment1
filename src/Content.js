@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import MovieCard from "./MovieCard";
-import SearchIcon from "./search.svg";
 import "./App.css";
 import { Link } from "react-router-dom";
 
@@ -56,8 +55,7 @@ function Content() {
         </div>
       ) : (
         <div className="empty">
-          <br />
-          <h2>No movies found</h2>
+          <h2>Sorry! No movies found.</h2>
         </div>
       )}
     </div>
