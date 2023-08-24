@@ -11,8 +11,12 @@
     align-items:center;
     text-transform: uppercase;
     font-weight: bold;
-    position: static;
     justify-content: space-around;
+
+    position: static; /* Change to 'fixed' */
+    bottom: 0; /* Stick to the bottom */
+    left: 0; /* Align to the left */
+    right: 0; /* Align to the right */
   }
 
 .footer-container p {
