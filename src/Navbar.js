@@ -9,10 +9,9 @@ function Header(props) {
             <Link className="logo" to="/"> Loop Cinemas </Link>
 
             <Link to="/">Movies</Link>
-            <Link to="/">Events & Festivals</Link>
-            <Link to="/">Book Movies & Events</Link>
+            <Link to="/">Festivals</Link>
+            <Link to="/">Bookings</Link>
             <Link to="/">Food & Drink</Link>
-            <Link to="/">Cinemas & Venues</Link>
 
             <div className="button-div">
                 {props.username ? 
