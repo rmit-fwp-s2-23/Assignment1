@@ -47,9 +47,8 @@ function MoviePage() {
 
 
         <div className="movie-container3"> 
-        <p>reviews</p>
+        <Reviews />
         </div>
-      
     </div>
     </>
   );
