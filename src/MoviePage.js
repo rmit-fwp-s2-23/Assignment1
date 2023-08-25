@@ -12,6 +12,9 @@ function MoviePage() {
   const { movie } = location.state;
   const [reviews, setReviews] = useState([]);
   const [buttonPopup, setButtonPopup] = useState(false)
+  const [count, setCount] = React.useState(0);
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   // State for new review and rating
   const [newReview, setNewReview] = useState('');
@@ -22,11 +25,28 @@ function MoviePage() {
     setReviews(movieReviews);
   }, [movie]);
 
+  const handleReviewChange = (event) => {
+    const reviewText = event.target.value;
+    setNewReview(reviewText);
+    setCount(reviewText.length);
+  };
+
   const handleReviewSubmit = () => {
-    saveReviewForMovie(movie.imdbID, newReview, newRating);
-    setReviews([...reviews, { review: newReview, rating: newRating }]);
-    setNewReview('');
-    setNewRating(5);
+    if (count <= 250 && count > 0) {
+      saveReviewForMovie(movie.imdbID, newReview, newRating);
+      setReviews([...reviews, { review: newReview, rating: newRating }]);
+      setNewReview('');
+      setNewRating(5);
+    }
+    else if (count === 0) {
+      setErrorMessage("Please enter a review.");
+    }
+    else if (count > 250)  {
+      setErrorMessage("Please enter a review that is less than 250 characters.");
+    }
+    else {
+    setErrorMessage('');
+  }
   };
 
   const suburbs = [
@@ -78,7 +98,7 @@ function MoviePage() {
 
         <h2 className="write-review-text">Please Enter Your Review Below.</h2>
         <div className='write-review-containter'>
-            <textarea value={newReview} onChange={e => setNewReview(e.target.value)} placeholder="type here"></textarea>
+            <textarea value={newReview} onChange={handleReviewChange} placeholder="type here"></textarea>
             <select value={newRating} onChange={e => setNewRating(Number(e.target.value))}>
             {[1, 2, 3, 4, 5].map(num => (
                 <option key={num} value={num}>{num}</option>
@@ -86,7 +106,10 @@ function MoviePage() {
             </select>
             <button onClick={handleReviewSubmit}>Submit Review</button>
         </div>
+        <p className='char-count'>Character Count {count} / 250</p>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         </ReviewPopup>
+      
         </div>
         
         <div className="movie-container4">

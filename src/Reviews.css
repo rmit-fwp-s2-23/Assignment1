@@ -50,3 +50,17 @@ padding-top:5%;
 .reviews-container p{
     color:#FFF5E4;
 }
+
+.error-message{
+    margin: 3rem;
+    text-align: center;
+    color: #ff0000;
+    font-weight:900;
+}
+
+.char-count{
+    margin: 1rem;
+    text-align: center;
+    color: #630000;
+    font-weight:bold;
+}
