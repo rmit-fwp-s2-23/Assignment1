@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function MovieCard({ movie: { imdbID, Year, Poster, Title, Type } }) {
 
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate(); 
 
   const handleImageClick = () => {
     navigate("/MoviePage", { state: { movie: { imdbID, Year, Poster, Title, Type, } } });

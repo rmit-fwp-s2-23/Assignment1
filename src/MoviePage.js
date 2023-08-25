@@ -1,11 +1,34 @@
-import React from 'react';
 import "./MoviePage.css";
-import { useLocation } from 'react-router-dom';
-import Reviews from './Reviews';
+import React, { useState, useEffect } from 'react';
+import { saveReviewForMovie, getReviewsForMovie } from './repository';
+import "./Reviews.css";
+import { useLocation, useNavigate } from 'react-router-dom';
+import ReviewPopup from './ReviewPopup'
 
 function MoviePage() {
+  const navigate = useNavigate(); 
   const location = useLocation();
+
   const { movie } = location.state;
+  const [reviews, setReviews] = useState([]);
+  const [buttonPopup, setButtonPopup] = useState(false)
+
+  // State for new review and rating
+  const [newReview, setNewReview] = useState('');
+  const [newRating, setNewRating] = useState(5); // Default rating
+
+  useEffect(() => {
+    const movieReviews = getReviewsForMovie(movie.imdbID);
+    setReviews(movieReviews);
+  }, [movie]);
+
+  const handleReviewSubmit = () => {
+    saveReviewForMovie(movie.imdbID, newReview, newRating);
+    setReviews([...reviews, { review: newReview, rating: newRating }]);
+    setNewReview('');
+    setNewRating(5);
+  };
+
   const suburbs = [
     {
     id:1,
@@ -29,8 +52,11 @@ function MoviePage() {
     }
   ];
 
+  const handReviewButton = () => {
+    navigate("/Reviews");
+  };
+
   return (
-    <>
     <div className="movie-container">
 
         <div className="movie-container1">
@@ -47,10 +73,35 @@ function MoviePage() {
 
 
         <div className="movie-container3"> 
-        <Reviews />
+        <button className="add-review-button"onClick={() => setButtonPopup(true)}><h1>Add Your Movie Review</h1></button>
+        <ReviewPopup trigger={buttonPopup} setTrigger={setButtonPopup}>
+
+        <h2 className="write-review-text">Please Enter Your Review Below.</h2>
+        <div className='write-review-containter'>
+            <textarea value={newReview} onChange={e => setNewReview(e.target.value)} placeholder="type here"></textarea>
+            <select value={newRating} onChange={e => setNewRating(Number(e.target.value))}>
+            {[1, 2, 3, 4, 5].map(num => (
+                <option key={num} value={num}>{num}</option>
+            ))}
+            </select>
+            <button onClick={handleReviewSubmit}>Submit Review</button>
         </div>
-    </div>
-    </>
+        </ReviewPopup>
+        </div>
+        
+        <div className="movie-container4">
+
+          <div className='reviews-box'>
+          {reviews.map((rev, index) => (
+            <div key={index} className='reviews-container'>
+              <p className='review'>Review: {rev.review}</p>
+              <p className='rating'>Rating: {rev.rating}/5</p>
+            </div>
+          ))}
+        </div>
+        </div>
+        </div>
+
   );
 }
 

@@ -8,6 +8,7 @@
     grid-template-columns: 1fr 3fr;
     grid-template-areas:
     "movie-container1 movie-container2"
+    "reviews-button reviews-button"
     "reviews reviews";
 }
 
@@ -63,7 +64,19 @@ width: calc(33.33%);
 }
 
 .movie-container3{
+grid-area: reviews-button;
+display: flex;
+justify-content: center;
+margin: 2rem;
+}
+
+.movie-container4{
 grid-area: reviews;
+display: flex;
+justify-content: center;
+margin-bottom: 2rem;
+margin-left: 2rem;
+margin-right: 2rem;
 }
 
 
