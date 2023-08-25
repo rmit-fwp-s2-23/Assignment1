@@ -19,6 +19,14 @@ function Signup(props) {
 
   const handleSignUp = (event) => {
     event.preventDefault();
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(fields.username)) {
+        setErrorMessage("Please enter a valid email address!");
+        return;
+    }
+
     const specialCharPattern = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
     if (!specialCharPattern.test(fields.password)) {
       setErrorMessage("Password must contain at least one special character!");
@@ -36,7 +44,7 @@ function Signup(props) {
     if(registered) {
       navigate("/login");
     } else {
-      setErrorMessage("Username already exists or there was an error. Please try again.");
+      setErrorMessage("Email already exists or there was an error. Please try again.");
     }
   }
 
@@ -48,7 +56,7 @@ function Signup(props) {
         <hr />
         <form onSubmit={handleSignUp}>
             <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Email</label>
             <input name="username" className="form-control" value={fields.username} onChange={handleInputChange} />
             </div>
             <div className="form-group">

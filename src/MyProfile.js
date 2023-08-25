@@ -5,7 +5,7 @@ import { getUserProfile, updateUserProfile } from "./repository";
 function MyProfile(props) {
   const [userDetails, setUserDetails] = useState({
     username: props.username || "",
-    email: "" // You can add more fields as needed
+    name: "" // You can add more fields as needed
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -18,7 +18,7 @@ function MyProfile(props) {
     const { name, value } = event.target;
     setUserDetails((prevDetails) => ({
       ...prevDetails,
-      [name]: value
+      name: value
     }));
   };
 
@@ -47,10 +47,10 @@ function MyProfile(props) {
                     />
                 </label>
                 <label>
-                    Email:
+                    Name:
                     <input
-                      name="email"
-                      value={userDetails.email}
+                      name="name"
+                      value={userDetails.name}
                       onChange={handleInputChange}
                     />
                 </label>
@@ -60,8 +60,8 @@ function MyProfile(props) {
             <div className="user-details">
                 <div className="user-detail-box">
                     <strong>User Details:</strong>
-                    <p>Username: {userDetails.username}</p>
-                    <p>Email: {userDetails.email}</p>
+                    <p>Name: {userDetails.name}</p>
+                    <p>Email: {userDetails.username}</p>
                 </div>
                 <button onClick={() => setIsEditing(true)}>Edit</button>
             </div>

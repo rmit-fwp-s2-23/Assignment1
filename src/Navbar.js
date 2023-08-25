@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./App.css";
 import "./Nav.css";
 
-function Header(props) {
+function Navbar(props) {
     return (
         <div className="navbar">
             <Link className="logo" to="/"> Loop Cinemas </Link>
@@ -27,4 +27,4 @@ function Header(props) {
     );
 }
 
-export default Header;
+export default Navbar;
