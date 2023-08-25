@@ -35,21 +35,21 @@ function MoviePage() {
   };
 
   const handleReviewSubmit = () => {
-    if (count <= 250 && count > 0) {
+    if (count <= 250 && count > 0 && newReview.trim() != 0) {
       saveReviewForMovie(movie.imdbID, newReview, newRating);
       setReviews([...reviews, { review: newReview, rating: newRating }]);
       setNewReview('');
       setNewRating(5);
+      setButtonPopup(false)
+      setCount(0)
     }
-    else if (count === 0) {
+    else if (count === 0 || newReview.trim() == 0) {
       setErrorMessage("Please enter a review.");
     }
     else if (count > 250)  {
       setErrorMessage("Please enter a review that is less than 250 characters.");
-    }
-    else {
-    setErrorMessage('');
   }
+
   };
 
   const suburbs = [
@@ -125,15 +125,13 @@ function MoviePage() {
           <div key={index} className='reviews-container'>
           <p className='review'>Review: {rev.review}</p>
           <p className='rating'>Rating: {rev.rating}/5</p>
-          <p className='total-rating'>Total Ratings: {totalReviewsNum}</p>
-          <p className='total-index'>Total Indices: {totalReviewsIndex}</p>
           </div>
         );
         })}
         </div>
         </div>
         <div className='movie-container5'>
-        {reviews.length > 0 && <p className='average-ratings'>Average Movie Ratings: {totalReviewsNum/totalReviewsIndex} out of 5</p>}
+        {reviews.length > 0 && <p className='average-ratings'>Average Movie Ratings: {(totalReviewsNum/totalReviewsIndex).toFixed(1)} out of 5</p>}
         </div>
         </div>
 
