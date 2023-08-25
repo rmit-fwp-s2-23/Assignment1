@@ -17,6 +17,11 @@
     text-decoration: none;
 }
 
+.navbar a:hover {
+    transition: 0.2s ease-in;
+    color:#F1DBBF
+}
+
 
 .navbar a:last-child {
     margin-right: 0;

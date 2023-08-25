@@ -1,5 +1,7 @@
 const USERS_KEY = "users";
 const USER_KEY = "user";
+const REVIEWS_KEY = "movie_reviews";
+
 
 // Initialise local storage "users" with data, if the data is already set this function returns immediately.
 function initUsers() {
@@ -96,6 +98,23 @@ function registerUser(username, password) {
   return true; // Registration successful
 }
 
+// Returns all reviews for a specific movie
+function getReviewsForMovie(movieId) {
+  const reviews = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
+  return reviews[movieId] || [];
+}
+
+// Saves a new review for a specific movie
+function saveReviewForMovie(movieId, review, rating) {
+  const allReviews = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
+  if (!allReviews[movieId]) {
+    allReviews[movieId] = [];
+  }
+  allReviews[movieId].push({ review, rating });
+
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(allReviews));
+}
+
 export {
   initUsers,
   verifyUser,
@@ -103,5 +122,7 @@ export {
   removeUser,
   registerUser,
   getUserProfile,
-  updateUserProfile
+  updateUserProfile,
+  getReviewsForMovie,
+  saveReviewForMovie
 }

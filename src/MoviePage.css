@@ -5,7 +5,7 @@
 .movie-container{
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 1fr 3fr;
     grid-template-areas:
     "movie-container1 movie-container2"
     "reviews reviews";
@@ -16,17 +16,55 @@ grid-area: movie-container1;
 display: block;
 margin-left: auto;
 margin-right: auto;
-width: 50%;
+margin-top: 20%;
 }
 
 .movie-container2{
 grid-area: movie-container2;
-color: #803c3e;
+}
+
+.movie-container2 h1{
+color: #630A10; 
 font-size: 3rem;
 font-weight: bold;
+text-transform: uppercase;
+margin-right: 15%;
+}
+
+.movie-suburb{
+padding-top: 1rem;
+padding-bottom: 1rem;
+color: #803c3e;
+font-weight: bold;
+text-transform: uppercase;
+font-size: 1.5rem;
+}
+
+.timings-container{
+display: flex;
+padding-right: 2em;
+}
+
+.movie-time:hover {
+background-color: #850E35; 
+transition: 0.5s ease-in-out;
+}
+
+
+.movie-time{
+color: #FFF5E4;
+font-weight: bold;
+border-radius: 4px;
+padding: 20px;
+margin: 10px;
+background-color: #aa5154;
+cursor: pointer;
+width: calc(33.33%);
 }
 
 .movie-container3{
 grid-area: reviews;
 }
+
+
         
