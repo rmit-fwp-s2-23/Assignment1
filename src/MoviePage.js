@@ -6,6 +6,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ReviewPopup from './ReviewPopup'
 
 function MoviePage() {
+  let totalReviewsIndex = 0
+  let totalReviewsNum = 0
+  
   const navigate = useNavigate(); 
   const location = useLocation();
 
@@ -113,15 +116,24 @@ function MoviePage() {
         </div>
         
         <div className="movie-container4">
-
-          <div className='reviews-box'>
-          {reviews.map((rev, index) => (
-            <div key={index} className='reviews-container'>
-              <p className='review'>Review: {rev.review}</p>
-              <p className='rating'>Rating: {rev.rating}/5</p>
-            </div>
-          ))}
+        
+        <div className='reviews-box'>
+        {reviews.map((rev, index) => {
+        totalReviewsNum += rev.rating;
+        totalReviewsIndex += 1;
+        return (
+          <div key={index} className='reviews-container'>
+          <p className='review'>Review: {rev.review}</p>
+          <p className='rating'>Rating: {rev.rating}/5</p>
+          <p className='total-rating'>Total Ratings: {totalReviewsNum}</p>
+          <p className='total-index'>Total Indices: {totalReviewsIndex}</p>
+          </div>
+        );
+        })}
         </div>
+        </div>
+        <div className='movie-container5'>
+        {reviews.length > 0 && <p className='average-ratings'>Average Movie Ratings: {totalReviewsNum/totalReviewsIndex} out of 5</p>}
         </div>
         </div>
 

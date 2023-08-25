@@ -9,7 +9,8 @@
     grid-template-areas:
     "movie-container1 movie-container2"
     "reviews-button reviews-button"
-    "reviews reviews";
+    "reviews reviews"
+    "average-ratings average-ratings";
 }
 
 .movie-container1{
@@ -74,6 +75,14 @@ margin: 2rem;
 grid-area: reviews;
 display: flex;
 justify-content: center;
+margin-bottom: 2rem;
+margin-left: 2rem;
+margin-right: 2rem;
+}
+
+.movie-container5{
+grid-area: average-ratings;
+justify-content: flex;
 margin-bottom: 2rem;
 margin-left: 2rem;
 margin-right: 2rem;
