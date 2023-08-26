@@ -42,7 +42,8 @@ function Signup(props) {
     const registered = registerUser(username, password);
 
     if(registered) {
-      navigate("/login");
+      props.loginUser(username);
+      navigate("/");
     } else {
       setErrorMessage("Email already exists or there was an error. Please try again.");
     }

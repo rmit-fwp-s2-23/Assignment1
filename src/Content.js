@@ -11,8 +11,12 @@ function Content() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    searchMovies("Shrek");
-  }, []);
+    if (!searchTerm) {
+      searchMovies("Shrek"); // Perform the search with an empty string to show initial content
+  } else {
+      searchMovies(searchTerm); // Perform the search with the provided searchTerm
+  }
+}, [searchTerm]);
 
   const [movies, setMovies] = useState([]);
 

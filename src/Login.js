@@ -32,9 +32,10 @@ function Login(props) {
     // If verified login the user.
     if(verified === true) {
       props.loginUser(fields.username);
+      
 
       // Navigate to the home page.
-      navigate("/");
+      navigate("/myprofile");
       return;
     }
 
