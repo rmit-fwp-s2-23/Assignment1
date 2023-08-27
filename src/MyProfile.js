@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./MyProfile.css";
-import { getUserProfile, updateUserProfile } from "./repository";
+import { getUserProfile, updateUserProfile, deleteUser, deleteReviewsByUser } from "./repository";
 
 function MyProfile(props) {
   const [userDetails, setUserDetails] = useState({
     username: props.username || "",
-    name: "" // You can add more fields as needed
+    name: "",
+    password: "",
+    signUpDate: ""
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -18,7 +20,7 @@ function MyProfile(props) {
     const { name, value } = event.target;
     setUserDetails((prevDetails) => ({
       ...prevDetails,
-      name: value
+      [name]: value
     }));
   };
 
@@ -32,25 +34,41 @@ function MyProfile(props) {
     }
   };
 
+  const handleDeleteAccount = () => {
+    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+      deleteUser(userDetails.username);
+      deleteReviewsByUser(userDetails.username);
+      props.logoutUser();
+    }
+  };
+
   return (
     <div className="my-profile-container">
-    <div className="profile-box">
+      <div className="profile-box">
         <h1 className="display-4">My Profile</h1>
         {isEditing ? (
             <div>
-                <label>
-                    Username:
-                    <input
-                      name="username"
-                      value={userDetails.username}
-                      onChange={handleInputChange}
-                    />
-                </label>
                 <label>
                     Name:
                     <input
                       name="name"
                       value={userDetails.name}
+                      onChange={handleInputChange}
+                    />
+                </label>
+                <label>
+                    Email:
+                    <input
+                      name="email"
+                      value={userDetails.email}
+                      onChange={handleInputChange}
+                    />
+                </label>
+                <label>
+                    Password:
+                    <input
+                      name="password"
+                      value={userDetails.password}
                       onChange={handleInputChange}
                     />
                 </label>
@@ -61,15 +79,18 @@ function MyProfile(props) {
                 <div className="user-detail-box">
                     <strong>User Details:</strong>
                     <p>Name: {userDetails.name}</p>
-                    <p>Email: {userDetails.username}</p>
+                    <p>Email: {userDetails.email}</p>
+                    <p>Username: {userDetails.username}</p>
+                    <p>Sign Up Date: {userDetails.signUpDate}</p>
                 </div>
                 <button onClick={() => setIsEditing(true)}>Edit</button>
+
+                <button onClick={handleDeleteAccount}>Delete Account</button>
             </div>
         )}
+      </div>
     </div>
-</div>
-);
-
+  );
 }
 
 export default MyProfile;

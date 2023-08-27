@@ -67,6 +67,20 @@ function updateUserProfile(updatedProfile) {
   return false;
 }
 
+function deleteUser(username) {
+  const users = getUsers();
+  const updatedUsers = users.filter(user => user.username !== username);
+  localStorage.setItem(USERS_KEY, JSON.stringify(updatedUsers));
+}
+
+function deleteReviewsByUser(username) {
+  const allReviews = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
+  for (const movieId in allReviews) {
+    allReviews[movieId] = allReviews[movieId].filter(review => review.user !== username);
+  }
+  localStorage.setItem(REVIEWS_KEY, JSON.stringify(allReviews));
+}
+
 function setUser(username) {
   localStorage.setItem(USER_KEY, username);
 }
@@ -79,18 +93,19 @@ function removeUser() {
   localStorage.removeItem(USER_KEY);
 }
 
-function registerUser(username, password) {
+function registerUser(username, password, name, email) {
   const users = getUsers();
 
   // Check if username already exists
   for(const user of users) {
-    if(username === user.username) {
+    if(username === user.username || email === user.email) {
       return false; // Username already exists
     }
   }
+  const signUpDate = new Date().toISOString().slice(0, 10)
 
   // Add new user to the list
-  users.push({ username, password });
+  users.push({ username, password, name, email, signUpDate });
   
   // Update localStorage
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
@@ -105,12 +120,12 @@ function getReviewsForMovie(movieId) {
 }
 
 // Saves a new review for a specific movie
-function saveReviewForMovie(movieId, review, rating) {
+function saveReviewForMovie(movieId, review, rating, username) {
   const allReviews = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
   if (!allReviews[movieId]) {
     allReviews[movieId] = [];
   }
-  allReviews[movieId].push({ review, rating });
+  allReviews[movieId].push({ review, rating, user: username });
 
   localStorage.setItem(REVIEWS_KEY, JSON.stringify(allReviews));
 }
@@ -124,5 +139,7 @@ export {
   getUserProfile,
   updateUserProfile,
   getReviewsForMovie,
-  saveReviewForMovie
+  saveReviewForMovie,
+  deleteReviewsByUser,
+  deleteUser
 }

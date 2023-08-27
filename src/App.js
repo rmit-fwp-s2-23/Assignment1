@@ -29,9 +29,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Content />} />
         <Route path="/login" element={<Login loginUser={loginUser} />} />
-        <Route path="/MoviePage" element={<MoviePage />} />
+        <Route path="/MoviePage" element={<MoviePage username={username} />} />
         <Route path="/signup" element={<Signup loginUser={loginUser}/>} /> 
-        <Route path="/myprofile" element={<MyProfile username={username} />} />
+        <Route path="/myprofile" element={<MyProfile username={username} logoutUser={logoutUser}/>}
+         />
       </Routes>
       <Footer />
     </Router>

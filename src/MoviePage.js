@@ -5,7 +5,7 @@ import "./Reviews.css";
 import { useLocation, useNavigate } from 'react-router-dom';
 import ReviewPopup from './ReviewPopup'
 
-function MoviePage() {
+function MoviePage(props) {
   let totalReviewsIndex = 0
   let totalReviewsNum = 0
   
@@ -36,8 +36,8 @@ function MoviePage() {
 
   const handleReviewSubmit = () => {
     if (count <= 250 && count > 0 && newReview.trim() != 0) {
-      saveReviewForMovie(movie.imdbID, newReview, newRating);
-      setReviews([...reviews, { review: newReview, rating: newRating }]);
+      saveReviewForMovie(movie.imdbID, newReview, newRating, props.username);
+      setReviews([...reviews, { review: newReview, rating: newRating, user: props.username }]);
       setNewReview('');
       setNewRating(5);
       setButtonPopup(false)
@@ -123,7 +123,7 @@ function MoviePage() {
         totalReviewsIndex += 1;
         return (
           <div key={index} className='reviews-container'>
-          <p className='review'>Review: {rev.review}</p>
+          <p className='review'>{rev.user}: {rev.review}</p>
           <p className='rating'>Rating: {rev.rating}/5</p>
           </div>
         );
