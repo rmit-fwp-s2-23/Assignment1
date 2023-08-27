@@ -1,40 +1,45 @@
-.write-review-containter{
-display: flex;
-justify-content: center;
-padding-top:5%;
-}
-
-.write-review-containter textarea{
+/* Styles for the write review container */
+.write-review-containter {
+    display: flex;
+    justify-content: center;
+    padding-top: 5%;
+  }
+  
+  .write-review-containter textarea {
     padding: 10px;
     resize: none;
-    min-height:100%;  
-    width: 100%;  
-}
-
-.write-review-text{
+    min-height: 100%;
+    width: 100%;
+  }
+  
+  .write-review-text {
     padding-top: 15%;
     color: #850E35;
     text-align: center;
-}
-.write-review-containter ::placeholder {
+  }
+  
+  .write-review-containter ::placeholder {
     color: #aa5154;
-}
-
-.add-review-button {
+  }
+  
+  /* Styles for the add review button */
+  .add-review-button {
     display: flex;
     align-items: center;
     padding: 20px;
     color: #FFF5E4;
     font-weight: bold;
-    font-size: 1rem; 
+    font-size: 1rem;
     padding: 1rem;
-}
-
-.reviews-box{
-    display: flex; 
-}
-
-.reviews-container{
+  }
+  
+  /* Styles for the reviews box */
+  .reviews-box {
+    display: flex;
+  }
+  
+  /* Styles for individual review containers */
+  .reviews-container {
     background-color: #630000;
     border-radius: 8px;
     padding: 1.2rem;
@@ -43,31 +48,35 @@ padding-top:5%;
     max-width: 500px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    align-items: center; 
-    justify-content: center; 
-}
-
-.reviews-container p{
-    color:#FFF5E4;
-}
-
-.error-message{
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .reviews-container p {
+    color: #FFF5E4;
+  }
+  
+  /* Styles for error message */
+  .error-message {
     margin: 3rem;
     text-align: center;
     color: #ff0000;
-    font-weight:900;
-}
-
-.char-count{
+    font-weight: 900;
+  }
+  
+  /* Styles for character count */
+  .char-count {
     margin: 1rem;
     text-align: center;
     color: #630000;
-    font-weight:bold;
-}
-
-.average-ratings{
+    font-weight: bold;
+  }
+  
+  /* Styles for average ratings */
+  .average-ratings {
     text-align: center;
-    font-size: 2rem; 
+    font-size: 2rem;
     color: #630000;
-    font-weight:bold;
-}
+    font-weight: bold;
+  }
+  

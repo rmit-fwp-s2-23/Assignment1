@@ -1,3 +1,4 @@
+/* Style for the pop-up container */
 .pop-up {
     position: fixed;
     display: flex;
@@ -10,6 +11,7 @@
     height: 100vh;
 }
 
+/* Style for the inner content of the pop-up */
 .pop-up-inner {
     position: relative;
     padding: 32px;
@@ -21,6 +23,7 @@
     height: 60%;
 }
 
+/* Style for the close button within the pop-up */
 .close-button {
     position: absolute;
     top: 16px;

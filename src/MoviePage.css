@@ -1,92 +1,98 @@
-
+/* Importing Google Fonts */
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
 
-.movie-container{
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 1fr 3fr;
-    grid-template-areas:
+/* Styling for the container of the movie details */
+.movie-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas:
     "movie-container1 movie-container2"
     "reviews-button reviews-button"
     "reviews reviews"
     "average-ratings average-ratings";
 }
 
-.movie-container1{
-grid-area: movie-container1;
-display: block;
-margin-left: auto;
-margin-right: auto;
-margin-top: 20%;
+/* Styling for the left side of the movie container */
+.movie-container1 {
+  grid-area: movie-container1;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20%;
 }
 
-.movie-container2{
-grid-area: movie-container2;
+/* Styling for the right side of the movie container */
+.movie-container2 {
+  grid-area: movie-container2;
 }
 
-.movie-container2 h1{
-color: #630A10; 
-font-size: 3rem;
-font-weight: bold;
-text-transform: uppercase;
-margin-right: 15%;
+/* Styling for the movie title */
+.movie-container2 h1 {
+  color: #630A10;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 15%;
 }
 
-.movie-suburb{
-padding-top: 1rem;
-padding-bottom: 1rem;
-color: #803c3e;
-font-weight: bold;
-text-transform: uppercase;
-font-size: 1.5rem;
+/* Styling for the movie suburb information */
+.movie-suburb {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  color: #803c3e;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.5rem;
 }
 
-.timings-container{
-display: flex;
-padding-right: 2em;
+/* Styling for the container of movie timings */
+.timings-container {
+  display: flex;
+  padding-right: 2em;
 }
 
+/* Styling for individual movie timings */
 .movie-time:hover {
-background-color: #850E35; 
-transition: 0.5s ease-in-out;
+  background-color: #850E35;
+  transition: 0.5s ease-in-out;
 }
 
-
-.movie-time{
-color: #FFF5E4;
-font-weight: bold;
-border-radius: 4px;
-padding: 20px;
-margin: 10px;
-background-color: #aa5154;
-cursor: pointer;
-width: calc(33.33%);
+.movie-time {
+  color: #FFF5E4;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 10px;
+  background-color: #aa5154;
+  cursor: pointer;
+  width: calc(33.33%);
 }
 
-.movie-container3{
-grid-area: reviews-button;
-display: flex;
-justify-content: center;
-margin: 2rem;
+/* Styling for the reviews button container */
+.movie-container3 {
+  grid-area: reviews-button;
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
 }
 
-.movie-container4{
-grid-area: reviews;
-display: flex;
-justify-content: center;
-margin-bottom: 2rem;
-margin-left: 2rem;
-margin-right: 2rem;
+/* Styling for the container of movie reviews */
+.movie-container4 {
+  grid-area: reviews;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
 
-.movie-container5{
-grid-area: average-ratings;
-justify-content: flex;
-margin-bottom: 2rem;
-margin-left: 2rem;
-margin-right: 2rem;
+/* Styling for the container of average ratings */
+.movie-container5 {
+  grid-area: average-ratings;
+  justify-content: flex;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
 }
-
-
-        

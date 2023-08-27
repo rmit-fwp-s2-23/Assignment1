@@ -1,18 +1,21 @@
-
+/* Importing Google Fonts */
 @import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
 
+/* Resetting default styles for all elements */
 * {
   margin: 0;
   border: 0;
   box-sizing: border-box;
 }
 
+/* Styling for the entire body */
 body {
   padding-top: 12rem;
   background-color: #FFF5E4;
 }
 
+/* Container for the app */
 .app {
   display: flex;
   justify-content: center;
@@ -20,7 +23,7 @@ body {
   flex-direction: column;
 }
 
-
+/* Styling for the search bar */
 .search {
   width: 70%;
   display: flex;
@@ -39,6 +42,7 @@ body {
   padding-bottom: 0;
 }
 
+/* Styling for the placeholder text */
 ::placeholder { 
   color: #F6F4EB;
   opacity: 0.75; 
@@ -50,6 +54,7 @@ body {
   cursor: pointer;
 }
 
+/* Container for movies */
 .container {
   width: 100%;
   margin-top: 3rem;
@@ -59,6 +64,7 @@ body {
   flex-wrap: wrap;
 }
 
+/* Styling for each movie card */
 .movie {
   width: 310px;
   height: 460px;
@@ -70,6 +76,7 @@ body {
   transition: all 0.7s;
 }
 
+/* Styling for the text overlay on movie cards */
 .movie div:nth-of-type(1) {
   position: absolute;
   padding: 16px;
@@ -79,10 +86,12 @@ body {
   color: #F6F4EB;
 }
 
+/* Enlarging movie card on hover */
 .movie:hover {
   transform: scale(1.07, 1.07);
 }
 
+/* Styling for the image within each movie card */
 .movie div:nth-of-type(2) {
   width: 100%;
   height: 100%;
@@ -93,6 +102,7 @@ body {
   width: 100%;
 }
 
+/* Styling for the bottom section of each movie card */
 .movie div:nth-of-type(3) {
   background-color: #803c3e;
   padding: 16px 24px 24px 24px;
@@ -102,6 +112,7 @@ body {
   left: 0;
 }
 
+/* Styling for the text elements within the bottom section of movie cards */
 .movie div:nth-of-type(3) span {
   text-transform: uppercase;
   font-size: 13px;
@@ -115,8 +126,9 @@ body {
   color: #F6F4EB;
 }
 
+/* Styling for the empty state message */
 .empty {
-  padding:4rem;
+  padding: 4rem;
   color: #850E35;
   min-height: 50vh;
   text-align: center;

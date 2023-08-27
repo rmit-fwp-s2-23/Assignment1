@@ -1,3 +1,4 @@
+/* Styling for the container of the login form */
 .login-container {
     min-height: 60vh;
     display: flex;
@@ -6,6 +7,7 @@
     background-color: #FFF5E4;
 }
 
+/* Styling for the login box */
 .login-box {
     background-color: #f5edde;
     padding: 30px;  
@@ -14,6 +16,7 @@
     width: 350px;  
 }
 
+/* Styling for form input elements */
 .form-control {
     padding: 12px;  
     border-radius: 4px;
@@ -22,7 +25,7 @@
     font-size: 16px;  
 }
 
-
+/* Styling for labels within the login box */
 .login-box label {
     display: block;
     margin-bottom: 8px;  
@@ -30,6 +33,7 @@
     font-weight: bold;  
 }
 
+/* Styling for the primary button */
 .btn-primary {
     background-color: #E76161;  
     border: none;
@@ -39,19 +43,23 @@
     color: #FFF5E4;  
 }
 
+/* Styling for the primary button on hover */
 .btn-primary:hover {
     background-color: #aa5154; 
 }
 
+/* Styling for text indicating errors or warnings */
 .text-danger {
     font-weight: bold;
     color: #850E35;  
 }
 
+/* Styling for the last form group to remove margin at the bottom */
 .form-group:last-child {
     margin-bottom: 0;
 }
 
+/* Styling for the heading within the login box */
 .login-box h1 {
     color: #850E35;
     text-transform: uppercase;

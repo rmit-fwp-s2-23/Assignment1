@@ -20,7 +20,7 @@ function Login(props) {
     // Update field and state.
     temp[name] = value;
     setFields(temp);
-  }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,8 +29,9 @@ function Login(props) {
     const verified = verifyUser(fields.username, fields.password);
 
     // If verified login the user.
-    if(verified === true) {
+    if (verified === true) {
       props.loginUser(fields.username);
+      alert("Log in successful! You're now logged in.");
 
       // Navigate to the home page.
       navigate("/myprofile");
@@ -44,64 +45,63 @@ function Login(props) {
 
     // Set error message.
     setErrorMessage("Username and / or password invalid, please try again.");
-  }
-
-  const handleSignUp = (event) => {
-    event.preventDefault();
-    
-    const username = event.target.signupUsername.value;
-    const password = event.target.signupPassword.value;
-
-    // Register the user.
-    const registered = registerUser(username, password);
-
-    if(registered) {
-      props.loginUser(username);
-      navigate("/");
-    } else {
-      setErrorMessage("Username already exists, please choose another one.");
-    }
-  
-    // Reset the signup fields
-    event.target.signupUsername.value = "";
-    event.target.signupPassword.value = "";
-  }
+  };
 
   return (
-  <div className="login-container">
-    <div className="login-box">
-      <div>
-        <h1>Login</h1>
-        <hr />
-        <div className="row">
-          <div className="col-md-6">
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="username" className="control-label">Username</label>
-                <input name="username" id="username" className="form-control"
-                  value={fields.username} onChange={handleInputChange} />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password" className="control-label">Password</label>
-                <input type="password" name="password" id="password" className="form-control"
-                  value={fields.password} onChange={handleInputChange} />
-              </div>
-              <div className="form-group">
-                <input type="submit" className="btn btn-primary" value="Login" />
-              </div>
-              {errorMessage !== null &&
+    <div className="login-container">
+      <div className="login-box">
+        <div>
+          <h1>Login</h1>
+          <hr />
+          <div className="row">
+            <div className="col-md-6">
+              <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <span className="text-danger">{errorMessage}</span>
+                  <label htmlFor="username" className="control-label">
+                    Username
+                  </label>
+                  <input
+                    name="username"
+                    id="username"
+                    className="form-control"
+                    value={fields.username}
+                    onChange={handleInputChange}
+                  />
                 </div>
-              }
-            </form>
-            <p>Don't have an account? <Link to="/signup">Signup</Link></p>  
+                <div className="form-group">
+                  <label htmlFor="password" className="control-label">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    className="form-control"
+                    value={fields.password}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <input
+                    type="submit"
+                    className="btn btn-primary"
+                    value="Login"
+                  />
+                </div>
+                {errorMessage !== null && (
+                  <div className="form-group">
+                    <span className="text-danger">{errorMessage}</span>
+                  </div>
+                )}
+              </form>
+              <p>
+                Don't have an account? <Link to="/signup">Signup</Link>
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-    
   );
 }
 
