@@ -14,13 +14,11 @@ function initUsers() {
       username: "saif",
       password: "abc123",
       email: "saif@example.com",
-      // ... add more fields as needed
     },
     {
       username: "ahmad",
       password: "def456",
       email: "ahmad@example.com",
-      // ... add more fields as needed
     }
   ];
 
