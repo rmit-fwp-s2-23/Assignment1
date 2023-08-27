@@ -18,23 +18,26 @@ function MoviePage(props) {
   const [count, setCount] = React.useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
 
-
   // State for new review and rating
   const [newReview, setNewReview] = useState('');
   const [newRating, setNewRating] = useState(5); // Default rating
 
+  // Fetch reviews for the movie on component mount
   useEffect(() => {
     const movieReviews = getReviewsForMovie(movie.imdbID);
     setReviews(movieReviews);
   }, [movie]);
 
+  // Handle change in review text area
   const handleReviewChange = (event) => {
     const reviewText = event.target.value;
     setNewReview(reviewText);
     setCount(reviewText.length);
   };
 
+  // Handle submitting a new review
   const handleReviewSubmit = () => {
+    // Check for review length
     if (count <= 250 && count > 0 && newReview.trim() != 0) {
       saveReviewForMovie(movie.imdbID, newReview, newRating, props.username);
       setReviews([...reviews, { review: newReview, rating: newRating, user: props.username }]);
@@ -52,6 +55,7 @@ function MoviePage(props) {
 
   };
 
+  // Handle editing an existing review
   const handleReviewEdit = (index) => {
     // Get the review to be edited
     const reviewToEdit = reviews[index];
@@ -67,6 +71,7 @@ function MoviePage(props) {
     setReviews(updatedReviews);
   };
   
+  // Handle deleting a review
   const handleReviewDelete = (index) => {
     // Delete the review from the repository
     deleteReviewForMovie(movie.imdbID, index);
@@ -78,6 +83,7 @@ function MoviePage(props) {
   };
   
 
+  // Suburbs and timings data
   const suburbs = [
     {
     id:1,
@@ -153,7 +159,7 @@ function MoviePage(props) {
           <p className='rating'>Rating: {rev.rating}/5</p>
           {rev.user === props.username && (
                 <div>
-                  <button onClick={() => handleReviewEdit(index)}>Edit</button>
+                  <button style={{ marginRight: '10px' }} onClick={() => handleReviewEdit(index)}>Edit</button>
                   <button onClick={() => handleReviewDelete(index)}>Delete</button>
                 </div>
               )}

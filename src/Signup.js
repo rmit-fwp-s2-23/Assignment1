@@ -9,6 +9,7 @@ function Signup(props) {
   const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
 
+  // Handles input change and updates the state
   const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -17,6 +18,7 @@ function Signup(props) {
     setFields(temp);
   }
 
+  // Handles form submission for user signup
   const handleSignUp = (event) => {
     event.preventDefault();
 

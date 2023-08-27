@@ -3,19 +3,24 @@ import "./MyProfile.css";
 import { getUserProfile, updateUserProfile, deleteUser, deleteReviewsByUser } from "./repository";
 
 function MyProfile(props) {
+  // State to hold user details
   const [userDetails, setUserDetails] = useState({
     username: props.username || "",
     name: "",
     password: "",
     signUpDate: ""
   });
+
+  // State to toggle editing mode
   const [isEditing, setIsEditing] = useState(false);
 
+  // Fetch user details on component mount or when username changes
   useEffect(() => {
     const fetchedUserDetails = getUserProfile(props.username);
     setUserDetails(fetchedUserDetails || {});
   }, [props.username]);
 
+  // Handle input changes and update state
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserDetails((prevDetails) => ({
@@ -24,16 +29,18 @@ function MyProfile(props) {
     }));
   };
 
+  // Handle save button click
   const handleSave = () => {
     const updated = updateUserProfile(userDetails);
     if (updated) {
       setIsEditing(false);
-      // Maybe show a success message or other actions
+      alert("Your profile was updated successfully.");
     } else {
-      // Handle error, for instance, display a notification about the error
+      alert("There was an error updating your profile. Please try again.");
     }
   };
 
+  // Handle delete account button click
   const handleDeleteAccount = () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       deleteUser(userDetails.username);

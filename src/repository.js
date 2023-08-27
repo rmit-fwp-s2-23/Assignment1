@@ -2,7 +2,6 @@ const USERS_KEY = "users";
 const USER_KEY = "user";
 const REVIEWS_KEY = "movie_reviews";
 
-
 // Initialise local storage "users" with data, if the data is already set this function returns immediately.
 function initUsers() {
   // Stop if data is already initialised.

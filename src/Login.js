@@ -14,10 +14,8 @@ function Login(props) {
     const name = event.target.name;
     const value = event.target.value;
 
-    // Copy fields.
-    const temp = { username: fields.username, password: fields.password };
-    // OR use spread operator.
-    // const temp = { ...fields };
+    // Create a copy of the current state.
+    const temp = { ...fields };
 
     // Update field and state.
     temp[name] = value;
@@ -27,12 +25,12 @@ function Login(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    // Verify the user.
     const verified = verifyUser(fields.username, fields.password);
 
     // If verified login the user.
     if(verified === true) {
       props.loginUser(fields.username);
-      
 
       // Navigate to the home page.
       navigate("/myprofile");
@@ -54,6 +52,7 @@ function Login(props) {
     const username = event.target.signupUsername.value;
     const password = event.target.signupPassword.value;
 
+    // Register the user.
     const registered = registerUser(username, password);
 
     if(registered) {
