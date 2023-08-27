@@ -1,6 +1,6 @@
 import "./MoviePage.css";
 import React, { useState, useEffect } from 'react';
-import { saveReviewForMovie, getReviewsForMovie } from './repository';
+import { saveReviewForMovie, getReviewsForMovie, deleteReviewForMovie } from './repository';
 import "./Reviews.css";
 import { useLocation, useNavigate } from 'react-router-dom';
 import ReviewPopup from './ReviewPopup'
@@ -51,6 +51,32 @@ function MoviePage(props) {
   }
 
   };
+
+  const handleReviewEdit = (index) => {
+    // Get the review to be edited
+    const reviewToEdit = reviews[index];
+    
+    // Set the new review and rating state to the current review and rating
+    setNewReview(reviewToEdit.review);
+    setNewRating(reviewToEdit.rating);
+    setButtonPopup(true);
+    
+    // Remove the review from the reviews array
+    const updatedReviews = [...reviews];
+    updatedReviews.splice(index, 1);
+    setReviews(updatedReviews);
+  };
+  
+  const handleReviewDelete = (index) => {
+    // Delete the review from the repository
+    deleteReviewForMovie(movie.imdbID, index);
+    
+    // Remove the review from the reviews array
+    const updatedReviews = [...reviews];
+    updatedReviews.splice(index, 1);
+    setReviews(updatedReviews);
+  };
+  
 
   const suburbs = [
     {
@@ -125,6 +151,12 @@ function MoviePage(props) {
           <div key={index} className='reviews-container'>
           <p className='review'>{rev.user}: {rev.review}</p>
           <p className='rating'>Rating: {rev.rating}/5</p>
+          {rev.user === props.username && (
+                <div>
+                  <button onClick={() => handleReviewEdit(index)}>Edit</button>
+                  <button onClick={() => handleReviewDelete(index)}>Delete</button>
+                </div>
+              )}
           </div>
         );
         })}

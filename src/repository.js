@@ -125,9 +125,23 @@ function saveReviewForMovie(movieId, review, rating, username) {
   if (!allReviews[movieId]) {
     allReviews[movieId] = [];
   }
-  allReviews[movieId].push({ review, rating, user: username });
+  
+  const existingReviewIndex = allReviews[movieId].findIndex(rev => rev.user === username);
+  if (existingReviewIndex !== -1) {
+    allReviews[movieId][existingReviewIndex] = { review, rating, user: username };
+  } else {
+    allReviews[movieId].push({ review, rating, user: username });
+  }
 
   localStorage.setItem(REVIEWS_KEY, JSON.stringify(allReviews));
+}
+
+function deleteReviewForMovie(movieId, reviewIndex) {
+  const allReviews = JSON.parse(localStorage.getItem(REVIEWS_KEY)) || {};
+  if (allReviews[movieId]) {
+    allReviews[movieId].splice(reviewIndex, 1);
+    localStorage.setItem(REVIEWS_KEY, JSON.stringify(allReviews));
+  }
 }
 
 export {
@@ -141,5 +155,6 @@ export {
   getReviewsForMovie,
   saveReviewForMovie,
   deleteReviewsByUser,
-  deleteUser
+  deleteUser,
+  deleteReviewForMovie
 }
