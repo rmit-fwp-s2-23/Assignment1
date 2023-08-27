@@ -90,7 +90,7 @@ function MyProfile(props) {
                     <p>Username: {userDetails.username}</p>
                     <p>Sign Up Date: {userDetails.signUpDate}</p>
                 </div>
-                <button onClick={() => setIsEditing(true)}>Edit</button>
+                <button style={{ marginRight: '10px' }} onClick={() => setIsEditing(true)}>Edit</button>
 
                 <button onClick={handleDeleteAccount}>Delete Account</button>
             </div>
