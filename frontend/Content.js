@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-
-import MovieCard from "./MovieCard"; // Importing the MovieCard component
+import MovieCard from "./MovieCard";
 import "./App.css";
-import { Link } from "react-router-dom";
 
 const API_URL = "http://www.omdbapi.com?apikey=b6003d8a";
 
@@ -10,24 +8,16 @@ function Content() {
   // State to hold the search term
   const [searchTerm, setSearchTerm] = useState("");
 
-  // UseEffect to fetch and set movies based on the search term
-  useEffect(() => {
-    if (!searchTerm) {
-      searchMovies("Shrek"); // Perform the search with "Shrek" as the initial content
-    } else {
-      searchMovies(searchTerm); // Perform the search with the provided searchTerm
-    }
-  }, [searchTerm]);
-
   // State to hold the fetched movies
   const [movies, setMovies] = useState([]);
 
-  // UseEffect to fetch and set movies based on the search term
-  useEffect(() => {
-    if (searchTerm) {
-      searchMovies(searchTerm);
+  // Function to fetch movies from the API with debouncing
+  const debouncedSearchMovies = (title) => {
+    if (!title) {
+      return;
     }
-  }, [searchTerm]);
+    searchMovies(title);
+  };
 
   // Function to fetch movies from the API
   const searchMovies = async (title) => {
@@ -36,6 +26,22 @@ function Content() {
 
     setMovies(data.Search); // Set the fetched movies in the state
   };
+
+  // UseEffect for the initial load (without debouncing)
+  useEffect(() => {
+    searchMovies("Shrek"); // Perform the initial search with "Shrek"
+  }, []);
+
+  // UseEffect for debounced search
+  useEffect(() => {
+    const delaySearch = setTimeout(() => {
+      debouncedSearchMovies(searchTerm);
+    }, 150);
+
+    return () => {
+      clearTimeout(delaySearch); // Clear the timeout when the component unmounts or when searchTerm changes
+    };
+  }, [searchTerm]);
 
   return (
     <div className="app">
@@ -53,7 +59,7 @@ function Content() {
           className="./public/searchimg"
           src={"search.png"}
           alt="search"
-          onClick={() => searchMovies(searchTerm)}
+          onClick={() => debouncedSearchMovies(searchTerm)}
         />
       </div>
 
