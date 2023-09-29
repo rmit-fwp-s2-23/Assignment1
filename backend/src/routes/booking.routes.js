@@ -20,5 +20,5 @@ router.put('/:id', controller.updateBooking);
 router.delete('/:id', controller.deleteBooking);
 
   // Add routes to server.
-  app.use("/api/movie", router);
+  app.use("/api/booking", router);
 };

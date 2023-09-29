@@ -21,4 +21,8 @@ router.delete('/:id', controller.deleteUser);
 
 // Login route.
 router.post('/login', controller.login);
+
+// Add routes to server.
+app.use("/api/user", router);
 };
+
