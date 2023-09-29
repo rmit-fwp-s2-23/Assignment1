@@ -1,25 +1,96 @@
 const db = require("../database");
 
-// Select all movies from the database.
-exports.all = async (req, res) => {
-  const movie = await db.movie.findAll();
-
-  // Can use eager loading to join tables if needed, for example:
-  // const movies = await db.movie.findAll({ include: db.user });
-
-  // Learn more about eager loading here: https://sequelize.org/master/manual/eager-loading.html
-
-  res.json(movie);
+// Retrieve all movies.
+exports.getAllMovies = async (req, res) => {
+  try {
+    const movies = await db.movie.findAll();
+    res.json(movies);
+  } catch (error) {
+    console.error("Error retrieving movies:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-// Find a movie in the database.
-exports.create = async (req, res) => {
-    const movie = await db.movie.create({
-      id: req.body.text,
-      image: req.body.text,
-      name: req.body.text,
-      year: req.body.integer
+// Create a new movie.
+exports.createMovie = async (req, res) => {
+  const { image, name, year } = req.body;
+
+  try {
+    const newMovie = await db.movie.create({
+      image,
+      name,
+      year,
     });
-  
+
+    res.json(newMovie);
+  } catch (error) {
+    console.error("Error creating movie:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Retrieve a single movie by ID.
+exports.getMovieById = async (req, res) => {
+  const movieId = req.params.id;
+
+  try {
+    const movie = await db.movie.findByPk(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ error: "Movie not found" });
+    }
+
     res.json(movie);
-  };
+  } catch (error) {
+    console.error("Error retrieving movie:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Update a movie by ID.
+exports.updateMovie = async (req, res) => {
+  const movieId = req.params.id;
+  const { image, name, year } = req.body;
+
+  try {
+    const movie = await db.movie.findByPk(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ error: "Movie not found" });
+    }
+
+    // Update the movie data with the new values
+    movie.image = image;
+    movie.name = name;
+    movie.year = year;
+
+    // Save the updated movie data
+    await movie.save();
+
+    res.json(movie);
+  } catch (error) {
+    console.error("Error updating movie:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// Delete a movie by ID.
+exports.deleteMovie = async (req, res) => {
+  const movieId = req.params.id;
+
+  try {
+    const movie = await db.movie.findByPk(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ error: "Movie not found" });
+    }
+
+    // Delete the movie from the database
+    await movie.destroy();
+
+    res.json({ message: "Movie deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting movie:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
