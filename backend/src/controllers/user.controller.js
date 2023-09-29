@@ -27,7 +27,7 @@ exports.login = async (req, res) => {
 };
 
 // Create a user in the database.
-exports.create = async (req, res) => {
+exports.createUser = async (req, res) => {
   const hash = await argon2.hash(req.body.password, { type: argon2.argon2id });
   
   const user = await db.user.create({
