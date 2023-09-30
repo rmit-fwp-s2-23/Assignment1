@@ -2,6 +2,7 @@ import axios from "axios";
 
 // --- Constants ----------------------------------------------------------------------------------
 const API_HOST = "http://localhost:8080";
+const USER_KEY = "user";
 
 // --- User ---------------------------------------------------------------------------------------
 async function verifyUser(username, password) {
@@ -137,11 +138,24 @@ async function getAllBookings() {
   
     return response.data;
   }
+
+// --- Helper functions to interact with local storage --------------------------------------------
+  function setUser(user) {
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
+  function getUser() {
+    return JSON.parse(localStorage.getItem(USER_KEY));
+  }
+
+  function removeUser() {
+    localStorage.removeItem(USER_KEY);
+  }
   
   export {
     verifyUser, getUserById, createUser, updateUserById, deleteUserById, getAllUsers,
     getAllReviews, getReviewById, createReview, updateReviewById, deleteReviewById,
     getAllMovies, getMovieById, createMovie, updateMovieById, deleteMovieById,
-    getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById,
+    getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById, getUser, removeUser
   };
   
