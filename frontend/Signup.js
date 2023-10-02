@@ -1,7 +1,7 @@
 import "./login.css";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "./repository";
+import { createUser } from "./repository2";
 
 function Signup(props) {
   const [fields, setFields] = useState({ name: "", email: "", username: "", password: "", confirmPassword: "" });
@@ -19,7 +19,7 @@ function Signup(props) {
   }
 
   // Handles form submission for user signup
-  const handleSignUp = (event) => {
+  const handleSignUp = async (event) => {
     event.preventDefault();
 
     // Validate required fields
@@ -48,14 +48,21 @@ function Signup(props) {
       return;
     }
 
-    // Register the user
-    const registered = registerUser(fields.username, fields.password, fields.name, fields.email);
+    try {
+      const user = {
+        username: fields.username,
+        password: fields.password,  
+        name: fields.name,
+        email: fields.email
+      }
 
-    if (registered) {
-      props.loginUser(fields.username);
-      alert("Registration successful! You're now logged in.");
-      navigate("/");
-    } else {
+    // Register the user
+    await createUser(user);
+    
+    props.loginUser(fields.username);
+    alert("Registration successful! You're now logged in.");
+    navigate("/");
+    } catch (error) {
       setErrorMessage("Username already exists or there was an error. Please try again.");
     }
   }

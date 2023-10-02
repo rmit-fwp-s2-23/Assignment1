@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { verifyUser, registerUser } from "./repository";
+import { verifyUser, registerUser } from "./repository2";
 import "./login.css";
 import { Link } from "react-router-dom";
 
@@ -22,14 +22,15 @@ function Login(props) {
     setFields(temp);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
+    try{
     // Verify the user.
-    const verified = verifyUser(fields.username, fields.password);
+    const user = await verifyUser(fields.username, fields.password);
 
     // If verified login the user.
-    if (verified === true) {
+    if (user) {
       props.loginUser(fields.username);
       alert("Log in successful! You're now logged in.");
 
@@ -37,14 +38,14 @@ function Login(props) {
       navigate("/myprofile");
       return;
     }
-
+  } catch (error) {
+       // Set error message.
+       setErrorMessage("Username and / or password invalid, please try again.");
+  }
     // Reset password field to blank.
     const temp = { ...fields };
     temp.password = "";
     setFields(temp);
-
-    // Set error message.
-    setErrorMessage("Username and / or password invalid, please try again.");
   };
 
   return (
