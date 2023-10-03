@@ -1,13 +1,13 @@
-import "./MoviePage.css";
+import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import {
   saveReviewForMovie,
   getReviewsForMovie,
   deleteReviewForMovie,
-} from "./repository";
-import "./Reviews.css";
+} from "./repository"; // Include 'src/' in the import path
+import "./Reviews.css"; // Include 'src/' in the import path
 import { useLocation, useNavigate } from "react-router-dom";
-import ReviewPopup from "./ReviewPopup";
+import ReviewPopup from "./ReviewPopup"; // Include 'src/' in the import path
 
 function MoviePage(props) {
   let totalReviewsIndex = 0;
@@ -44,19 +44,22 @@ function MoviePage(props) {
     // Check for review length
     if (count <= 250 && count > 0 && newReview.trim() != 0) {
       saveReviewForMovie(movie.imdbID, newReview, newRating, props.username);
-      setReviews([...reviews, { review: newReview, rating: newRating, user: props.username }]);
-      setNewReview('');
+      setReviews([
+        ...reviews,
+        { review: newReview, rating: newRating, user: props.username },
+      ]);
+      setNewReview("");
       setNewRating(5);
-      setButtonPopup(false)
-      setCount(0)
-    }
-    else if (count === 0 || newReview.trim() == 0) {
+      setButtonPopup(false);
+      setCount(0);
+    } else if (count === 0 || newReview.trim() == 0) {
       setErrorMessage("Please enter a review.");
+    } else if (count > 250) {
+      setErrorMessage(
+        "Please enter a review that is less than 250 characters."
+      );
     }
-    else if (count > 250)  {
-      setErrorMessage("Please enter a review that is less than 250 characters.");
-  }
-  }
+  };
 
   const handleReview = () => {
     if (props.username) {
@@ -65,7 +68,6 @@ function MoviePage(props) {
       alert("Please log in to submit a review.");
     }
   };
-  
 
   // Handle editing an existing review
   const handleReviewEdit = (index) => {
@@ -177,23 +179,32 @@ function MoviePage(props) {
       </div>
 
       <div className="movie-container3">
-      <button className="add-review-button"onClick={() => handleReview()}><h1>Add Your Movie Review</h1></button>
+        <button className="add-review-button" onClick={() => handleReview()}>
+          <h1>Add Your Movie Review</h1>
+        </button>
         <ReviewPopup trigger={buttonPopup} setTrigger={setButtonPopup}>
-
-        <h2 className="write-review-text">Please Enter Your Review Below.</h2>
-        <div className='write-review-containter'>
-            <textarea value={newReview} onChange={handleReviewChange} placeholder="type here"></textarea>
-            <select value={newRating} onChange={e => setNewRating(Number(e.target.value))}>
-            {[1, 2, 3, 4, 5].map(num => (
-                <option key={num} value={num}>{num}</option>
-            ))}
+          <h2 className="write-review-text">Please Enter Your Review Below.</h2>
+          <div className="write-review-containter">
+            <textarea
+              value={newReview}
+              onChange={handleReviewChange}
+              placeholder="type here"
+            ></textarea>
+            <select
+              value={newRating}
+              onChange={(e) => setNewRating(Number(e.target.value))}
+            >
+              {[1, 2, 3, 4, 5].map((num) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
+              ))}
             </select>
             <button onClick={handleReviewSubmit}>Submit Review</button>
-        </div>
-        <p className='char-count'>Character Count {count} / 250</p>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+          </div>
+          <p className="char-count">Character Count {count} / 250</p>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
         </ReviewPopup>
-      
       </div>
 
       <div className="movie-container4">

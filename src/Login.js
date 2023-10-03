@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { verifyUser, registerUser } from "./repository2";
 import "./login.css";
 import { Link } from "react-router-dom";
-
 function Login(props) {
   const [fields, setFields] = useState({ username: "", password: "" });
   const [errorMessage, setErrorMessage] = useState(null);
@@ -25,23 +24,23 @@ function Login(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try{
-    // Verify the user.
-    const user = await verifyUser(fields.username, fields.password);
+    try {
+      // Verify the user.
+      const user = await verifyUser(fields.username, fields.password);
 
-    // If verified login the user.
-    if (user) {
-      props.loginUser(fields.username);
-      alert("Log in successful! You're now logged in.");
+      // If verified login the user.
+      if (user) {
+        props.loginUser(fields.username);
+        alert("Log in successful! You're now logged in.");
 
-      // Navigate to the home page.
-      navigate("/myprofile");
-      return;
+        // Navigate to the home page.
+        navigate("/myprofile");
+        return;
+      }
+    } catch (error) {
+      // Set error message.
+      setErrorMessage("Username and / or password invalid, please try again.");
     }
-  } catch (error) {
-       // Set error message.
-       setErrorMessage("Username and / or password invalid, please try again.");
-  }
     // Reset password field to blank.
     const temp = { ...fields };
     temp.password = "";
