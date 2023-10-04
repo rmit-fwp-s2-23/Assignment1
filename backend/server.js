@@ -5,7 +5,14 @@ const Sequelize = require("sequelize");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081",
+  origin: function (origin, callback) {
+    const allowedOrigins = ["http://localhost:3000", "http://localhost:8081"];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 };
 
 app.use(cors(corsOptions));
@@ -14,7 +21,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-const dbConfig = require(".//database/config.js");
+const dbConfig = require("./src/database/config.js");
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -24,10 +31,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 sequelize.sync();
 
 // simple route
-require(".//routes/booking.routes.js")(app);
-require(".//routes/user.routes.js")(app);
-require(".//routes/review.routes.js")(app);
-require(".//routes/movie.routes.js")(app);
+require("./src/routes/booking.routes.js")(app);
+require("./src/routes/user.routes.js")(app);
+require("./src/routes/review.routes.js")(app);
+require("./src/routes/movie.routes.js")(app);
 
 sequelize
   .sync()
