@@ -11,20 +11,26 @@ exports.getAllUsers = async (req, res) => {
 // Select one user from the database.
 exports.getUserById = async (req, res) => {
   const user = await db.user.findByPk(req.params.user_id);
-
   res.json(user);
 };
 
-// Select one user from the database if id and password are a match.
+// Select one user from the database if username and password are a match.
+// Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
-  const user = await db.user.findByPk(req.query.user_id);
+  // Retrieve email and password from the request body
+  const email = req.body.email;
+  const password = req.body.password;
 
-  if(user === null || await argon2.verify(user.password_hash, req.query.password) === false)
+  // Find user by email
+  const user = await db.user.findOne({ where: { email: email } });
+
+  if(user === null || await argon2.verify(user.password_hash, password) === false)
     // Login failed.
     res.json(null);
   else
     res.json(user);
 };
+
 
 // Create a user in the database.
 exports.createUser = async (req, res) => {

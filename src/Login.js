@@ -4,7 +4,7 @@ import { verifyUser, registerUser } from "./repository2";
 import "./login.css";
 import { Link } from "react-router-dom";
 function Login(props) {
-  const [fields, setFields] = useState({ username: "", password: "" });
+  const [fields, setFields] = useState({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
@@ -26,20 +26,20 @@ function Login(props) {
 
     try {
       // Verify the user.
-      const user = await verifyUser(fields.username, fields.password);
+      const user = await verifyUser(fields.email, fields.password);
 
       // If verified login the user.
       if (user) {
-        props.loginUser(fields.username);
+        props.loginUser(fields.email);
         alert("Log in successful! You're now logged in.");
 
         // Navigate to the home page.
-        navigate("/myprofile");
+        navigate("/");
         return;
       }
     } catch (error) {
       // Set error message.
-      setErrorMessage("Username and / or password invalid, please try again.");
+      setErrorMessage("Email and / or password invalid, please try again.");
     }
     // Reset password field to blank.
     const temp = { ...fields };
@@ -57,14 +57,15 @@ function Login(props) {
             <div className="col-md-6">
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                  <label htmlFor="username" className="control-label">
-                    Username
+                  <label htmlFor="email" className="control-label">
+                    Email
                   </label>
                   <input
-                    name="username"
-                    id="username"
+                    name="email"
+                    id="email"
+                    type="email"
                     className="form-control"
-                    value={fields.username}
+                    value={fields.email}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -106,3 +107,4 @@ function Login(props) {
 }
 
 export default Login;
+
