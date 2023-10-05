@@ -23,7 +23,7 @@ function Content() {
       console.log("Searching for:", title);
       const response = await getMovieByName(title);
       console.log("Response:", response.title);
-      setMovies(response);
+      setMovies(response.movie);
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
@@ -64,7 +64,7 @@ function Content() {
       {movies ? (
         <div className="container">
           {movies.map((movie) => (
-            <MovieCard movie={movie} key={movie.id} />
+            <MovieCard movie={movie} key={movie.ID} />
           ))}
         </div>
       ) : (

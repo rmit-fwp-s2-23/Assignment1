@@ -6,7 +6,7 @@ const app = express();
 
 var corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = ["http://localhost:3000", "http://localhost:8081"];
+    const allowedOrigins = ["http://localhost:3000", "http://localhost:8081", "http://localhost:3001", "http://localhost:3002"];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -28,7 +28,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   dialect: dbConfig.DIALECT,
 });
 
-sequelize.sync();
+sequelize.sync({ force: false });
 
 // simple route
 require("./src/routes/booking.routes.js")(app);
@@ -37,7 +37,7 @@ require("./src/routes/review.routes.js")(app);
 require("./src/routes/movie.routes.js")(app);
 
 sequelize
-  .sync()
+  .sync({ force: false })
   .then(() => {
     console.log("Database synced successfully");
   })
