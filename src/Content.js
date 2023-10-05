@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import MovieCard from ".//MovieCard";
 import "./App.css";
-import {getMovieByName,} from "./repository2.js"
+import {getMovieByName, getAllMovies} from "./repository2.js"
 
 function Content() {
   // State to hold the search term
@@ -11,19 +11,23 @@ function Content() {
   const [movies, setMovies] = useState([]);
 
   // Function to fetch movies from the API with debouncing
-  const debouncedSearchMovies = useCallback((title) => {
+  const debouncedSearchMovies = useCallback(async (title) => {
     if (!title) {
-      searchMovies("Home Alone")
+      try {
+        const allMoviesResponse = await getAllMovies();
+        setMovies(allMoviesResponse);
+      } catch (error) {
+        console.error("Error fetching all movies:", error);
+      }
+    } else {
+      searchMovies(title);
     }
-    searchMovies(title);
   }, []);
 
   const searchMovies = async (title) => {
     try {
-      console.log("Searching for:", title);
-      const response = await getMovieByName(title);
-      console.log("Response:", response.title);
-      setMovies(response.movie);
+      const oneMovie = await getMovieByName(title);
+      setMovies([oneMovie]); // Wrap the single movie in an array
     } catch (error) {
       console.error("Error fetching movies:", error);
     }
@@ -60,12 +64,10 @@ function Content() {
         />
       </div>
 
-      {/* Rendering movies */}
       {movies ? (
         <div className="container">
           {movies.map((movie) => (
-            <MovieCard movie={movie} key={movie.ID} />
-          ))}
+           <MovieCard movie={movie} key={movie.movie_id} />))}
         </div>
       ) : (
         <div className="empty">

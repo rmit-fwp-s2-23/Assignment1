@@ -1,4 +1,6 @@
 const db = require("../database");
+const { Op } = require("sequelize");
+
 
 // Retrieve all movies.
 exports.getAllMovies = async (req, res) => {
@@ -34,8 +36,12 @@ exports.getMovieByName = async (req, res) => {
   const movieName = req.params.name;
 
   try {
-    const movie = await  db.movie.findOne({
-      where: { name: movieName },
+    const movies = await db.movie.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${movieName}%`
+        }
+      }
     });
 
     if (!movie) {

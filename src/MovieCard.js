@@ -1,30 +1,30 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-function MovieCard({ movie: { ID, Photo, Title, Year } }) {
+function MovieCard({ movie: { movie_id, image, name, year } }) {
   const navigate = useNavigate(); // A hook from react-router-dom to handle navigation
 
   // Function to handle click on the movie image
   const handleImageClick = () => {
     // Navigate to the MoviePage route and pass movie details as state
-    navigate("/MoviePage", { state: { movie: { ID, Year, Photo, Title } } });
+    navigate("/MoviePage", { state: { movie: { movie_id, image, name, year } } });
   };
 
   return (
-    <div className="movie" key={ID}>
+    <div className="movie" key={movie_id}>
       <div>
-        <p>{Year}</p>
+        <p>{year}</p>
       </div>
       <div>
         <img
-          src={Photo}
+          src={image}
           onClick={handleImageClick}
-          alt={Title}
+          alt={name}
         />
       </div>
       <div>
-        <span>{Year}</span>
-        <h3>{Title}</h3>
+        <span>{year}</span>
+        <h3>{name}</h3>
       </div>
     </div>
   );
