@@ -30,11 +30,13 @@ exports.createMovie = async (req, res) => {
 };
 
 // Retrieve a single movie by ID.
-exports.getMovieById = async (req, res) => {
-  const movieId = req.params.id;
+exports.getMovieByName = async (req, res) => {
+  const movieName = req.params.name;
 
   try {
-    const movie = await db.movie.findByPk(movieId);
+    const movie = await  db.movie.findOne({
+      where: { name: movieName },
+    });
 
     if (!movie) {
       return res.status(404).json({ error: "Movie not found" });

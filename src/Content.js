@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MovieCard from ".//MovieCard";
 import "./App.css";
-
-const API_URL = "http://www.omdbapi.com?apikey=b6003d8a";
+import {getMovieByName,} from "./repository2.js"
 
 function Content() {
   // State to hold the search term
@@ -12,25 +11,23 @@ function Content() {
   const [movies, setMovies] = useState([]);
 
   // Function to fetch movies from the API with debouncing
-  const debouncedSearchMovies = (title) => {
+  const debouncedSearchMovies = useCallback((title) => {
     if (!title) {
-      return;
+      searchMovies("Home Alone")
     }
     searchMovies(title);
-  };
-
-  // Function to fetch movies from the API
-  const searchMovies = async (title) => {
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
-
-    setMovies(data.Search); // Set the fetched movies in the state
-  };
-
-  // UseEffect for the initial load (without debouncing)
-  useEffect(() => {
-    searchMovies("Shrek"); // Perform the initial search with "Shrek"
   }, []);
+
+  const searchMovies = async (title) => {
+    try {
+      console.log("Searching for:", title);
+      const response = await getMovieByName(title);
+      console.log("Response:", response.title);
+      setMovies(response);
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    }
+  };
 
   // UseEffect for debounced search
   useEffect(() => {
@@ -67,7 +64,7 @@ function Content() {
       {movies ? (
         <div className="container">
           {movies.map((movie) => (
-            <MovieCard movie={movie} key={movie.imdbID} />
+            <MovieCard movie={movie} key={movie.id} />
           ))}
         </div>
       ) : (

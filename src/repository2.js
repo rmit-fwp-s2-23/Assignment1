@@ -84,8 +84,8 @@ async function getAllMovies() {
     return response.data;
   }
   
-  async function getMovieById(id) {
-    const response = await axios.get(API_HOST + `/api/movie/${id}`);
+  async function getMovieByName(name) {
+    const response = await axios.get(API_HOST + `/api/movie/${name}`);
   
     return response.data;
   }
@@ -155,7 +155,7 @@ async function getAllBookings() {
   export {
     verifyUser, getUserById, createUser, updateUserById, deleteUserById, getAllUsers,
     getAllReviews, getReviewById, createReview, updateReviewById, deleteReviewById,
-    getAllMovies, getMovieById, createMovie, updateMovieById, deleteMovieById,
+    getAllMovies, getMovieByName, createMovie, updateMovieById, deleteMovieById,
     getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById, getUser, removeUser
   };
   

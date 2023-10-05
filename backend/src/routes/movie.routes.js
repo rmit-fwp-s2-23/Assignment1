@@ -10,8 +10,8 @@ router.get('/', controller.getAllMovies);
 // Create a new movie.
 router.post('/', controller.createMovie);
 
-// Retrieve a single movie by ID.
-router.get('/:id', controller.getMovieById);
+// Retrieve a single movie by Name.
+router.get('/:name', controller.getMovieByName);
 
 // Update a movie by ID.
 router.put('/:id', controller.updateMovie);

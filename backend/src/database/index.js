@@ -30,7 +30,7 @@ db.booking.belongsTo(db.movie, {foreignKey: {name: "movie_id", allowNull: false}
 // Include a sync option with seed data logic included.
 async function createTables() {
   try {
-    await db.sequelize.sync({ force: true });
+    await db.sequelize.sync({ force: false });
     console.log('Tables created successfully.');
   } catch (error) {
     console.error('Error creating tables:', error);
