@@ -1,7 +1,6 @@
 import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
-import "./QuillEditor.css"; 
 import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
 
 
@@ -24,6 +23,56 @@ function MoviePage(props) {
   ],
 }
 
+const suburbs = [
+  {
+    id: 1,
+    suburb: "Southbank",
+    timings: [
+      "8:30 AM",
+      "10:30 AM",
+      "12:00 PM",
+      "7:00 PM",
+      "9:00 PM",
+      "11:00 PM",
+    ],
+  },
+  {
+    id: 2,
+    suburb: "Richmond",
+    timings: [
+      "6:00 AM",
+      "8:00 AM",
+      "12:00 PM",
+      "4:00 PM",
+      "6:00 PM",
+      "10:00 PM",
+    ],
+  },
+  {
+    id: 3,
+    suburb: "Carlton",
+    timings: [
+      "2:00 PM",
+      "4:30 PM",
+      "6:30 PM",
+      "10:30 PM",
+      "11:30 PM",
+      "1:00 AM",
+    ],
+  },
+  {
+    id: 4,
+    suburb: "Footscray",
+    timings: [
+      "8:00 AM",
+      "10:00 AM",
+      "2:30 PM",
+      "8:30 PM",
+      "10:30 PM ",
+      "12:30 AM",
+    ],
+  },
+];
   const location = useLocation();
 
   const { movie } = location.state;
@@ -108,58 +157,6 @@ function MoviePage(props) {
     setReviews(updatedReviews);
   };
 
-  // Suburbs and timings data
-  const suburbs = [
-    {
-      id: 1,
-      suburb: "Southbank",
-      timings: [
-        "8:30 AM",
-        "10:30 AM",
-        "12:00 PM",
-        "7:00 PM",
-        "9:00 PM",
-        "11:00 PM",
-      ],
-    },
-    {
-      id: 2,
-      suburb: "Richmond",
-      timings: [
-        "6:00 AM",
-        "8:00 AM",
-        "12:00 PM",
-        "4:00 PM",
-        "6:00 PM",
-        "10:00 PM",
-      ],
-    },
-    {
-      id: 3,
-      suburb: "Carlton",
-      timings: [
-        "2:00 PM",
-        "4:30 PM",
-        "6:30 PM",
-        "10:30 PM",
-        "11:30 PM",
-        "1:00 AM",
-      ],
-    },
-    {
-      id: 4,
-      suburb: "Footscray",
-      timings: [
-        "8:00 AM",
-        "10:00 AM",
-        "2:30 PM",
-        "8:30 PM",
-        "10:30 PM ",
-        "12:30 AM",
-      ],
-    },
-  ];
-
   return (
     <div className="movie-container">
       <div className="movie-container1">
@@ -225,7 +222,7 @@ function MoviePage(props) {
             return (
               <div key={index} className="reviews-container">
                 <p className="review">
-                  {rev.user}: {rev.review}
+                  {rev.user.name}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
                 </p>
                 <p className="rating">Rating: {rev.rating}/5</p>
                 {rev.user === props.username && (
