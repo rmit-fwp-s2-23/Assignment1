@@ -1,27 +1,63 @@
 /* Styles for the write review container */
-.write-review-containter {
-    display: flex;
-    justify-content: center;
-    padding-top: 5%;
-  }
-  
-  .write-review-containter textarea {
-    padding: 10px;
-    resize: none;
-    min-height: 100%;
-    width: 100%;
-  }
-  
   .write-review-text {
-    padding-top: 15%;
+    padding-top: 5%;
     color: #850E35;
     text-align: center;
   }
-  
-  .write-review-containter ::placeholder {
-    color: #aa5154;
+
+  .ql-toolbar {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
   }
   
+  /* Style the editor container */
+  .ql-container {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    min-height: 100%;;
+  }
+  
+  /* Style the placeholder text */
+  .ql-editor::before {
+    content: attr(placeholder);
+    color: #aaa;
+    font-style: italic;
+  }
+  
+  /* Style the select dropdown for rating */
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 8px;
+    text-align: center;
+  }
+    
+  /* Style the character count message */
+.char-count {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.quill-container {
+  padding-top: 5%;
+  resize: none;
+  overflow-y: auto;
+  max-height: 50%;
+  min-width: 50%;
+  text-align: center;
+}
+
+.submit-review {
+  padding-top: 2%;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
   /* Styles for the add review button */
   .add-review-button {
     display: flex;
@@ -58,7 +94,7 @@
   
   /* Styles for error message */
   .error-message {
-    margin: 3rem;
+    margin: 1rem;
     text-align: center;
     color: #ff0000;
     font-weight: 900;
