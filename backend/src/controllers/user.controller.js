@@ -50,15 +50,15 @@ exports.createUser = async (req, res) => {
 
     res.json(user);
   } catch (error) {
-    // Check if the error is due to a unique constraint violation
-    if (error.name === 'SequelizeUniqueConstraintError' && error.errors && error.errors[0].path === 'email') {
-      res.status(400).json({ error: "Email already in use." });
+    if (error.name === 'SequelizeUniqueConstraintError') {
+      res.status(400).json({ error: 'Email already in use.' });
     } else {
       console.error("Error creating user:", error);
       res.status(500).json({ error: "Internal server error" });
     }
   }
 };
+
 
 // Delete a user by ID.
 exports.deleteUser = async (req, res) => {
