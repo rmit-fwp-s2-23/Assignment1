@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./App.css"; // Include 'src/' in the import path
 import "./Nav.css"; // Include 'src/' in the import path
+import { getUser } from "./repository2";
 
 function Navbar(props) {
+  const userData = getUser();
   return (
     <div className="navbar">
       {/* Logo link */}
@@ -23,7 +25,7 @@ function Navbar(props) {
           <>
             {/* Link to user profile */}
             <Link to="/myprofile" className="username-link">
-              {props.username}
+              {userData.name}
             </Link>
             <Link to="/" onClick={props.logoutUser} className="login-button">
               Logout

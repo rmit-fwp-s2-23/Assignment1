@@ -141,11 +141,14 @@ async function getAllBookings() {
 
 // --- Helper functions to interact with local storage --------------------------------------------
   function setUser(user) {
+    console.log("Setting user:", user); // Debugging
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
   function getUser() {
-    return JSON.parse(localStorage.getItem(USER_KEY));
+    const user = JSON.parse(localStorage.getItem(USER_KEY));
+    console.log("Getting user:", user); // Debugging
+    return user;
   }
 
   function removeUser() {

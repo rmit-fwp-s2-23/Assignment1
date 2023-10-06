@@ -15,7 +15,6 @@ exports.getUserById = async (req, res) => {
 };
 
 // Select one user from the database if username and password are a match.
-// Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
   // Retrieve email and password from the request body
   const email = req.body.email;
@@ -27,8 +26,13 @@ exports.login = async (req, res) => {
   if(user === null || await argon2.verify(user.password_hash, password) === false)
     // Login failed.
     res.json(null);
-  else
-    res.json(user);
+  else {
+  res.json({
+    user_id: user.user_id,
+    email: user.email,
+    name: user.name
+  });
+  }
 };
 
 
