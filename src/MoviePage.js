@@ -1,7 +1,6 @@
 import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
-import "./QuillEditor.css"; 
 import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
 
 
