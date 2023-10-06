@@ -159,6 +159,6 @@ async function getAllBookings() {
     verifyUser, getUserById, createUser, updateUserById, deleteUserById, getAllUsers,
     getAllReviews, getReviewById, createReview, updateReviewById, deleteReviewById,
     getAllMovies, getMovieByName, createMovie, updateMovieById, deleteMovieById,
-    getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById, getUser, removeUser
+    getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById, getUser, removeUser, setUser
   };
   

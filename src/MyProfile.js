@@ -1,31 +1,34 @@
 import React, { useState, useEffect } from "react";
-import "./MyProfile.css"; // Include 'src/' in the import path
+import "./MyProfile.css";
 import {
-  getUserProfile,
-  updateUserProfile,
-  deleteUser,
-  deleteReviewsByUser,
-} from "./repository"; // Include 'src/' in the import path
+  getUserById,
+  updateUserById,
+  deleteUserById,
+  deleteReviewById,
+} from "./repository2";
 
 function MyProfile(props) {
-  // State to hold user details
   const [userDetails, setUserDetails] = useState({
-    username: props.username || "",
+    userId: props.userId || "",
     name: "",
     password: "",
     signUpDate: "",
   });
-
-  // State to toggle editing mode
   const [isEditing, setIsEditing] = useState(false);
 
-  // Fetch user details on component mount or when username changes
   useEffect(() => {
-    const fetchedUserDetails = getUserProfile(props.username);
-    setUserDetails(fetchedUserDetails || {});
-  }, [props.username]);
+    const fetchUserProfile = async () => {
+      try {
+        const fetchedUserDetails = await getUserById(props.userId);
+        setUserDetails(fetchedUserDetails || {});
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+      }
+    };
 
-  // Handle input changes and update state
+    fetchUserProfile();
+  }, [props.userId]);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserDetails((prevDetails) => ({
@@ -34,29 +37,33 @@ function MyProfile(props) {
     }));
   };
 
-  // Handle save button click
-  const handleSave = () => {
-    const updated = updateUserProfile(userDetails);
-    if (updated) {
+  const handleSave = async () => {
+    try {
+      await updateUserById(userDetails.username, userDetails);
       setIsEditing(false);
       alert("Your profile was updated successfully.");
-    } else {
+    } catch (error) {
       alert("There was an error updating your profile. Please try again.");
     }
   };
 
-  // Handle delete account button click
-  const handleDeleteAccount = () => {
+  const handleDeleteAccount = async () => {
     if (
       window.confirm(
         "Are you sure you want to delete your account? This action cannot be undone."
       )
     ) {
-      deleteUser(userDetails.username);
-      deleteReviewsByUser(userDetails.username);
-      props.logoutUser();
+      try {
+        await deleteUserById(userDetails.username);
+        // Note: If each user's reviews have the user's ID as a reference, 
+        // you might also need to delete those reviews using 'deleteReviewsByUser' or similar.
+        props.logoutUser();
+      } catch (error) {
+        console.error("Error deleting user account:", error);
+      }
     }
   };
+
 
   return (
     <div className="my-profile-container">

@@ -40,14 +40,24 @@ exports.login = async (req, res) => {
 exports.createUser = async (req, res) => {
   const hash = await argon2.hash(req.body.password, { type: argon2.argon2id });
   
-  const user = await db.user.create({
-    user_id: req.body.user_id,
-    email: req.body.email,
-    password_hash: hash,
-    name: req.body.name,
-  });
+  try {
+    const user = await db.user.create({
+      user_id: req.body.user_id,
+      email: req.body.email,
+      password_hash: hash,
+      name: req.body.name,
+    });
 
-  res.json(user);
+    res.json(user);
+  } catch (error) {
+    // Check if the error is due to a unique constraint violation
+    if (error.name === 'SequelizeUniqueConstraintError' && error.errors && error.errors[0].path === 'email') {
+      res.status(400).json({ error: "Email already in use." });
+    } else {
+      console.error("Error creating user:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
 };
 
 // Delete a user by ID.

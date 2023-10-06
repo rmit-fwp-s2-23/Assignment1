@@ -1,7 +1,7 @@
 import "./login.css"; // Include 'src/' in the import path
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "./repository2"; // Include 'src/' in the import path
+import { createUser, setUser } from "./repository2"; // Include 'src/' in the import path
 
 function Signup(props) {
   const [fields, setFields] = useState({
@@ -68,15 +68,20 @@ function Signup(props) {
       };
 
       // Register the user
-      await createUser(user);
+      const newUser = await createUser(user);
+
+      // Store the newly registered user in local storage
+      setUser(newUser);
 
       props.loginUser(fields.username);
       alert("Registration successful! You're now logged in.");
       navigate("/");
     } catch (error) {
-      setErrorMessage(
-        "Username already exists or there was an error. Please try again."
-      );
+      if (error.response && error.response.data && error.response.data.error === "Email already in use.") {
+        setErrorMessage("The provided email is already registered. Please use another email.");
+      } else {
+        setErrorMessage("There was an error during registration. Please try again.");
+      }
     }
   };
 

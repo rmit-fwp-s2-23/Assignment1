@@ -25,7 +25,8 @@ function Navbar(props) {
           <>
             {/* Link to user profile */}
             <Link to="/myprofile" className="username-link">
-              {userData.name}
+              {userData?.name || "User"}
+
             </Link>
             <Link to="/" onClick={props.logoutUser} className="login-button">
               Logout
