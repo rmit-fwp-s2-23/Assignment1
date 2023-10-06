@@ -23,13 +23,19 @@ function Navbar(props) {
       <div className="button-div">
         {props.username ? (
           <>
-            {/* Link to user profile */}
-            <Link to="/myprofile" className="username-link">
-              {userData.name}
-            </Link>
-            <Link to="/" onClick={props.logoutUser} className="login-button">
-              Logout
-            </Link>
+            {userData ? ( // Check if userData is not null or undefined
+              <>
+                {/* Link to user profile */}
+                <Link to="/myprofile" className="username-link">
+                  {userData.name}
+                </Link>
+                <Link to="/" onClick={props.logoutUser} className="login-button">
+                  Logout
+                </Link>
+              </>
+            ) : (
+              <span>Loading...</span> // You can display a loading message while userData is being fetched
+            )}
           </>
         ) : (
           <Link to="/login" className="login-button">
