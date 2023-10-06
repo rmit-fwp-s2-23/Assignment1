@@ -24,7 +24,6 @@ function Login(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
       // Verify the user.
       const user = await verifyUser(fields.email, fields.password);
 
@@ -37,14 +36,14 @@ function Login(props) {
         navigate("/");
         return;
       }
-    } catch (error) {
-      // Set error message.
-      setErrorMessage("Email and / or password invalid, please try again.");
-    }
-    // Reset password field to blank.
-    const temp = { ...fields };
-    temp.password = "";
-    setFields(temp);
+      else {
+        setErrorMessage("Email and / or password invalid, please try again.");
+
+        // Reset password field to blank.
+        const temp = { ...fields };
+        temp.password = "";
+        setFields(temp);
+      }
   };
 
   return (
