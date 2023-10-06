@@ -1,5 +1,10 @@
 import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
+import ReactQuill from 'react-quill';
+import "./QuillEditor.css"; 
+import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
+
+
 import {
   saveReviewForMovie,
   getReviewsForMovie,
@@ -13,14 +18,20 @@ function MoviePage(props) {
   let totalReviewsIndex = 0;
   let totalReviewsNum = 0;
 
-  const navigate = useNavigate();
+  const modules = {toolbar: [
+    ['bold', 'italic', 'underline','strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+  ],
+}
+
   const location = useLocation();
 
   const { movie } = location.state;
   const [reviews, setReviews] = useState([]);
   const [buttonPopup, setButtonPopup] = useState(false);
-  const [count, setCount] = React.useState(0);
+  const [count, setCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
+  const reactQuillRef = React.useRef();
 
   // State for new review and rating
   const [newReview, setNewReview] = useState("");
@@ -28,21 +39,21 @@ function MoviePage(props) {
 
   // Fetch reviews for the movie on component mount
   useEffect(() => {
-    const movieReviews = getReviewsForMovie(movie.imdbID);
+    const movieReviews = getReviewsForMovie(movie.movie_id);
     setReviews(movieReviews);
   }, [movie]);
 
   // Handle change in review text area
-  const handleReviewChange = (event) => {
-    const reviewText = event.target.value;
-    setNewReview(reviewText);
-    setCount(reviewText.length);
+  const handleReviewChange = (value) => {
+    const unprivilegedEditor = reactQuillRef.current.unprivilegedEditor;
+    setNewReview(value);
+    setCount(unprivilegedEditor.getLength() - 1);
   };
 
   // Handle submitting a new review
   const handleReviewSubmit = () => {
     // Check for review length
-    if (count <= 250 && count > 0 && newReview.trim() != 0) {
+    if (count <= 600 && count > 0 && newReview.trim() != 0) {
       saveReviewForMovie(movie.imdbID, newReview, newRating, props.username);
       setReviews([
         ...reviews,
@@ -54,9 +65,9 @@ function MoviePage(props) {
       setCount(0);
     } else if (count === 0 || newReview.trim() == 0) {
       setErrorMessage("Please enter a review.");
-    } else if (count > 250) {
+    } else if (count > 600) {
       setErrorMessage(
-        "Please enter a review that is less than 250 characters."
+        "Please enter a review that is less than 600 characters."
       );
     }
   };
@@ -66,6 +77,7 @@ function MoviePage(props) {
       setButtonPopup(true);
     } else {
       alert("Please log in to submit a review.");
+      setCount(0)
     }
   };
 
@@ -148,19 +160,16 @@ function MoviePage(props) {
     },
   ];
 
-  // Handle clicking on the "Reviews" button
-  const handReviewButton = () => {
-    navigate("/Reviews");
-  };
-
   return (
     <div className="movie-container">
       <div className="movie-container1">
-        <img src={movie.Poster} />
+        <div className="movie-image">
+        <img src={movie.image} />
+        </div>
       </div>
 
       <div className="movie-container2">
-        <h1 alt={movie.Title}>{movie.Title} - Showtimes</h1>
+        <h1 alt={movie.name}>{movie.name} - Showtimes</h1>
 
         {suburbs.map((suburb) => {
           return (
@@ -178,18 +187,18 @@ function MoviePage(props) {
         })}
       </div>
 
+        
       <div className="movie-container3">
         <button className="add-review-button" onClick={() => handleReview()}>
           <h1>Add Your Movie Review</h1>
         </button>
         <ReviewPopup trigger={buttonPopup} setTrigger={setButtonPopup}>
           <h2 className="write-review-text">Please Enter Your Review Below.</h2>
-          <div className="write-review-containter">
-            <textarea
-              value={newReview}
-              onChange={handleReviewChange}
-              placeholder="type here"
-            ></textarea>
+
+          <div className="quill-container">
+          <ReactQuill theme="snow" value={newReview} onChange={handleReviewChange} placeholder="type here" modules={modules} onKeyDown={handleReview}
+      ref={reactQuillRef}/>
+          </div>
             <select
               value={newRating}
               onChange={(e) => setNewRating(Number(e.target.value))}
@@ -200,10 +209,11 @@ function MoviePage(props) {
                 </option>
               ))}
             </select>
+            <div className="submit-review">
             <button onClick={handleReviewSubmit}>Submit Review</button>
-          </div>
-          <p className="char-count">Character Count {count} / 250</p>
+          <p className="char-count">Character Count {count} / 600</p>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
+          </div>
         </ReviewPopup>
       </div>
 
