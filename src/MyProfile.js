@@ -13,13 +13,21 @@ function MyProfile(props) {
     name: "",
     password: "",
     signUpDate: "",
+    createdAt: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  console.log("User ID from props:", props.userId);
+  
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      if (!props.userId) {
+        console.error("UserId prop is undefined or not valid.");
+        return;
+      }
       try {
         const fetchedUserDetails = await getUserById(props.userId);
+        console.log("Fetched User Details:", fetchedUserDetails);
         setUserDetails(fetchedUserDetails || {});
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -39,13 +47,14 @@ function MyProfile(props) {
 
   const handleSave = async () => {
     try {
-      await updateUserById(userDetails.username, userDetails);
+      await updateUserById(userDetails.userId, userDetails);
       setIsEditing(false);
       alert("Your profile was updated successfully.");
     } catch (error) {
       alert("There was an error updating your profile. Please try again.");
     }
   };
+  console.log("User Details State:", userDetails);
 
   const handleDeleteAccount = async () => {
     if (
@@ -54,7 +63,7 @@ function MyProfile(props) {
       )
     ) {
       try {
-        await deleteUserById(userDetails.username);
+        await deleteUserById(userDetails.userId);
         // Note: If each user's reviews have the user's ID as a reference, 
         // you might also need to delete those reviews using 'deleteReviewsByUser' or similar.
         props.logoutUser();
@@ -104,7 +113,7 @@ function MyProfile(props) {
               <p>Name: {userDetails.name}</p>
               <p>Email: {userDetails.email}</p>
               <p>Username: {userDetails.username}</p>
-              <p>Sign Up Date: {userDetails.signUpDate}</p>
+              <p>Sign Up Date: {userDetails.createdAt}</p>
             </div>
             <button
               style={{ marginRight: "10px" }}

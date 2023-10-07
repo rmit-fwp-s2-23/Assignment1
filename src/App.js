@@ -4,7 +4,7 @@ import MovieCard from './MovieCard';
 import Content from './Content.js'; 
 import Navbar from './Navbar'; 
 import Login from './Login'; 
-import { getAllUsers, removeUser } from './repository2';
+import { getUser, getAllUsers, removeUser } from './repository2';
 import MoviePage from './MoviePage'; 
 import Signup from './Signup'; 
 import MyProfile from './MyProfile'; 
@@ -13,7 +13,10 @@ import './App.css';
 
 function App() {
   // State to hold the currently logged-in username
-  const [username, setUsername] = useState(getAllUsers());
+  
+  const currentUser = getUser();
+  const [username, setUsername] = useState(currentUser ? currentUser.name : null);
+
 
   // Function to set the logged-in username
   const loginUser = (username) => {
@@ -39,7 +42,7 @@ function App() {
         <Route path="/signup" element={<Signup loginUser={loginUser} />} />
         <Route
           path="/myprofile"
-          element={<MyProfile username={username} logoutUser={logoutUser} />}
+          element={<MyProfile userId={currentUser ? currentUser.user_id : null} logoutUser={logoutUser} />}
         />
       </Routes>
 
