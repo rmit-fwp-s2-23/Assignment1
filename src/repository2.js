@@ -53,16 +53,29 @@ async function getAllReviews() {
     return response.data;
   }
   
-  async function getReviewById(id) {
-    const response = await axios.get(API_HOST + `/api/review/${id}`);
+  async function getReviewByMovie(movie_name) {
+    const response = await axios.get(API_HOST + `/api/review/${movie_name}`);
   
     return response.data;
   }
   
-  async function createReview(review) {
-    const response = await axios.post(API_HOST + "/api/review", review);
+  async function createReview(movie_name, user_name, rating, review, user_id, movie_id) {
+    const reviewData = {
+      movie_name,
+      user_name,
+      rating,
+      review,
+      user_id,
+      movie_id
+    };
   
-    return response.data;
+    try {
+      const response = await axios.post(API_HOST + "/api/review", reviewData);
+      return response.data;
+    } catch (error) {
+      console.error("Error creating review:", error);
+      throw error;
+    }
   }
   
   async function updateReviewById(id, updatedReviewData) {
@@ -71,8 +84,8 @@ async function getAllReviews() {
     return response.data;
   }
   
-  async function deleteReviewById(id) {
-    const response = await axios.delete(API_HOST + `/api/review/${id}`);
+  async function deleteReview(user_name, movie_name) {
+    const response = await axios.delete(`${API_HOST}/api/review/${user_name}/${movie_name}`);
   
     return response.data;
   }
@@ -157,7 +170,7 @@ async function getAllBookings() {
   
   export {
     verifyUser, getUserById, createUser, updateUserById, deleteUserById, getAllUsers,
-    getAllReviews, getReviewById, createReview, updateReviewById, deleteReviewById,
+    getAllReviews, getReviewByMovie, createReview, updateReviewById, deleteReview,
     getAllMovies, getMovieByName, createMovie, updateMovieById, deleteMovieById,
     getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById, getUser, removeUser, setUser
   };

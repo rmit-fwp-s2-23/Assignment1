@@ -2,15 +2,10 @@ import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
+import {createReview, deleteReview, getReviewByMovie} from "./repository2.js"
 
-
-import {
-  saveReviewForMovie,
-  getReviewsForMovie,
-  deleteReviewForMovie,
-} from "./repository"; // Include 'src/' in the import path
 import "./Reviews.css"; // Include 'src/' in the import path
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import ReviewPopup from "./ReviewPopup"; // Include 'src/' in the import path
 
 function MoviePage(props) {
@@ -88,8 +83,8 @@ const suburbs = [
 
   // Fetch reviews for the movie on component mount
   useEffect(() => {
-    const movieReviews = getReviewsForMovie(movie.movie_id);
-    setReviews(movieReviews);
+    const movieReviews = getReviewByMovie(movie.name);
+    setReviews([movieReviews]);
   }, [movie]);
 
   // Handle change in review text area
@@ -103,10 +98,10 @@ const suburbs = [
   const handleReviewSubmit = () => {
     // Check for review length
     if (count <= 600 && count > 0 && newReview.trim() != 0) {
-      saveReviewForMovie(movie.imdbID, newReview, newRating, props.username);
+      createReview(movie.name, props.name, newRating, newReview, props.user_id, movie.movie_id)
       setReviews([
         ...reviews,
-        { review: newReview, rating: newRating, user: props.username },
+        { review: newReview, rating: newRating, user: props.name},
       ]);
       setNewReview("");
       setNewRating(5);
@@ -143,18 +138,18 @@ const suburbs = [
     // Remove the review from the reviews array
     const updatedReviews = [...reviews];
     updatedReviews.splice(index, 1);
-    setReviews(updatedReviews);
+    setReviews([updatedReviews]);
   };
 
   // Handle deleting a review
   const handleReviewDelete = (index) => {
     // Delete the review from the repository
-    deleteReviewForMovie(movie.imdbID, index);
+    deleteReview(props.email, movie.name, index);
 
     // Remove the review from the reviews array
     const updatedReviews = [...reviews];
     updatedReviews.splice(index, 1);
-    setReviews(updatedReviews);
+    setReviews([updatedReviews]);
   };
 
   return (
@@ -216,16 +211,17 @@ const suburbs = [
 
       <div className="movie-container4">
         <div className="reviews-box">
-          {reviews.map((rev, index) => {
+        {reviews ? (
+          reviews.map((rev, index) => {
             totalReviewsNum += rev.rating;
             totalReviewsIndex += 1;
             return (
               <div key={index} className="reviews-container">
                 <p className="review">
-                  {rev.user.name}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
+                  {rev.email}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
                 </p>
                 <p className="rating">Rating: {rev.rating}/5</p>
-                {rev.user === props.username && (
+                {rev.email === props.email && (
                   <div>
                     <button
                       style={{ marginRight: "10px" }}
@@ -240,7 +236,10 @@ const suburbs = [
                 )}
               </div>
             );
-          })}
+          })
+        ) :
+<p>No Reviews Posted.</p>
+}
         </div>
       </div>
       <div className="movie-container5">

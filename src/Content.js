@@ -27,7 +27,7 @@ function Content() {
   const searchMovies = async (title) => {
     try {
       const oneMovie = await getMovieByName(title);
-      setMovies([oneMovie]); // Wrap the single movie in an array
+      setMovies([oneMovie]);
     } catch (error) {
       console.error("Error fetching movies:", error);
     }

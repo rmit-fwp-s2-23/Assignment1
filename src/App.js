@@ -4,7 +4,7 @@ import MovieCard from './MovieCard';
 import Content from './Content.js'; 
 import Navbar from './Navbar'; 
 import Login from './Login'; 
-import { getUser, removeUser } from './repository';
+import { getAllUsers, removeUser } from './repository2';
 import MoviePage from './MoviePage'; 
 import Signup from './Signup'; 
 import MyProfile from './MyProfile'; 
@@ -13,7 +13,7 @@ import './App.css';
 
 function App() {
   // State to hold the currently logged-in username
-  const [username, setUsername] = useState(getUser());
+  const [username, setUsername] = useState(getAllUsers());
 
   // Function to set the logged-in username
   const loginUser = (username) => {

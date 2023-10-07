@@ -1,14 +1,12 @@
 module.exports = (sequelize, DataTypes) =>
   sequelize.define("review", {
-    movie_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+    email: {
+      type: DataTypes.STRING,
       allowNull: false,
-      foreignKey: true
+      primaryKey: true
     },
-    user_id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+    movie_name: {
+      type: DataTypes.STRING,
       allowNull: false,
       foreignKey: true
     },
@@ -19,5 +17,17 @@ module.exports = (sequelize, DataTypes) =>
     review: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    user_id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      foreignKey: true
+    },
+    movie_id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      foreignKey: true
+    },
   });

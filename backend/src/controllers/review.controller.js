@@ -13,14 +13,16 @@ exports.getAllReviews = async (req, res) => {
 
 // Create a new review.
 exports.createReview = async (req, res) => {
-  const { movie_id, user_id, rating, review } = req.body;
+  const { movie_name, email, rating, review, user_id,movie_id } = req.body;
 
   try {
     const newReview = await db.review.create({
-      movie_id,
-      user_id,
+      movie_name,
+      email,
       rating,
       review,
+      user_id,
+      movie_id
     });
 
     res.json(newReview);
@@ -30,23 +32,20 @@ exports.createReview = async (req, res) => {
   }
 };
 
-// Retrieve a single review by ID.
-exports.getReviewById = async (req, res) => {
-  const reviewId = req.params.id;
+// Retrieve reviews for a specific movie by its movie_id.
+exports.getReviewByMovie = async (req, res) => {
+  const movie_name = req.params.movie_name;
+  const reviews = await db.review.findAll({
+    where: { movie_name: movie_name }, // Query for reviews with the specified movie_id
+  });
 
-  try {
-    const review = await db.review.findByPk(reviewId);
-
-    if (!review) {
-      return res.status(404).json({ error: "Review not found" });
-    }
-
-    res.json(review);
-  } catch (error) {
-    console.error("Error retrieving review:", error);
-    res.status(500).json({ error: "Internal server error" });
+  if (!reviews || reviews.length === 0) {
+    res.json({ message: "No reviews found for this movie" });
+  } else {
+    res.json(reviews);
   }
 };
+
 
 // Update a review by ID.
 exports.updateReview = async (req, res) => {
@@ -75,13 +74,19 @@ exports.updateReview = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
-// Delete a review by ID.
+// Delete a review by user ID and movie ID.
 exports.deleteReview = async (req, res) => {
-  const reviewId = req.params.id;
+  const user_name = req.params.user_name; 
+  const movie_name = req.params.movie_name; 
 
   try {
-    const review = await db.review.findByPk(reviewId);
+    // Find the review by both user_id and movie_id
+    const review = await db.review.findOne({
+      where: {
+        user_name: user_name,
+        movie_name: movie_name,
+      },
+    });
 
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
@@ -96,3 +101,4 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+

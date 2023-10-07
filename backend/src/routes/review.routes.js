@@ -12,13 +12,13 @@ router.get('/', controller.getAllReviews);
 router.post('/', controller.createReview);
 
 // Retrieve a single review by ID.
-router.get('/:id', controller.getReviewById);
+router.get('/:movie_name', controller.getReviewByMovie);
 
 // Update a review by ID.
 router.put('/:id', controller.updateReview);
 
 // Delete a review by ID.
-router.delete('/:id', controller.deleteReview);
+router.delete('/:user_id/:movie_id', controller.deleteReview);
 
   // Add routes to server.
   app.use("/api/review", router);
