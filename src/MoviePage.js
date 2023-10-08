@@ -9,6 +9,7 @@ import { useLocation} from "react-router-dom";
 import ReviewPopup from "./ReviewPopup"; // Include 'src/' in the import path
 
 function MoviePage(props) {
+  console.log("Props received by MoviePage:", props);
   let totalReviewsIndex = 0;
   let totalReviewsNum = 0;
 
@@ -100,7 +101,7 @@ const suburbs = [
     // Check for review length
     if (count <= 600 && count > 0 && newReview.trim() != 0) {
       createReview(newRating, newReview, props.user_id, movie.movie_id)
-      console.log(newRating, newReview, props.user_id, movie.movie_id)
+      console.log("Submitting review for user_id:", props.user_id);
       setReviews([
         ...reviews,
         { review: newReview, rating: newRating, user: props.name},
@@ -220,7 +221,7 @@ const suburbs = [
             return (
               <div key={index} className="reviews-container">
                 <p className="review">
-                  {rev.user_id}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
+                  {props.username}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
                 </p>
                 <p className="rating">Rating: {rev.rating}/5</p>
                 {rev.user_id === props.user_id && (

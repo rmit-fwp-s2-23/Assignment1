@@ -9,7 +9,7 @@ module.exports = (app) => {
 router.get('/', controller.getAllReviews);
 
 // Create a new review.
-router.post('/:user_id', controller.createReview);
+router.post('/', controller.createReview);
 
 // Retrieve a single review by ID.
 router.get('/:movie_id', controller.getReviewByMovie);

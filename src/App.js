@@ -17,7 +17,7 @@ function App() {
   const currentUser = getUser();
   const [username, setUsername] = useState(currentUser ? currentUser.name : null);
 
-
+  console.log("Current User:", currentUser);
   // Function to set the logged-in username
   const loginUser = (username) => {
     setUsername(username);
@@ -38,7 +38,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Content />} />
         <Route path="/login" element={<Login loginUser={loginUser} />} />
-        <Route path="/MoviePage" element={<MoviePage username={username} />} />
+        <Route path="/MoviePage" element={<MoviePage username={username} user_id={currentUser ? currentUser.user_id : null} />} />
         <Route path="/signup" element={<Signup loginUser={loginUser} />} />
         <Route
           path="/myprofile"

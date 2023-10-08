@@ -13,18 +13,20 @@ exports.getAllReviews = async (req, res) => {
 
 // Create a new review.
 exports.createReview = async (req, res) => {
-  const review = req.params.review;
-  const rating = req.params.rating;
-  const user_id = req.params.user_id; 
-  const movie_id = req.params.movie_id; 
-
-  const newReview = await db.review.create({
-    rating,
-    review,
-    user_id,
-    movie_id
-  });
-res.json(newReview);
+  const { rating, review, user_id, movie_id } = req.body;
+  console.log("Received user_id from frontend:", user_id);
+  try {
+    const newReview = await db.review.create({
+      rating,
+      review,
+      user_id,
+      movie_id
+    });
+    res.json(newReview);
+  } catch (error) {
+    console.error("Error creating review:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 };
 
 // Retrieve reviews for a specific movie by its movie_id.
