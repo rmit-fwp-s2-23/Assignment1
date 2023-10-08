@@ -59,10 +59,8 @@ async function getAllReviews() {
     return response.data;
   }
   
-  async function createReview(movie_name, user_name, rating, review, user_id, movie_id) {
+  async function createReview(rating, review, user_id, movie_id) {
     const reviewData = {
-      movie_name,
-      user_name,
       rating,
       review,
       user_id,
@@ -70,7 +68,7 @@ async function getAllReviews() {
     };
   
     try {
-      const response = await axios.post(API_HOST + "/api/review", reviewData);
+      const response = await axios.post(`${API_HOST}/api/review/${rating}/${review}/${user_id}/${movie_id}`);
       return response.data;
     } catch (error) {
       console.error("Error creating review:", error);
@@ -97,8 +95,8 @@ async function getAllMovies() {
     return response.data;
   }
   
-  async function getMovieByName(name) {
-    const response = await axios.get(API_HOST + `/api/movie/${name}`);
+  async function getMovieByName(movie_id) {
+    const response = await axios.get(API_HOST + `/api/movie/${movie_id}`);
   
     return response.data;
   }

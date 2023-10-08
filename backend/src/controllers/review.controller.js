@@ -13,30 +13,25 @@ exports.getAllReviews = async (req, res) => {
 
 // Create a new review.
 exports.createReview = async (req, res) => {
-  const { movie_name, email, rating, review, user_id,movie_id } = req.body;
+  const review = req.params.review;
+  const rating = req.params.rating;
+  const user_id = req.params.user_id; 
+  const movie_id = req.params.movie_id; 
 
-  try {
-    const newReview = await db.review.create({
-      movie_name,
-      email,
-      rating,
-      review,
-      user_id,
-      movie_id
-    });
-
-    res.json(newReview);
-  } catch (error) {
-    console.error("Error creating review:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+  const newReview = await db.review.create({
+    rating,
+    review,
+    user_id,
+    movie_id
+  });
+res.json(newReview);
 };
 
 // Retrieve reviews for a specific movie by its movie_id.
 exports.getReviewByMovie = async (req, res) => {
-  const movie_name = req.params.movie_name;
+  const movie_id = req.params.movie_id;
   const reviews = await db.review.findAll({
-    where: { movie_name: movie_name }, // Query for reviews with the specified movie_id
+    where: { movie_id: movie_id }, // Query for reviews with the specified movie_id
   });
 
   if (!reviews || reviews.length === 0) {
@@ -84,7 +79,7 @@ exports.deleteReview = async (req, res) => {
     const review = await db.review.findOne({
       where: {
         user_name: user_name,
-        movie_name: movie_name,
+        movie_id: movie_id,
       },
     });
 

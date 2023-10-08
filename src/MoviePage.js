@@ -83,7 +83,8 @@ const suburbs = [
 
   // Fetch reviews for the movie on component mount
   useEffect(() => {
-    const movieReviews = getReviewByMovie(movie.name);
+    const movieReviews = getReviewByMovie(movie.movie_id);
+    console.log(movie.movie_id)
     setReviews([movieReviews]);
   }, [movie]);
 
@@ -98,7 +99,8 @@ const suburbs = [
   const handleReviewSubmit = () => {
     // Check for review length
     if (count <= 600 && count > 0 && newReview.trim() != 0) {
-      createReview(movie.name, props.name, newRating, newReview, props.user_id, movie.movie_id)
+      createReview(newRating, newReview, props.user_id, movie.movie_id)
+      console.log(newRating, newReview, props.user_id, movie.movie_id)
       setReviews([
         ...reviews,
         { review: newReview, rating: newRating, user: props.name},
@@ -218,10 +220,10 @@ const suburbs = [
             return (
               <div key={index} className="reviews-container">
                 <p className="review">
-                  {rev.email}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
+                  {rev.user_id}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
                 </p>
                 <p className="rating">Rating: {rev.rating}/5</p>
-                {rev.email === props.email && (
+                {rev.user_id === props.user_id && (
                   <div>
                     <button
                       style={{ marginRight: "10px" }}

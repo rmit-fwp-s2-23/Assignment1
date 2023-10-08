@@ -1,15 +1,5 @@
 module.exports = (sequelize, DataTypes) =>
   sequelize.define("review", {
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true
-    },
-    movie_name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      foreignKey: true
-    },
     rating: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -22,7 +12,7 @@ module.exports = (sequelize, DataTypes) =>
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
-      foreignKey: true
+      primaryKey: true
     },
     movie_id: {
       type: DataTypes.UUID,
