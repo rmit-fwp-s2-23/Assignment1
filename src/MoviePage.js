@@ -2,8 +2,8 @@ import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
-import {createReview, deleteReview, getReviewByMovie} from "./repository2.js"
-
+import {createReview, deleteReview, getReviewByMovie, getAllBookings, createBooking} from "./repository2.js"
+import ReservationPopup from './ReservationPopup';
 import "./Reviews.css"; // Include 'src/' in the import path
 import { useLocation} from "react-router-dom";
 import ReviewPopup from "./ReviewPopup"; // Include 'src/' in the import path
@@ -77,6 +77,8 @@ const suburbs = [
   const [count, setCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
   const reactQuillRef = React.useRef();
+
+
 
   // State for new review and rating
   const [newReview, setNewReview] = useState("");
@@ -155,6 +157,58 @@ const suburbs = [
     setReviews([updatedReviews]);
   };
 
+      // States for reservation
+      const [reservationPopup, setReservationPopup] = useState(false);
+      const [selectedSessionTime, setSelectedSessionTime] = useState(null);
+      const [seatsToReserve, setSeatsToReserve] = useState(1);
+      const [bookings, setBookings] = useState([]);
+  
+      useEffect(() => {
+          // Fetch all bookings
+          async function fetchBookings() {
+              const allBookings = await getAllBookings();
+              setBookings(allBookings);
+          }
+          fetchBookings();
+      }, []);
+  
+      const handleReserveSeats = async (time, seats) => {
+        console.log("Time in handleReserveSeats:", time);
+        console.log("Seats:", seats, "Type:", typeof seats);
+        let seatNumber = parseInt(seats, 10); // Convert string to number
+
+        // Calculate already reserved seats for this session
+        const alreadyReserved = bookings.filter(booking => booking.time === time).reduce((acc, curr) => acc + parseInt(curr.seat, 10), 0);
+        
+        // Check if total seats after this reservation would exceed the limit
+        if (alreadyReserved + seatNumber > 10) {
+            alert("Exceeds maximum available seats for this session. Please choose fewer seats.");
+            return;
+        }
+    
+
+        const bookingData = {
+            movie_id: movie.movie_id,
+            user_id: props.user_id, 
+            time: time,
+            seat: seats
+        };
+        console.log("Booking data:", bookingData);
+        const newBooking = await createBooking(bookingData);
+        
+        if (newBooking) {
+            alert("Reservation successful!");
+
+            // Refetch bookings from the database
+            const allBookings = await getAllBookings();
+            setBookings(allBookings);
+            console.log('Updated bookings:', allBookings);
+
+        } else {
+            alert("Failed to reserve seats.");
+        }
+      };
+
   return (
     <div className="movie-container">
       <div className="movie-container1">
@@ -165,21 +219,43 @@ const suburbs = [
 
       <div className="movie-container2">
         <h1 alt={movie.name}>{movie.name} - Showtimes</h1>
+        
+        {suburbs.map((suburb) => (
+            <React.Fragment key={suburb.id}>
+                <p className="movie-suburb">
+                    {suburb.suburb}
+                </p>
+                <div className="timings-container">
+                    {suburb.timings.map((time) => {
+                        const reservedSeats = bookings.filter(booking => booking.time === time).reduce((acc, curr) => acc + parseInt(curr.seat, 10), 0);
 
-        {suburbs.map((suburb) => {
-          return (
-            <>
-              <p key={suburb.id} className="movie-suburb">
-                {suburb.suburb}
-              </p>
-              <div className="timings-container">
-                {suburb.timings.map((time) => (
-                  <p className="movie-time"> {time} </p>
-                ))}
-              </div>
-            </>
-          );
-        })}
+                        return (
+                            <div key={time} className='movie-time-container'>
+                                <p 
+                                    className='movie-time' 
+                                    onClick={() => { 
+                                        setSelectedSessionTime(time); 
+                                        console.log("Selected time:", time);
+                                        setReservationPopup(true);
+                                    }}
+                                > 
+                                    {time} 
+                                </p>
+                                <p className='movie-reserved-seats'>
+                                    Reserved Seats: {reservedSeats}
+                                </p>
+                            </div>
+                        );
+                    })}
+                </div>
+            </React.Fragment>
+        ))}
+        <ReservationPopup 
+          trigger={reservationPopup} 
+          setTrigger={setReservationPopup} 
+          selectedSessionTime={selectedSessionTime}
+          handleReserveSeats={handleReserveSeats} 
+        />
       </div>
 
         
