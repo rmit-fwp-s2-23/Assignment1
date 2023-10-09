@@ -9,8 +9,7 @@ function ReviewPopup(props) {
       <div className="pop-up-inner">
         <button
           onClick={() => props.setTrigger(false)}
-          className="close-button"
-        >
+          className="close-button">
           X
         </button>
         {props.children} {/* Render the child components inside the pop-up */}

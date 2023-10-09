@@ -1,4 +1,5 @@
 import React from 'react';
+import "./ReservationPopup.css"; // Include 'src/' in the import path
 
 function ReservationPopup({ trigger, setTrigger, selectedSessionTime, handleReserveSeats }) {
   const [seats, setSeats] = React.useState(1);
@@ -8,6 +9,7 @@ function ReservationPopup({ trigger, setTrigger, selectedSessionTime, handleRese
       <div className="reservation-popup">
         <div className="reservation-popup-inner">
           <h2>Reserve seats for {selectedSessionTime}</h2>
+          <div className="reservation-seats">
           <label>
             Number of seats:
             <input 
@@ -23,7 +25,12 @@ function ReservationPopup({ trigger, setTrigger, selectedSessionTime, handleRese
             }}>
                 Confirm Reservation
             </button>
-          <button onClick={() => setTrigger(false)}>Close</button>
+            </div>
+            <button
+          onClick={() => setTrigger(false)}
+          className="close-button">
+          X
+        </button>
         </div>
       </div>
     )

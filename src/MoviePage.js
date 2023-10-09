@@ -7,6 +7,7 @@ import ReservationPopup from './ReservationPopup';
 import "./Reviews.css"; // Include 'src/' in the import path
 import { useLocation} from "react-router-dom";
 import ReviewPopup from "./ReviewPopup"; // Include 'src/' in the import path
+import "./ReservationPopup.css"; // Include 'src/' in the import path
 
 function MoviePage(props) {
   console.log("Props received by MoviePage:", props);
@@ -165,7 +166,6 @@ const suburbs = [
       // States for reservation
       const [reservationPopup, setReservationPopup] = useState(false);
       const [selectedSessionTime, setSelectedSessionTime] = useState(null);
-      const [seatsToReserve, setSeatsToReserve] = useState(1);
       const [bookings, setBookings] = useState([]);
   
       useEffect(() => {
@@ -178,10 +178,7 @@ const suburbs = [
       }, []);
   
       const handleReserveSeats = async (time, seats) => {
-        console.log("Time in handleReserveSeats:", time);
-        console.log("Seats:", seats, "Type:", typeof seats);
         let seatNumber = parseInt(seats, 10); // Convert string to number
-
         // Calculate already reserved seats for this session
         const alreadyReserved = bookings.filter(booking => booking.time === time).reduce((acc, curr) => acc + parseInt(curr.seat, 10), 0);
         
@@ -190,8 +187,14 @@ const suburbs = [
             alert("Exceeds maximum available seats for this session. Please choose fewer seats.");
             return;
         }
-    
+        else if (seatNumber < 1) {
+            alert("Please enter a valid number of seats greater than zero.");
+            return;
+        }
+        else {
 
+        }
+    
         const bookingData = {
             movie_id: movie.movie_id,
             user_id: props.user_id, 
@@ -244,10 +247,11 @@ const suburbs = [
                                         setReservationPopup(true);
                                     }}
                                 > 
-                                    {time} 
-                                </p>
-                                <p className='movie-reserved-seats'>
+                                    {time}
+                                    <p className='movie-reserved-seats'>
                                     Reserved Seats: {reservedSeats}
+                                </p>
+
                                 </p>
                             </div>
                         );

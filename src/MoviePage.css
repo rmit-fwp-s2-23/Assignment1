@@ -51,6 +51,7 @@
 .timings-container {
   display: flex;
   padding-right: 2em;
+  justify-content: space-between; /* Distribute space equally between children */
 }
 
 /* Styling for individual movie timings */
@@ -60,14 +61,19 @@
 }
 
 .movie-time {
+  flex: 1; /* Let them grow equally */
   color: #FFF5E4;
   font-weight: bold;
   border-radius: 4px;
   padding: 20px;
-  margin: 10px;
+  margin: 0px;
   background-color: #aa5154;
   cursor: pointer;
-  width: calc(33.33%);
+}
+
+.movie-reserved-seats{
+  padding-top: 10px;
+  font-size: small; 
 }
 
 /* Styling for the reviews button container */
