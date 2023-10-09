@@ -12,7 +12,7 @@ router.get('/', controller.getAllReviews);
 router.post('/', controller.createReview);
 
 // Retrieve a single review by ID.
-router.get('/:movie_id', controller.getReviewByMovie);
+router.get('/:movie_id/:review_id', controller.getReviewByMovie);
 
 // Update a review by ID.
 router.put('/:id', controller.updateReview);

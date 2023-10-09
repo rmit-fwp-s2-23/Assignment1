@@ -53,8 +53,8 @@ async function getAllReviews() {
     return response.data;
   }
   
-  async function getReviewByMovie(movie_name) {
-    const response = await axios.get(API_HOST + `/api/review/${movie_name}`);
+  async function getReviewByMovie(movie_name, review_id) {
+    const response = await axios.get(API_HOST + `/api/review/${movie_name}/${review_id}`);
   
     return response.data;
   }

@@ -86,9 +86,14 @@ const suburbs = [
 
   // Fetch reviews for the movie on component mount
   useEffect(() => {
-    const movieReviews = getReviewByMovie(movie.movie_id);
-    console.log(movie.movie_id)
-    setReviews([movieReviews]);
+    const movieReviews = getReviewByMovie(movie.movie_id, reviews.review_id);
+    console.log(movie.movie_id, "Review ID", reviews.review_id)
+  
+    if (movieReviews) {
+      setReviews([movieReviews]);
+    } else {
+      setReviews([]); // Set to an empty array if there are no reviews
+    }
   }, [movie]);
 
   // Handle change in review text area
@@ -103,10 +108,10 @@ const suburbs = [
     // Check for review length
     if (count <= 600 && count > 0 && newReview.trim() != 0) {
       createReview(newRating, newReview, props.user_id, movie.movie_id)
-      console.log("Submitting review for user_id:", props.user_id);
+      console.log("Submitting review for user_id:", newRating, newReview, props.user_id, movie.movie_id);
       setReviews([
         ...reviews,
-        { review: newReview, rating: newRating, user: props.name},
+        { review: newReview, rating: newRating, user_id: props.user_id, movie_id: movie.movie_id},
       ]);
       setNewReview("");
       setNewRating(5);
@@ -289,42 +294,47 @@ const suburbs = [
       </div>
 
       <div className="movie-container4">
-        <div className="reviews-box">
-        {reviews ? (
-          reviews.map((rev, index) => {
-            totalReviewsNum += rev.rating;
-            totalReviewsIndex += 1;
-            return (
-              <div key={index} className="reviews-container">
-                <p className="review">
-                  {props.username}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
-                </p>
-                <p className="rating">Rating: {rev.rating}/5</p>
-                {rev.user_id === props.user_id && (
-                  <div>
-                    <button
-                      style={{ marginRight: "10px" }}
-                      onClick={() => handleReviewEdit(index)}
-                    >
-                      Edit
-                    </button>
-                    <button onClick={() => handleReviewDelete(index)}>
-                      Delete
-                    </button>
-                  </div>
-                )}
+  <div className="reviews-box">
+    {console.log("Reviews: ", reviews)}
+    {reviews && reviews.length > 0 ? (
+      reviews.map((rev, index) => {
+        {console.log("THIS IS REV", rev.rating)}
+        totalReviewsNum += parseInt(rev.rating);
+        totalReviewsIndex += 1;
+        return (
+          <div key={index} className="reviews-container">
+            <p className="review">
+              {props.username}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
+            </p>
+            <p className="rating">Rating: {rev.rating}/5</p>
+            {console.log("User Id: ", props.user_id, " Review user Id ", rev.user_id)}
+            {rev.user_id === props.user_id && (
+              <div>
+                <button
+                  style={{ marginRight: "10px" }}
+                  onClick={() => handleReviewEdit(index)}
+                >
+                  Edit
+                </button>
+                <button onClick={() => handleReviewDelete(index)}>
+                  Delete
+                </button>
               </div>
-            );
-          })
-        ) :
-<p>No Reviews Posted.</p>
-}
-        </div>
-      </div>
+            )}
+          </div>
+        );
+      })
+    ) : (
+      <p>No Reviews Posted.</p>
+    )}
+  </div>
+</div>
+
       <div className="movie-container5">
         {reviews.length > 0 && (
           <p className="average-ratings">
             Average Movie Ratings:{" "}
+            {console.log(totalReviewsNum)}
             {(totalReviewsNum / totalReviewsIndex).toFixed(1)} out of 5
           </p>
         )}
