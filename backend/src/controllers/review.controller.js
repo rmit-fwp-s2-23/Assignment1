@@ -1,7 +1,10 @@
 const db = require("../database");
+const { v4: uuidv4 } = require('uuid'); 
+
 
 // Retrieve all reviews.
 exports.getAllReviews = async (req, res) => {
+  console.log("Getting all reviews")
   try {
     const reviews = await db.review.findAll();
     res.json(reviews);
@@ -13,12 +16,13 @@ exports.getAllReviews = async (req, res) => {
 
 // Create a new review.
 exports.createReview = async (req, res) => {
-  const { rating, review, user_id, movie_id } = req.body;
-  console.log("Received user_id from frontend:", user_id);
+  const { rating, review, review_id, user_id, movie_id } = req.body;
+  console.log("Received user_id from frontend:", user_id + review_id);
   try {
     const newReview = await db.review.create({
       rating,
       review,
+      review_id,
       user_id,
       movie_id
     });
@@ -27,13 +31,16 @@ exports.createReview = async (req, res) => {
     console.error("Error creating review:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+
 };
 
 // Retrieve reviews for a specific movie by its movie_id.
 exports.getReviewByMovie = async (req, res) => {
   const movie_id = req.params.movie_id;
+  const review_id = req.params.review_id;
   const reviews = await db.review.findAll({
-    where: { movie_id: movie_id }, // Query for reviews with the specified movie_id
+    where: { movie_id: movie_id,
+      review_id: review_id }, // Query for reviews with the specified movie_id
   });
 
   if (!reviews || reviews.length === 0) {
