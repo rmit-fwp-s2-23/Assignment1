@@ -110,10 +110,7 @@ const suburbs = [
     if (count <= 600 && count > 0 && newReview.trim() != 0) {
       createReview(newRating, newReview, props.user_id, movie.movie_id)
       console.log("Submitting review for user_id:", newRating, newReview, props.user_id, movie.movie_id);
-      setReviews([
-        ...reviews,
-        { review: newReview, rating: newRating, user_id: props.user_id, movie_id: movie.movie_id},
-      ]);
+      setReviews({ review: newReview, rating: newRating, user_id: props.user_id, movie_id: movie.movie_id});
       setNewReview("");
       setNewRating(5);
       setButtonPopup(false);
@@ -136,6 +133,15 @@ const suburbs = [
     }
   };
 
+  const handleMovieTime = () => {
+    if (props.username) {
+      setReservationPopup(true);
+    } else {
+      alert("Please log in.");
+      setCount(0)
+    }
+  }
+
   // Handle editing an existing review
   const handleReviewEdit = (index) => {
     // Get the review to be edited
@@ -149,7 +155,7 @@ const suburbs = [
     // Remove the review from the reviews array
     const updatedReviews = [...reviews];
     updatedReviews.splice(index, 1);
-    setReviews([updatedReviews]);
+    setReviews(updatedReviews);
   };
 
   // Handle deleting a review
@@ -160,7 +166,7 @@ const suburbs = [
     // Remove the review from the reviews array
     const updatedReviews = [...reviews];
     updatedReviews.splice(index, 1);
-    setReviews([updatedReviews]);
+    setReviews(updatedReviews);
   };
 
       // States for reservation
@@ -244,7 +250,7 @@ const suburbs = [
                                     onClick={() => { 
                                         setSelectedSessionTime(time); 
                                         console.log("Selected time:", time);
-                                        setReservationPopup(true);
+                                        handleMovieTime();
                                     }}
                                 > 
                                     {time}

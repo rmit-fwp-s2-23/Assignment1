@@ -37,10 +37,8 @@ exports.createReview = async (req, res) => {
 // Retrieve reviews for a specific movie by its movie_id.
 exports.getReviewByMovie = async (req, res) => {
   const movie_id = req.params.movie_id;
-  const review_id = req.params.review_id;
   const reviews = await db.review.findAll({
-    where: { movie_id: movie_id,
-      review_id: review_id }, // Query for reviews with the specified movie_id
+    where: { movie_id: movie_id}, // Query for reviews with the specified movie_id
   });
 
   if (!reviews || reviews.length === 0) {

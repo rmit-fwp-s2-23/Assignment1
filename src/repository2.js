@@ -48,15 +48,25 @@ async function updateUserById(id, updatedUserData) {
 
 // --- Review -------------------------------------------------------------------------------------
 async function getAllReviews() {
-    const response = await axios.get(API_HOST + "/api/review");
+    const response = await axios.get(API_HOST + "/api/reviews");
   
     return response.data;
   }
-  
-  async function getReviewByMovie(movie_name, review_id) {
-    const response = await axios.get(API_HOST + `/api/review/${movie_name}/${review_id}`);
-  
-    return response.data;
+  async function getReviewByMovie(movie_id) {
+    try {
+      const response = await axios.get(API_HOST + `/api/reviews/${movie_id}`);
+      
+      // Check if there are reviews
+      if (response.data && response.data.length > 0) {
+        return response.data;
+      } else {
+        return "No Reviews Added.";
+      }
+    } catch (error) {
+      // Handle any errors that occurred during the request
+      console.error("Error fetching reviews:", error);
+      return "Error fetching reviews.";
+    }
   }
   
   async function createReview(rating, review, user_id, movie_id) {
@@ -68,7 +78,7 @@ async function getAllReviews() {
     };
   
     try {
-      const response = await axios.post(`${API_HOST}/api/review`, reviewData);
+      const response = await axios.post(`${API_HOST}/api/reviews`, reviewData);
       return response.data;
     } catch (error) {
       console.error("Error creating review:", error);
@@ -77,13 +87,13 @@ async function getAllReviews() {
 }
   
   async function updateReviewById(id, updatedReviewData) {
-    const response = await axios.put(API_HOST + `/api/review/${id}`, updatedReviewData);
+    const response = await axios.put(API_HOST + `/api/reviews/${id}`, updatedReviewData);
   
     return response.data;
   }
   
   async function deleteReview(user_name, movie_name) {
-    const response = await axios.delete(`${API_HOST}/api/review/${user_name}/${movie_name}`);
+    const response = await axios.delete(`${API_HOST}/api/reviews/${user_name}/${movie_name}`);
   
     return response.data;
   }
