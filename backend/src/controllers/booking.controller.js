@@ -13,7 +13,6 @@ exports.getAllBookings = async (req, res) => {
 
 // Create a new booking.
 exports.createBooking = async (req, res) => {
-  console.log("Booking data:", bookingData);
   const { movie_id, user_id, time, seat } = req.body;
 
   try {
