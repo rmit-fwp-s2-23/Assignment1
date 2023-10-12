@@ -20,6 +20,7 @@ function MoviePage(props) {
   ],
 }
 
+
 const suburbs = [
   {
     id: 1,
@@ -107,11 +108,21 @@ const suburbs = [
   // Handle submitting a new review
   const handleReviewSubmit = () => {
     // Check for review length
-    if (count <= 600 && count > 0 && newReview.trim() != 0) {
-      createReview(newRating, newReview, props.user_id, movie.movie_id)
-      console.log("Submitting review for user_id:", newRating, newReview, props.user_id, movie.movie_id);
-      setReviews({ review: newReview, rating: newRating, user_id: props.user_id, movie_id: movie.movie_id});
-      setNewReview("");
+    if (count <= 600 && count > 0 && newReview.trim() !== "") {
+      const reviewData = {
+        rating: newRating,
+        review: newReview,
+        user_id: props.user_id,
+        movie_id: movie.movie_id,
+      }
+
+      createReview(reviewData);
+      setReviews(reviewData);
+
+      // console.log("Submitting review for user_id:", reviewData);
+      // Handle the response or perform other actions as needed
+      // ...
+
       setNewRating(5);
       setButtonPopup(false);
       setCount(0);
@@ -305,10 +316,8 @@ const suburbs = [
 
       <div className="movie-container4">
   <div className="reviews-box">
-    {console.log("Reviews: ", reviews)}
-    {reviews && reviews.length > 0 ? (
-      reviews.map((rev, index) => {
-        {console.log("THIS IS REV", rev.rating)}
+    {(getReviewByMovie(movie.movie_id)) && (getReviewByMovie(movie.movie_id)).length > 0 ? (
+      (getReviewByMovie(movie.movie_id)).map((rev, index) => {
         totalReviewsNum += parseInt(rev.rating);
         totalReviewsIndex += 1;
         return (

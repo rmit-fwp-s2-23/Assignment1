@@ -4,22 +4,18 @@ module.exports = (app) => {
   const controller = require("../controllers/review.controller.js");
   const router = express.Router();
 
+  // Create a new review.
+  router.post("/", controller.createReview);
 
-// Retrieve all reviews.
-router.get('/', controller.getAllReviews);
+  // Retrieve reviews for a specific movie by movie_id.
+  router.get("/:movie_id", controller.getReviewByMovie);
 
-// Create a new review.
-router.post('/', controller.createReview);
+  // Update a review by ID.
+  router.put("/:id", controller.updateReview);
 
-// Retrieve a single review by ID.
-router.get('/:movie_id', controller.getReviewByMovie);
+  // Delete a review by user_id and movie_id.
+  router.delete("/:user_id/:movie_id", controller.deleteReview);
 
-// Update a review by ID.
-router.put('/:id', controller.updateReview);
-
-// Delete a review by ID.
-router.delete('/:user_id/:movie_id', controller.deleteReview);
-
-  // Add routes to server.
-  app.use("/api/review", router);
+  // Add routes to the server.
+  app.use("/api/reviews", router);
 };
