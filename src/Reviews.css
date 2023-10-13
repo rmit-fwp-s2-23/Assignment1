@@ -91,6 +91,10 @@
   .reviews-container p {
     color: #FFF5E4;
   }
+
+  .review-title {
+    color: #FFF5E4;
+  }
   
   /* Styles for error message */
   .error-message {

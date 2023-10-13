@@ -81,22 +81,23 @@ const suburbs = [
   const reactQuillRef = React.useRef();
 
 
+    async function fetchReviews() {
+      try {
+        const fetchedReviews = await getReviewByMovie(movie.movie_id);
+        setReviews(fetchedReviews);
+      } catch (error) {
+        setReviews([]);
+        console.error("Error fetching reviews:", error);
+      }
+    }
 
+
+    useEffect(() => { fetchReviews();
+    }, []); // Empty dependency array
+  
   // State for new review and rating
   const [newReview, setNewReview] = useState("");
   const [newRating, setNewRating] = useState(5); // Default rating
-
-  // Fetch reviews for the movie on component mount
-  useEffect(() => {
-    const movieReviews = getReviewByMovie(movie.movie_id, reviews.review_id);
-    console.log(movie.movie_id, "Review ID", reviews.review_id)
-  
-    if (movieReviews) {
-      setReviews([movieReviews]);
-    } else {
-      setReviews([]); // Set to an empty array if there are no reviews
-    }
-  }, [movie]);
 
   // Handle change in review text area
   const handleReviewChange = (value) => {
@@ -115,14 +116,8 @@ const suburbs = [
         user_id: props.user_id,
         movie_id: movie.movie_id,
       }
-
       createReview(reviewData);
-      setReviews(reviewData);
-
-      // console.log("Submitting review for user_id:", reviewData);
-      // Handle the response or perform other actions as needed
-      // ...
-
+      setNewReview("");
       setNewRating(5);
       setButtonPopup(false);
       setCount(0);
@@ -132,6 +127,15 @@ const suburbs = [
       setErrorMessage(
         "Please enter a review that is less than 600 characters."
       );
+    }
+
+
+    if (reviews) {
+      alert("Review Successful")
+      fetchReviews();
+    }
+    else {
+      alert("Please try again")
     }
   };
 
@@ -153,32 +157,32 @@ const suburbs = [
     }
   }
 
-  // Handle editing an existing review
-  const handleReviewEdit = (index) => {
-    // Get the review to be edited
-    const reviewToEdit = reviews[index];
+  // // Handle editing an existing review
+  // const handleReviewEdit = (index) => {
+  //   // Get the review to be edited
+  //   const reviewToEdit = reviews[index];
 
-    // Set the new review and rating state to the current review and rating
-    setNewReview(reviewToEdit.review);
-    setNewRating(reviewToEdit.rating);
-    setButtonPopup(true);
+  //   // Set the new review and rating state to the current review and rating
+  //   setNewReview(reviewToEdit.review);
+  //   setNewRating(reviewToEdit.rating);
+  //   setButtonPopup(true);
 
-    // Remove the review from the reviews array
-    const updatedReviews = [...reviews];
-    updatedReviews.splice(index, 1);
-    setReviews(updatedReviews);
-  };
+  //   // Remove the review from the reviews array
+  //   const updatedReviews = [...reviews];
+  //   updatedReviews.splice(index, 1);
+  //   setReviews(updatedReviews);
+  // };
 
-  // Handle deleting a review
-  const handleReviewDelete = (index) => {
-    // Delete the review from the repository
-    deleteReview(props.email, movie.name, index);
+  // // Handle deleting a review
+  // const handleReviewDelete = (index) => {
+  //   // Delete the review from the repository
+  //   deleteReview(props.email, movie.name, index);
 
-    // Remove the review from the reviews array
-    const updatedReviews = [...reviews];
-    updatedReviews.splice(index, 1);
-    setReviews(updatedReviews);
-  };
+  //   // Remove the review from the reviews array
+  //   const updatedReviews = [...reviews];
+  //   updatedReviews.splice(index, 1);
+  //   setReviews(updatedReviews);
+  // };
 
       // States for reservation
       const [reservationPopup, setReservationPopup] = useState(false);
@@ -316,20 +320,24 @@ const suburbs = [
 
       <div className="movie-container4">
   <div className="reviews-box">
-    {(getReviewByMovie(movie.movie_id)) && (getReviewByMovie(movie.movie_id)).length > 0 ? (
-      (getReviewByMovie(movie.movie_id)).map((rev, index) => {
+    {console.log("this is review length" + reviews.length)}
+    {reviews.length > 0 ? (
+      reviews.map((rev, index) => {
+        const { rating, review, user_id } = rev.rating;
+        {console.log("Review rating: " + rev.rating + " Review review: " + rev.review + " Review user_id : " + user_id)}
+
         totalReviewsNum += parseInt(rev.rating);
         totalReviewsIndex += 1;
         return (
           <div key={index} className="reviews-container">
-            <p className="review">
+            <div className="review-title">
               {props.username}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
-            </p>
+            </div>
             <p className="rating">Rating: {rev.rating}/5</p>
-            {console.log("User Id: ", props.user_id, " Review user Id ", rev.user_id)}
+            {console.log("User Id: ", props.user_id, " Review user Id ", user_id)}
             {rev.user_id === props.user_id && (
               <div>
-                <button
+                {/* <button
                   style={{ marginRight: "10px" }}
                   onClick={() => handleReviewEdit(index)}
                 >
@@ -337,7 +345,7 @@ const suburbs = [
                 </button>
                 <button onClick={() => handleReviewDelete(index)}>
                   Delete
-                </button>
+                </button> */}
               </div>
             )}
           </div>
