@@ -30,7 +30,7 @@ exports.getReviewByMovie = async (req, res) => {
   });
 
   if (!reviews || reviews.length === 0) {
-    res.json({ message: "No reviews found for this movie" });
+    res.json([]);
   } else {
     res.json(reviews);
   }
@@ -64,19 +64,13 @@ exports.updateReview = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-// Delete a review by user ID and movie ID.
+
 exports.deleteReview = async (req, res) => {
-  const user_name = req.params.user_name; 
-  const movie_name = req.params.movie_name; 
+
+  const {rating, review, review_id, user_id, movie_id } = req.body.rating;
 
   try {
-    // Find the review by both user_id and movie_id
-    const review = await db.review.findOne({
-      where: {
-        user_name: user_name,
-        movie_id: movie_id,
-      },
-    });
+    const review = await db.review.findByPk(review_id);
 
     if (!review) {
       return res.status(404).json({ error: "Review not found" });
@@ -91,4 +85,5 @@ exports.deleteReview = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
 

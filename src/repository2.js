@@ -56,12 +56,8 @@ async function getAllReviews() {
     try {
       const response = await axios.get(API_HOST + `/api/reviews/${movie_id}`);
       
-      // Check if there are reviews
-      if (response.data && response.data.length > 0) {
-        return response.data;
-      } else {
-        return "No Reviews Added.";
-      }
+      return response.data;
+
     } catch (error) {
       // Handle any errors that occurred during the request
       console.error("Error fetching reviews:", error);
@@ -93,8 +89,8 @@ async function getAllReviews() {
     return response.data;
   }
   
-  async function deleteReview(user_name, movie_name) {
-    const response = await axios.delete(`${API_HOST}/api/reviews/${user_name}/${movie_name}`);
+  async function deleteReview(review_id) {
+    const response = await axios.delete(`${API_HOST}/api/reviews/${review_id}`);
   
     return response.data;
   }

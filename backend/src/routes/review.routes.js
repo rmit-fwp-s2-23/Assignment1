@@ -14,7 +14,7 @@ module.exports = (app) => {
   router.put("/:id", controller.updateReview);
 
   // Delete a review by user_id and movie_id.
-  router.delete("/:user_id/:movie_id", controller.deleteReview);
+  router.delete("/:review_id", controller.deleteReview);
 
   // Add routes to the server.
   app.use("/api/reviews", router);

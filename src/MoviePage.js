@@ -92,8 +92,7 @@ const suburbs = [
     }
 
 
-    useEffect(() => { fetchReviews();
-    }, []); // Empty dependency array
+    useEffect(() => { fetchReviews(); }, []); // Fetch reviews on mount
   
   // State for new review and rating
   const [newReview, setNewReview] = useState("");
@@ -157,32 +156,36 @@ const suburbs = [
     }
   }
 
-  // // Handle editing an existing review
-  // const handleReviewEdit = (index) => {
-  //   // Get the review to be edited
-  //   const reviewToEdit = reviews[index];
+  // Handle editing an existing review
+  const handleReviewEdit = (index) => {
+    // Get the review to be edited
+    const reviewToEdit = reviews[index];
 
-  //   // Set the new review and rating state to the current review and rating
-  //   setNewReview(reviewToEdit.review);
-  //   setNewRating(reviewToEdit.rating);
-  //   setButtonPopup(true);
+    // Set the new review and rating state to the current review and rating
+    setNewReview(reviewToEdit.review);
+    setNewRating(reviewToEdit.rating);
+    setButtonPopup(true);
 
-  //   // Remove the review from the reviews array
-  //   const updatedReviews = [...reviews];
-  //   updatedReviews.splice(index, 1);
-  //   setReviews(updatedReviews);
-  // };
+    // Remove the review from the reviews array
+    const updatedReviews = [...reviews];
+    updatedReviews.splice(index, 1);
+    setReviews(updatedReviews);
+  };
 
-  // // Handle deleting a review
-  // const handleReviewDelete = (index) => {
-  //   // Delete the review from the repository
-  //   deleteReview(props.email, movie.name, index);
+  // Handle deleting a review
+  const handleReviewDelete = (index) => {
+    // Delete the review from the repository
 
-  //   // Remove the review from the reviews array
-  //   const updatedReviews = [...reviews];
-  //   updatedReviews.splice(index, 1);
-  //   setReviews(updatedReviews);
-  // };
+    const {rating, review, review_id, user_id, movie_id } = reviews[index];
+
+    console.log("This is review id", review_id)
+    deleteReview(review_id);
+
+    // Remove the review from the reviews array
+    const updatedReviews = [...reviews];
+    updatedReviews.splice(index, 1);
+    setReviews(updatedReviews);
+  };
 
       // States for reservation
       const [reservationPopup, setReservationPopup] = useState(false);
@@ -320,11 +323,12 @@ const suburbs = [
 
       <div className="movie-container4">
   <div className="reviews-box">
-    {console.log("this is review length" + reviews.length)}
+    {console.log("this is review length " + reviews.length)}
+    {console.log("reviews " + reviews)}
     {reviews.length > 0 ? (
-      reviews.map((rev, index) => {
+      reviews?.map((rev, index) => {
         const { rating, review, user_id } = rev.rating;
-        {console.log("Review rating: " + rev.rating + " Review review: " + rev.review + " Review user_id : " + user_id)}
+        {console.log("Review rating: " + rev.rating + " Review review: " + rev.review + " Review user_id : " + rev.user_id)}
 
         totalReviewsNum += parseInt(rev.rating);
         totalReviewsIndex += 1;
@@ -334,10 +338,10 @@ const suburbs = [
               {props.username}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
             </div>
             <p className="rating">Rating: {rev.rating}/5</p>
-            {console.log("User Id: ", props.user_id, " Review user Id ", user_id)}
+            {console.log("User Id: ", props.user_id, " Review user Id ", rev.user_id)}
             {rev.user_id === props.user_id && (
               <div>
-                {/* <button
+                <button
                   style={{ marginRight: "10px" }}
                   onClick={() => handleReviewEdit(index)}
                 >
@@ -345,7 +349,7 @@ const suburbs = [
                 </button>
                 <button onClick={() => handleReviewDelete(index)}>
                   Delete
-                </button> */}
+                </button>
               </div>
             )}
           </div>
@@ -361,7 +365,6 @@ const suburbs = [
         {reviews.length > 0 && (
           <p className="average-ratings">
             Average Movie Ratings:{" "}
-            {console.log(totalReviewsNum)}
             {(totalReviewsNum / totalReviewsIndex).toFixed(1)} out of 5
           </p>
         )}
