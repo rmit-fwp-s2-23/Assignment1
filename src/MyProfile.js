@@ -47,7 +47,7 @@ function MyProfile(props) {
 
   const handleSave = async () => {
     try {
-      await updateUserById(userDetails.userId, userDetails);
+      await updateUserById(userDetails.user_id, userDetails);
       setIsEditing(false);
       alert("Your profile was updated successfully.");
     } catch (error) {
@@ -63,7 +63,7 @@ function MyProfile(props) {
       )
     ) {
       try {
-        await deleteUserById(userDetails.userId);
+        await deleteUserById(userDetails.user_id);
         // Note: If each user's reviews have the user's ID as a reference, 
         // you might also need to delete those reviews using 'deleteReviewsByUser' or similar.
         props.logoutUser();

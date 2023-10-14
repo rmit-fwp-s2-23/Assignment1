@@ -18,7 +18,13 @@ db.movie = require("./models/movie.model.js")(db.sequelize, DataTypes);
 db.booking = require("./models/booking.model.js")(db.sequelize, DataTypes);
 
 // Relate review to user and movie.
-db.review.belongsTo(db.user, { foreignKey: { name: "user_id", allowNull: false } });
+db.review.belongsTo(db.user, { 
+  foreignKey: { 
+     name: "user_id", 
+     allowNull: false 
+  }, 
+  onDelete: 'CASCADE' 
+});
 db.review.belongsTo(db.movie, { foreignKey: { name: "movie_id", allowNull: false } });
 
 // Relate booking to user

@@ -35,11 +35,14 @@ async function createUser(user) {
 }
 
 async function updateUserById(id, updatedUserData) {
+  try {
     const response = await axios.put(API_HOST + `/api/user/${id}`, updatedUserData);
-  
-  return response.data;
+    return response.data;
+  } catch (error) {
+    console.error("Error updating user:", error);
+    throw error; // Propagate the error to be handled by the calling function
+  }
 }
-
   async function deleteUserById(id) {
     const response = await axios.delete(API_HOST + `/api/user/${id}`);
   

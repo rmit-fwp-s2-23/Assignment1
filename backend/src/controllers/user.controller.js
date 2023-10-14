@@ -93,6 +93,7 @@ exports.deleteUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const userId = req.params.id;
   const { name, email, password } = req.body; // Assuming you send the updated data in the request body
+  console.log(req.body);
 
   try {
     const user = await db.user.findByPk(userId);
