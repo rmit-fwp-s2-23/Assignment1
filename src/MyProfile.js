@@ -5,6 +5,8 @@ import {
   updateUserById,
   deleteUserById,
   deleteReviewById,
+  getAllBookings,
+  getMovieByName
 } from "./repository2";
 
 function MyProfile(props) {
@@ -73,12 +75,47 @@ function MyProfile(props) {
     }
   };
 
+  const [userBookings, setUserBookings] = useState([]); // New state to hold user bookings
+
+  useEffect(() => {
+    const fetchUserBookings = async () => {
+      try {
+        const allBookings = await getAllBookings();
+        const filteredBookings = allBookings.filter(
+          (booking) => booking.user_id === props.userId
+        );
+        setUserBookings(filteredBookings);
+      } catch (error) {
+        console.error("Error fetching user bookings:", error);
+      }
+    };
+
+    fetchUserBookings();
+  }, [props.userId]); // Dependency array includes props.userId to refetch when it changes
+
+  const [movieNames, setMovieNames] = useState({});
+
+  useEffect(() => {
+      async function fetchMovieNames() {
+          const newMovieNames = {};
+          for (const booking of userBookings) {
+              const movie = await getMovieByName(booking.movie_id);
+              newMovieNames[booking.movie_id] = movie.name;
+          }
+          setMovieNames(newMovieNames);
+      }
+
+      fetchMovieNames();
+  }, [userBookings]);
+
+
 
   return (
     <div className="my-profile-container">
-      <div className="profile-box">
-        <h1 className="display-4">My Profile</h1>
-        {isEditing ? (
+        <div className="profile-box">
+            <h1 className="display-4">My Profile</h1>
+            {isEditing ? (
+                <div>
           <div>
             <label>
               Name:
@@ -106,28 +143,40 @@ function MyProfile(props) {
             </label>
             <button onClick={handleSave}>Save</button>
           </div>
-        ) : (
-          <div className="user-details">
-            <div className="user-detail-box">
-              <strong>User Details:</strong>
-              <p>Name: {userDetails.name}</p>
-              <p>Email: {userDetails.email}</p>
-              <p>Username: {userDetails.username}</p>
-              <p>Sign Up Date: {userDetails.createdAt}</p>
-            </div>
-            <button
-              style={{ marginRight: "10px" }}
-              onClick={() => setIsEditing(true)}
-            >
-              Edit
-            </button>
+                </div>
+            ) : (
+                <div className="user-details">
+                    <div className="user-detail-box">
+                        <strong>User Details:</strong>
+                        <p>Name: {userDetails.name}</p>
+                        <p>Email: {userDetails.email}</p>
+                        <p>Username: {userDetails.username}</p>
+                        <p>Sign Up Date: {userDetails.createdAt}</p>
+                    </div>
+                    <button style={{ marginRight: "10px" }} onClick={() => setIsEditing(true)}>Edit</button>
+                    <button onClick={handleDeleteAccount}>Delete Account</button>
+                </div>
+            )}
 
-            <button onClick={handleDeleteAccount}>Delete Account</button>
-          </div>
-        )}
-      </div>
+            {/* New Section for displaying booked seats */}
+            <div className="user-bookings-section">
+                <h2>Your Bookings</h2>
+                {userBookings && userBookings.length > 0 ? (
+                    userBookings.map((booking, index) => (
+                        <div key={index}>
+                            <p>Movie: {movieNames[booking.movie_id]}</p>
+                            <p>Seats Booked: {booking.seat}</p>
+                            {/* Add more details as needed */}
+                        </div>
+                    ))
+                ) : (
+                    <p>You have no bookings.</p>
+                )}
+            </div>
+        </div>
     </div>
-  );
+);
+
 }
 
 export default MyProfile;
