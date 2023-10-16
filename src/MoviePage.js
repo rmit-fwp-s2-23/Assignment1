@@ -10,7 +10,6 @@ import ReviewPopup from "./ReviewPopup"; // Include 'src/' in the import path
 import "./ReservationPopup.css"; // Include 'src/' in the import path
 
 function MoviePage(props) {
-  console.log("Props received by MoviePage:", props);
   let totalReviewsIndex = 0;
   let totalReviewsNum = 0;
 
@@ -98,10 +97,9 @@ const suburbs = [
   const [newReview, setNewReview] = useState("");
   const [newRating, setNewRating] = useState(5); // Default rating
   const [newReviewID, setNewReviewID] = useState(null); // Default review_id
-  const [newMovieID, setNewMovieID] = useState(null); // Default movie_id
-  const [newUserID, setNewUserID] = useState(null); // Default user_id
+  const [newMovieID, setNewMovieID] = useState(movie.movie_id); // Default movie_id
+  const [newUserID, setNewUserID] = useState(props.user_id); // Default user_id
   
-
   // Handle change in review text area
   const handleReviewChange = (value) => {
     const unprivilegedEditor = reactQuillRef.current.unprivilegedEditor;
@@ -112,9 +110,12 @@ const suburbs = [
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
 
+
 const handleReviewSubmit = () => {
   // Check for review length
   if (count <= 600 && count > 0 && newReview.trim() !== "") {
+
+    console.log(newUserID + "   " + newMovieID)
     const reviewData = {
       rating: newRating,
       review: newReview,
@@ -128,29 +129,21 @@ const handleReviewSubmit = () => {
         .then(() => {
           alert("Review Updated Successfully");
           fetchReviews();
-          setNewReview("");
-          console.log("This is review update" + reviewData);
         })
         .catch((error) => {
           console.error("Error updating review:", error);
           alert("Failed to update review. Please try again.");
-          setNewReview("");
-          console.log("This is review update" + reviewData);
         });
-    } else {
+    } else { 
       // If not in edit mode, create a new review
       createReview(reviewData)
         .then(() => {
           alert("Review Created Successfully");
           fetchReviews();
-          setNewReview("");
-          console.log("This is review create" + reviewData);
         })
         .catch((error) => {
           console.error("Error creating review:", error);
           alert("Failed to create a review. Please try again.");
-          setNewReview("");
-          console.log("ERROR" + reviewData);
         });
     }
 
@@ -192,8 +185,6 @@ const handleReviewSubmit = () => {
 
     const {rating, review, review_id, user_id, movie_id } = reviews[index];
 
-    console.log("Review EDIT: " + rating + review + review_id + + user_id + movie_id)
-
     // Set the new review and rating state to the current review and rating
     setNewReview(review);
     setNewRating(rating);
@@ -214,8 +205,6 @@ const handleReviewSubmit = () => {
     // Delete the review from the repository
 
     const {rating, review, review_id, user_id, movie_id } = reviews[index];
-
-    console.log("This is review id", review_id)
 
     const deleteCheck = deleteReview(review_id);
 
@@ -266,7 +255,7 @@ const handleReviewSubmit = () => {
             time: time,
             seat: seats
         };
-        console.log("Booking data:", bookingData);
+
         const newBooking = await createBooking(bookingData);
         
         if (newBooking) {
@@ -275,7 +264,7 @@ const handleReviewSubmit = () => {
             // Refetch bookings from the database
             const allBookings = await getAllBookings();
             setBookings(allBookings);
-            console.log('Updated bookings:', allBookings);
+
 
         } else {
             alert("Failed to reserve seats.");
@@ -308,7 +297,6 @@ const handleReviewSubmit = () => {
                                     className='movie-time' 
                                     onClick={() => { 
                                         setSelectedSessionTime(time); 
-                                        console.log("Selected time:", time);
                                         handleMovieTime();
                                     }}
                                 > 
@@ -364,12 +352,9 @@ const handleReviewSubmit = () => {
 
       <div className="movie-container4">
   <div className="reviews-box">
-    {console.log("this is review length " + reviews.length)}
-    {console.log("reviews " + reviews)}
+
     {reviews.length > 0 ? (
       reviews?.map((rev, index) => {
-        const { rating, review, user_id } = rev.rating;
-        {console.log("Review rating: " + rev.rating + " Review review: " + rev.review + " Review user_id : " + rev.user_id)}
 
         totalReviewsNum += parseInt(rev.rating);
         totalReviewsIndex += 1;
@@ -379,7 +364,7 @@ const handleReviewSubmit = () => {
               {props.username}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
             </div>
             <p className="rating">Rating: {rev.rating}/5</p>
-            {console.log("User Id: ", props.user_id, " Review user Id ", rev.user_id)}
+
             {rev.user_id === props.user_id && (
               <div>
                 <button
