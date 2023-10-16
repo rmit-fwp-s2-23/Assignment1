@@ -2,7 +2,7 @@ import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
-import {createReview, deleteReview, getReviewByMovie, getAllBookings, createBooking} from "./repository2.js"
+import {updateReview, createReview, deleteReview, getReviewByMovie, getAllBookings, createBooking} from "./repository2.js"
 import ReservationPopup from './ReservationPopup';
 import "./Reviews.css"; // Include 'src/' in the import path
 import { useLocation} from "react-router-dom";
@@ -97,6 +97,10 @@ const suburbs = [
   // State for new review and rating
   const [newReview, setNewReview] = useState("");
   const [newRating, setNewRating] = useState(5); // Default rating
+  const [newReviewID, setNewReviewID] = useState(null); // Default review_id
+  const [newMovieID, setNewMovieID] = useState(null); // Default movie_id
+  const [newUserID, setNewUserID] = useState(null); // Default user_id
+  
 
   // Handle change in review text area
   const handleReviewChange = (value) => {
@@ -105,38 +109,64 @@ const suburbs = [
     setCount(unprivilegedEditor.getLength() - 1);
   };
 
-  // Handle submitting a new review
-  const handleReviewSubmit = () => {
-    // Check for review length
-    if (count <= 600 && count > 0 && newReview.trim() !== "") {
-      const reviewData = {
-        rating: newRating,
-        review: newReview,
-        user_id: props.user_id,
-        movie_id: movie.movie_id,
-      }
-      createReview(reviewData);
-      setNewReview("");
-      setNewRating(5);
-      setButtonPopup(false);
-      setCount(0);
-    } else if (count === 0 || newReview.trim() == 0) {
-      setErrorMessage("Please enter a review.");
-    } else if (count > 600) {
-      setErrorMessage(
-        "Please enter a review that is less than 600 characters."
-      );
+  const [editMode, setEditMode] = useState(false);
+  const [editIndex, setEditIndex] = useState(null);
+
+const handleReviewSubmit = () => {
+  // Check for review length
+  if (count <= 600 && count > 0 && newReview.trim() !== "") {
+    const reviewData = {
+      rating: newRating,
+      review: newReview,
+      review_id: newReviewID,
+      user_id: newUserID,
+      movie_id: newMovieID,
+    };
+
+    if (editMode) {
+      updateReview(reviewData)
+        .then(() => {
+          alert("Review Updated Successfully");
+          fetchReviews();
+          setNewReview("");
+          console.log("This is review update" + reviewData);
+        })
+        .catch((error) => {
+          console.error("Error updating review:", error);
+          alert("Failed to update review. Please try again.");
+          setNewReview("");
+          console.log("This is review update" + reviewData);
+        });
+    } else {
+      // If not in edit mode, create a new review
+      createReview(reviewData)
+        .then(() => {
+          alert("Review Created Successfully");
+          fetchReviews();
+          setNewReview("");
+          console.log("This is review create" + reviewData);
+        })
+        .catch((error) => {
+          console.error("Error creating review:", error);
+          alert("Failed to create a review. Please try again.");
+          setNewReview("");
+          console.log("ERROR" + reviewData);
+        });
     }
 
-
-    if (reviews) {
-      alert("Review Successful")
-      fetchReviews();
-    }
-    else {
-      alert("Please try again")
-    }
-  };
+    // Reset the form and state
+    setNewReview("");
+    setNewRating(5);
+    setButtonPopup(false);
+    setEditMode(false);
+    setEditIndex(null);
+    setCount(0);
+  } else if (count === 0 || newReview.trim() === "") {
+    setErrorMessage("Please enter a review.");
+  } else if (count > 600) {
+    setErrorMessage("Please enter a review that is less than 600 characters.");
+  }
+};
 
   const handleReview = () => {
     if (props.username) {
@@ -159,16 +189,26 @@ const suburbs = [
   // Handle editing an existing review
   const handleReviewEdit = (index) => {
     // Get the review to be edited
-    const reviewToEdit = reviews[index];
+
+    const {rating, review, review_id, user_id, movie_id } = reviews[index];
+
+    console.log("Review EDIT: " + rating + review + review_id + + user_id + movie_id)
 
     // Set the new review and rating state to the current review and rating
-    setNewReview(reviewToEdit.review);
-    setNewRating(reviewToEdit.rating);
+    setNewReview(review);
+    setNewRating(rating);
+    setNewReviewID(review_id);
+    setNewUserID(user_id);
+    setNewMovieID(movie_id);
+
+    // Set a flag to indicate that we're in edit mode
+    setEditMode(true);
+
+    // Store the index of the review being edited
+    setEditIndex(index);
     setButtonPopup(true);
-
-    fetchReviews();
-  };
-
+  }
+  
   // Handle deleting a review
   const handleReviewDelete = (index) => {
     // Delete the review from the repository

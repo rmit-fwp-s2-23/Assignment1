@@ -39,32 +39,30 @@ exports.getReviewByMovie = async (req, res) => {
 
 // Update a review by ID.
 exports.updateReview = async (req, res) => {
-  const reviewId = req.params.id;
-  const { movie_id, user_id, rating, review } = req.body;
+  const { rating, review, review_id, user_id, movie_id } = req.body; 
 
   try {
-    const review = await db.review.findByPk(reviewId);
+    const existingReview = await db.review.findByPk(review_id);
 
-    if (!review) {
+    if (!existingReview) {
       return res.status(404).json({ error: "Review not found" });
     }
 
     // Update the review data with the new values
-    review.movie_id = movie_id;
-    review.user_id = user_id;
-    review.rating = rating;
-    review.review = review;
+    existingReview.rating = rating;
+    existingReview.review = review;
+    existingReview.user_id = user_id;
+    existingReview.movie_id = movie_id;
 
     // Save the updated review data
-    await review.save();
+    await existingReview.save();
 
-    res.json(review);
+    res.json(existingReview);
   } catch (error) {
     console.error("Error updating review:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
 exports.deleteReview = async (req, res) => {
   const review_id = req.params.review_id;
 

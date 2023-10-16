@@ -86,8 +86,8 @@ async function getAllReviews() {
   }
   
   
-  async function updateReviewById(id, updatedReviewData) {
-    const response = await axios.put(API_HOST + `/api/reviews/${id}`, updatedReviewData);
+  async function updateReview(updatedReviewData) {
+    const response = await axios.put(API_HOST + `/api/reviews`, updatedReviewData);
   
     return response.data;
   }
@@ -179,7 +179,7 @@ async function getAllBookings() {
   
   export {
     verifyUser, getUserById, createUser, updateUserById, deleteUserById, getAllUsers,
-    getAllReviews, getReviewByMovie, createReview, updateReviewById, deleteReview,
+    getAllReviews, getReviewByMovie, createReview, updateReview, deleteReview,
     getAllMovies, getMovieByName, createMovie, updateMovieById, deleteMovieById,
     getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById, getUser, removeUser, setUser
   };

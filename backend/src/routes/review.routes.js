@@ -11,7 +11,7 @@ module.exports = (app) => {
   router.get("/:movie_id", controller.getReviewByMovie);
 
   // Update a review by ID.
-  router.put("/:id", controller.updateReview);
+  router.put("/", controller.updateReview);
 
   // Delete a review by user_id and movie_id.
   router.delete("/:review_id", controller.deleteReview);
