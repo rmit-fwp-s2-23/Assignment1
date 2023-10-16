@@ -11,13 +11,16 @@ router.get('/', controller.getAllMovies);
 router.post('/', controller.createMovie);
 
 // Retrieve a single movie by Name.
-router.get('/:name', controller.getMovieByName);
+router.get('/name/:name', controller.getMovieByName);
 
 // Update a movie by ID.
 router.put('/:id', controller.updateMovie);
 
 // Delete a movie by ID.
 router.delete('/:id', controller.deleteMovie);
+
+// Retrieve a single movie by ID.
+router.get('/id/:id', controller.getMovieById);
 
   // Add routes to server.
   app.use("/api/movie", router);

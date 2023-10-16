@@ -6,7 +6,7 @@ import {
   deleteUserById,
   deleteReviewById,
   getAllBookings,
-  getMovieByName
+  getMovieById
 } from "./repository2";
 
 function MyProfile(props) {
@@ -96,87 +96,106 @@ function MyProfile(props) {
   const [movieNames, setMovieNames] = useState({});
 
   useEffect(() => {
-      async function fetchMovieNames() {
-          const newMovieNames = {};
-          for (const booking of userBookings) {
-              const movie = await getMovieByName(booking.movie_id);
-              newMovieNames[booking.movie_id] = movie.name;
-          }
-          setMovieNames(newMovieNames);
-      }
+    const fetchMovieNames = async () => {
+        const newMovieNames = {};
+        for (const booking of userBookings) {
+            try {
+                // Assuming you have a getMovieById function
+                const movie = await getMovieById(booking.movie_id); 
+                newMovieNames[booking.movie_id] = movie.name;
+            } catch (error) {
+                console.error("Error fetching movie name:", error);
+            }
+        }
+        setMovieNames(newMovieNames);
+    };
 
-      fetchMovieNames();
-  }, [userBookings]);
+    if (userBookings.length > 0) {
+        fetchMovieNames();
+    }
+}, [userBookings]);
 
 
 
-  return (
-    <div className="my-profile-container">
-        <div className="profile-box">
-            <h1 className="display-4">My Profile</h1>
-            {isEditing ? (
-                <div>
-          <div>
-            <label>
-              Name:
-              <input
-                name="name"
-                value={userDetails.name}
-                onChange={handleInputChange}
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                name="email"
-                value={userDetails.email}
-                onChange={handleInputChange}
-              />
-            </label>
-            <label>
-              Password:
-              <input
-                name="password"
-                value={userDetails.password}
-                onChange={handleInputChange}
-              />
-            </label>
-            <button onClick={handleSave}>Save</button>
+return (
+  <div className="my-profile-container">
+    <div className="profile-box">
+      <h1 className="display-4">My Profile</h1>
+      {isEditing ? (
+        <div>
+<div>
+  <label>
+    Name:
+    <input
+      name="name"
+      value={userDetails.name}
+      onChange={handleInputChange}
+    />
+  </label>
+  <label>
+    Email:
+    <input
+      name="email"
+      value={userDetails.email}
+      onChange={handleInputChange}
+    />
+  </label>
+  <label>
+    Password:
+    <input
+      name="password"
+      value={userDetails.password}
+      onChange={handleInputChange}
+    />
+  </label>
+  <button onClick={handleSave}>Save</button>
+</div>
+      </div>
+      ) : (
+        <div className="user-details">
+          <div className="user-detail-box">
+            <strong>User Details:</strong>
+            <p>Name: {userDetails.name}</p>
+            <p>Email: {userDetails.email}</p>
+            <p>Username: {userDetails.username}</p>
+            <p>Sign Up Date: {userDetails.createdAt}</p>
           </div>
-                </div>
-            ) : (
-                <div className="user-details">
-                    <div className="user-detail-box">
-                        <strong>User Details:</strong>
-                        <p>Name: {userDetails.name}</p>
-                        <p>Email: {userDetails.email}</p>
-                        <p>Username: {userDetails.username}</p>
-                        <p>Sign Up Date: {userDetails.createdAt}</p>
-                    </div>
-                    <button style={{ marginRight: "10px" }} onClick={() => setIsEditing(true)}>Edit</button>
-                    <button onClick={handleDeleteAccount}>Delete Account</button>
-                </div>
-            )}
-
-            {/* New Section for displaying booked seats */}
-            <div className="user-bookings-section">
-                <h2>Your Bookings</h2>
-                {userBookings && userBookings.length > 0 ? (
-                    userBookings.map((booking, index) => (
-                        <div key={index}>
-                            <p>Movie: {movieNames[booking.movie_id]}</p>
-                            <p>Seats Booked: {booking.seat}</p>
-                            {/* Add more details as needed */}
-                        </div>
-                    ))
-                ) : (
-                    <p>You have no bookings.</p>
-                )}
-            </div>
+          <button style={{ marginRight: "10px" }} onClick={() => setIsEditing(true)}>Edit</button>
+          <button onClick={handleDeleteAccount}>Delete Account</button>
         </div>
+      )}
+
+      <div className="profile-box">
+        <h2 className="display-4">My Bookings</h2>
+        {userBookings && userBookings.length > 0 ? (
+          <table className="bookings-table">
+            <thead>
+              <tr>
+                <th>Movie</th>
+                <th>Seats Booked</th>
+                <th>Session</th>
+                <th>Suburb</th>
+                {/* Add more headers as needed */}
+              </tr>
+            </thead>
+            <tbody>
+              {userBookings.map((booking, index) => (
+                <tr key={index}>
+                  <td>{movieNames[booking.movie_id]}</td>
+                  <td>{booking.seat}</td>
+                  <td>{booking.time}</td>
+                  <td>{booking.suburb}</td>
+                  {/* Add more cells as needed */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>You have no bookings.</p>
+        )}
+      </div>
     </div>
+  </div>
 );
-
-}
-
+        }
 export default MyProfile;

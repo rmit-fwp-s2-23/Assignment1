@@ -221,6 +221,8 @@ const handleReviewSubmit = () => {
       const [reservationPopup, setReservationPopup] = useState(false);
       const [selectedSessionTime, setSelectedSessionTime] = useState(null);
       const [bookings, setBookings] = useState([]);
+      const [selectedSuburb, setSelectedSuburb] = useState(null);
+
   
       useEffect(() => {
           // Fetch all bookings
@@ -231,7 +233,7 @@ const handleReviewSubmit = () => {
           fetchBookings();
       }, []);
   
-      const handleReserveSeats = async (time, seats) => {
+      const handleReserveSeats = async (time, seats, suburb) => {
         let seatNumber = parseInt(seats, 10); // Convert string to number
         // Calculate already reserved seats for this session
         const alreadyReserved = bookings.filter(booking => booking.time === time).reduce((acc, curr) => acc + parseInt(curr.seat, 10), 0);
@@ -253,7 +255,8 @@ const handleReviewSubmit = () => {
             movie_id: movie.movie_id,
             user_id: props.user_id, 
             time: time,
-            seat: seats
+            seat: seats,
+            suburb: suburb
         };
 
         const newBooking = await createBooking(bookingData);
@@ -298,6 +301,7 @@ const handleReviewSubmit = () => {
                                     onClick={() => { 
                                         setSelectedSessionTime(time); 
                                         handleMovieTime();
+                                        setSelectedSuburb(suburb.suburb); 
                                     }}
                                 > 
                                     {time}
@@ -317,6 +321,7 @@ const handleReviewSubmit = () => {
           setTrigger={setReservationPopup} 
           selectedSessionTime={selectedSessionTime}
           handleReserveSeats={handleReserveSeats} 
+          selectedSuburb={selectedSuburb}
         />
       </div>
 

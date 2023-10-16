@@ -13,7 +13,7 @@ exports.getAllBookings = async (req, res) => {
 
 // Create a new booking.
 exports.createBooking = async (req, res) => {
-  const { movie_id, user_id, time, seat } = req.body;
+  const { movie_id, user_id, time, seat, suburb } = req.body;
 
   try {
     const newBooking = await db.booking.create({
@@ -21,6 +21,7 @@ exports.createBooking = async (req, res) => {
       user_id,
       time,
       seat,
+      suburb
     });
 
     res.json(newBooking);
@@ -65,6 +66,7 @@ exports.updateBooking = async (req, res) => {
     booking.user_id = user_id;
     booking.time = time;
     booking.seat = seat;
+    booking.suburb = suburb;
 
     // Save the updated booking data
     await booking.save();

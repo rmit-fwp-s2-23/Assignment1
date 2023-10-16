@@ -19,5 +19,10 @@ module.exports = (sequelize, DataTypes) =>
     seat: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    suburb: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
+
   });
