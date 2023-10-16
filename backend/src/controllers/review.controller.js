@@ -66,24 +66,15 @@ exports.updateReview = async (req, res) => {
 };
 
 exports.deleteReview = async (req, res) => {
+  const review_id = req.params.review_id;
 
-  const {rating, review, review_id, user_id, movie_id } = req.body.rating;
-
-  try {
     const review = await db.review.findByPk(review_id);
 
-    if (!review) {
-      return res.status(404).json({ error: "Review not found" });
-    }
-
-    // Delete the review from the database
+    // Delete the user from the database
     await review.destroy();
 
     res.json({ message: "Review deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting review:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
+    return true;
 };
 
 

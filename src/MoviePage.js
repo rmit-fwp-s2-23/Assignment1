@@ -166,10 +166,7 @@ const suburbs = [
     setNewRating(reviewToEdit.rating);
     setButtonPopup(true);
 
-    // Remove the review from the reviews array
-    const updatedReviews = [...reviews];
-    updatedReviews.splice(index, 1);
-    setReviews(updatedReviews);
+    fetchReviews();
   };
 
   // Handle deleting a review
@@ -179,12 +176,16 @@ const suburbs = [
     const {rating, review, review_id, user_id, movie_id } = reviews[index];
 
     console.log("This is review id", review_id)
-    deleteReview(review_id);
 
-    // Remove the review from the reviews array
-    const updatedReviews = [...reviews];
-    updatedReviews.splice(index, 1);
-    setReviews(updatedReviews);
+    const deleteCheck = deleteReview(review_id);
+
+    if (deleteCheck) {
+      alert("Delete Successful")
+      fetchReviews();
+    }
+    else {
+      alert("Please try again")
+    }
   };
 
       // States for reservation

@@ -91,9 +91,10 @@ async function getAllReviews() {
   
     return response.data;
   }
+
   
   async function deleteReview(review_id) {
-    const response = await axios.delete(`${API_HOST}/api/reviews/${review_id}`);
+    const response = await axios.delete(API_HOST + `/api/reviews/${review_id}`);
   
     return response.data;
   }
