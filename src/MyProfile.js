@@ -175,7 +175,6 @@ return (
                 <th>Seats Booked</th>
                 <th>Session</th>
                 <th>Suburb</th>
-                {/* Add more headers as needed */}
               </tr>
             </thead>
             <tbody>
@@ -185,7 +184,6 @@ return (
                   <td>{booking.seat}</td>
                   <td>{booking.time}</td>
                   <td>{booking.suburb}</td>
-                  {/* Add more cells as needed */}
                 </tr>
               ))}
             </tbody>
