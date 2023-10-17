@@ -49,6 +49,7 @@ function Content() {
       <div className="search">
         {/* Input for searching movies */}
         <input
+          data-testid="search-input"
           name="inputMovie"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
