@@ -4,10 +4,10 @@ const Sequelize = require("sequelize");
 
 const app = express();
 
+
 var corsOptions = {
   origin: function (origin, callback) {
-    const allowedOrigins = ["http://localhost:3000", "http://localhost:8081", "http://localhost:3001", "http://localhost:3002"];
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (origin.startsWith("http://localhost")) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));

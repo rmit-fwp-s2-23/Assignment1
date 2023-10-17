@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Content from "./Content";
-import { getAllMovies } from "./repository2";
+import { getAllReviews,  } from "./repository2";
 
 beforeEach(() => {
   render(<Content />);

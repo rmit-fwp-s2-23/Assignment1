@@ -15,6 +15,7 @@ function Content() {
     if (!title) {
       try {
         const allMoviesResponse = await getAllMovies();
+        console.log(allMoviesResponse);
         setMovies(allMoviesResponse);
       } catch (error) {
         console.error("Error fetching all movies:", error);
@@ -66,9 +67,9 @@ function Content() {
       </div>
 
       {movies ? (
-        <div className="container">
+        <div className="container" data-testid={"movies-card"} >
           {movies.map((movie) => (
-           <MovieCard movie={movie} key={movie.movie_id} />))}
+           <MovieCard movie={movie} key={movie.movie_id}/>))}
         </div>
       ) : (
         <div className="empty">
