@@ -95,6 +95,7 @@ function Signup(props) {
             <div className="form-group">
               <label htmlFor="name">Name</label>
               <input
+                id="name"
                 name="name"
                 className="form-control"
                 value={fields.name}
@@ -104,6 +105,7 @@ function Signup(props) {
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
+                id="email"
                 name="email"
                 type="email"
                 className="form-control"
@@ -123,6 +125,7 @@ function Signup(props) {
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
+                id="password"
                 type="password"
                 name="password"
                 className="form-control"
@@ -133,6 +136,7 @@ function Signup(props) {
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <input
+                id="confirmPassword"
                 type="password"
                 name="confirmPassword"
                 className="form-control"
@@ -140,7 +144,7 @@ function Signup(props) {
                 onChange={handleInputChange}
               />
             </div>
-            <button type="submit" className="btn-primary">
+            <button type="Signup" className="btn-primary" data-testid="Signup"> 
               Signup
             </button>
           </form>
