@@ -22,6 +22,23 @@ exports.getUserById = async (req, res) => {
   }
 };
 
+exports.getUserNameById = async (req, res) => {
+  try {
+    const user = await db.user.findByPk(req.params.id, {
+      attributes: ['name'] 
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user.name);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
 // Select one user from the database if username and password are a match.
 exports.login = async (req, res) => {
   // Retrieve email and password from the request body

@@ -13,6 +13,9 @@ router.get('/', controller.getAllUsers);
 // Retrieve a single user by ID.
 router.get('/:id', controller.getUserById);
 
+// Retrieve a single user name by ID.
+router.get('/:id', controller.getUserNameById);
+
 // Update a user by ID.
 router.put('/:id', controller.updateUser);
 
