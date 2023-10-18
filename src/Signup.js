@@ -74,6 +74,7 @@ function Signup(props) {
       setUser(newUser);
 
       props.loginUser(fields.username);
+      setSuccessMessage("Registration successful!")
       alert("Registration successful! You're now logged in.");
       navigate("/");
     } catch (error) {
@@ -116,6 +117,7 @@ function Signup(props) {
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
+                id="username"
                 name="username"
                 className="form-control"
                 value={fields.username}
@@ -144,7 +146,7 @@ function Signup(props) {
                 onChange={handleInputChange}
               />
             </div>
-            <button type="Signup" className="btn-primary" data-testid="Signup"> 
+            <button type="Signup" className="btn-primary" data-testid="Signup">
               Signup
             </button>
           </form>
