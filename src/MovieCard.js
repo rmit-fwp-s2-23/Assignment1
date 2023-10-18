@@ -11,7 +11,7 @@ function MovieCard({ movie: { movie_id, image, name, year } }) {
   };
 
   return (
-    <div className="movie" key={movie_id}>
+    <div className="movie" key={movie_id} data-testid="search-movie">
       <div>
         <p>{year}</p>
       </div>

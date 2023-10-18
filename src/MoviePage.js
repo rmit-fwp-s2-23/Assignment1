@@ -2,7 +2,7 @@ import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
-import {getUserById, updateReview, createReview, deleteReview, getReviewByMovie, getAllBookings, createBooking} from "./repository2.js"
+import {getUserNameById, updateReview, createReview, deleteReview, getReviewByMovie, getAllBookings, createBooking} from "./repository2.js"
 import ReservationPopup from './ReservationPopup';
 import "./Reviews.css"; // Include 'src/' in the import path
 import { useLocation} from "react-router-dom";
@@ -74,7 +74,6 @@ const suburbs = [
 
   const { movie } = location.state;
   const [reviews, setReviews] = useState([]);
-  const [userNames, setUserNames] = useState({});
   const [buttonPopup, setButtonPopup] = useState(false);
   const [count, setCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -90,25 +89,26 @@ const suburbs = [
         console.error("Error fetching reviews:", error);
       }
     }
+    const [usernames, setUsernames] = useState([]);
 
+    async function fetchUsernames(userIds) {
+      try {
+        const usernamePromises = userIds.map(userId => getUserNameById(userId));
+        const usernameResponses = await Promise.all(usernamePromises);
+        console.log("Username Responses "+ usernameResponses)
+        setUsernames(usernameResponses);
+      } catch (error) {
+        console.error("Error fetching usernames:", error);
+      }
+    }
 
-    // const fetchUserNames = async () => {
-    //   const newUserNames = {};
-    //   for (const rev of reviews) {
-    //     try {
-    //       const user = await getUserById(rev.user_id);
-    //       newUserNames[rev.user_id] = user.name;
-    //     } catch (error) {
-    //       setUserNames({});
-    //       console.error("Error fetching user name:", error);
-    //     }
-    //   }
-    //   setUserNames(newUserNames);
-    // };
-  
+    useEffect(() => {
+      const userIds = reviews.map(rev => rev.user_id);
+      fetchUsernames(userIds);
+    }, [reviews]);
+
     useEffect(() => {
         fetchReviews();
-        // fetchUserNames(); 
       }, []);
     
   // State for new review and rating
@@ -147,7 +147,6 @@ const handleReviewSubmit = () => {
         .then(() => {
           alert("Review Updated Successfully");
           fetchReviews();
-          // fetchUserNames();
         })
         .catch((error) => {
           console.error("Error updating review:", error);
@@ -159,7 +158,6 @@ const handleReviewSubmit = () => {
         .then(() => {
           alert("Review Created Successfully");
           fetchReviews();
-          // fetchUserNames();
         })
         .catch((error) => {
           console.error("Error creating review:", error);
@@ -231,7 +229,6 @@ const handleReviewSubmit = () => {
     if (deleteCheck) {
       alert("Delete Successful")
       fetchReviews();
-      // fetchUserNames();
     }
     else {
       alert("Please try again")
@@ -387,7 +384,8 @@ const handleReviewSubmit = () => {
         return (
           <div key={index} className="reviews-container">
             <div className="review-title">
-            {rev.user_id ? `${rev.user_id}` : "Unknown User"}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
+              {console.log("Username at index " + usernames[index])}
+              {usernames[index] ? `${usernames[index].name}` : "Unknown User"}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
             </div>
             <p className="rating">Rating: {rev.rating}/5</p>
 

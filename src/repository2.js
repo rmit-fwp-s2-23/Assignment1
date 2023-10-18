@@ -22,6 +22,13 @@ async function getAllUsers() {
     return response.data;
   }
 
+async function getUserNameById(id) {
+  const response = await axios.get(API_HOST + `/api/user/${id}`);
+
+  return response.data;
+}
+
+
 async function getUserById(id) {
   const response = await axios.get(API_HOST + `/api/user/${id}`);
 
@@ -183,7 +190,7 @@ async function getAllBookings() {
   }
   
   export {
-    verifyUser, getUserById, createUser, updateUserById, deleteUserById, getAllUsers,
+    verifyUser, getUserById, createUser, updateUserById, deleteUserById, getAllUsers, getUserNameById,
     getAllReviews, getReviewByMovie, createReview, updateReview, deleteReview,
     getAllMovies, getMovieByName, getMovieById, createMovie, updateMovieById, deleteMovieById,
     getAllBookings, getBookingById, createBooking, updateBookingById, deleteBookingById, getUser, removeUser, setUser
