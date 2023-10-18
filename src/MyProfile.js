@@ -49,7 +49,7 @@ function MyProfile(props) {
 
   const handleSave = async () => {
     try {
-      await updateUserById(userDetails.user_id, userDetails);
+      await updateUserById(userDetails.user_, userDetails);
       setIsEditing(false);
       alert("Your profile was updated successfully.");
     } catch (error) {
