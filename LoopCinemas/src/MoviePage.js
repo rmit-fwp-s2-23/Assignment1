@@ -309,7 +309,7 @@ const handleReviewSubmit = () => {
                 </p>
                 <div className="timings-container">
                     {suburb.timings.map((time) => {
-                        const reservedSeats = bookings.filter(booking => booking.time === time).reduce((acc, curr) => acc + parseInt(curr.seat, 10), 0);
+                        const reservedSeats = (bookings || []).filter(booking => booking.time === time).reduce((acc, curr) => acc + parseInt(curr.seat, 10), 0);
 
                         return (
                             <div key={time} className='movie-time-container'>
