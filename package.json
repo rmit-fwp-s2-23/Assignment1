@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "express": "*",
+    "express-graphql": "*",
+    "graphql": "*",
+    "mysql2": "*",
+    "nodemon": "*",
+    "sequelize": "*"
+  }
+}
