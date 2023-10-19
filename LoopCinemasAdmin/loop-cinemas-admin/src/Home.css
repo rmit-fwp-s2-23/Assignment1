@@ -1,0 +1,18 @@
+.container {
+    display: grid;
+    place-items: center;
+    padding: 5%;
+}
+
+.home-text {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-bottom: 5%;
+    color: #230444;
+}
+
+.home-image {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+}

@@ -12,10 +12,10 @@ function Navbar() {
       </Link>
 
       <Link to="/">Home</Link>
-      <Link to="/">Reviews</Link>
+      <Link to="/movies">Movies</Link>
+      <Link to="/reviews">Reviews</Link>
       <Link to="/">Bookings</Link>
       <Link to="/">Users</Link>
-      <Link to="/">Movies</Link>
     </div>
   );
 }
