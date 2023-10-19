@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "/Users/ahmadal-kayyali/Assignment1-2/Admin/src/App.css"; // Include 'src/' in the import path
-import "/Users/ahmadal-kayyali/Assignment1-2/Admin/src/Nav.css"; // Include 'src/' in the import path
+import "./App.css"; // Include 'src/' in the import path
+import "./Nav.css"; // Include 'src/' in the import path
 
 function Navbar() {
   return (
