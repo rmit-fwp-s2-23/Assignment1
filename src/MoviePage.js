@@ -78,8 +78,7 @@ const suburbs = [
   const [count, setCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
   const reactQuillRef = React.useRef();
-
-
+  
     async function fetchReviews() {
       try {
         const fetchedReviews = await getReviewByMovie(movie.movie_id);
@@ -345,10 +344,10 @@ const handleReviewSubmit = () => {
 
         
       <div className="movie-container3">
-        <button className="add-review-button" onClick={() => handleReview()}>
+        <button className="add-review-button" onClick={() => handleReview()} data-testid="search-input">
           <h1>Add Your Movie Review</h1>
         </button>
-        <ReviewPopup trigger={buttonPopup} setTrigger={setButtonPopup}>
+        <ReviewPopup trigger={buttonPopup} setTrigger={setButtonPopup} data-testid="rendered-popup">
           <h2 className="write-review-text">Please Enter Your Review Below.</h2>
 
           <div className="quill-container">
