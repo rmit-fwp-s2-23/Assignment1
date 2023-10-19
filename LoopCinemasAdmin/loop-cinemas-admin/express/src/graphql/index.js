@@ -56,7 +56,7 @@ graphql.schema = buildSchema(`
   # Mutations (modify data in the underlying data-source, i.e., the database).
   type Mutation {
     create_movie(input: MovieInput): Movie
-    update_movie(input: MovieInput): Movie
+    update_movie(movie_id: ID, image: String, name: String, year: Int): Movie
     delete_movie(movie_id: ID): Boolean
   }
 `);
@@ -65,11 +65,11 @@ graphql.schema = buildSchema(`
 graphql.root = {
   // Queries.
   all_movies: async () => {
-    return await db.movies.findAll();
+    return await db.movie.findAll();
   },
   // Mutations.
   create_movie: async (args) => {
-    const movie = await db.movies.create({
+    const movie = await db.movie.create({
       image: args.input.image,
       name: args.input.name,
       year: args.input.year
@@ -78,26 +78,25 @@ graphql.root = {
     return movie;
   },
   update_movie: async (args) => {
-    // You should have a method to find the movie by its ID in your database.
-    const movie = await db.movies.findByPk(args.input.movie_id);
-
+    const movie = await db.movie.findByPk(args.movie_id);
+  
     if (!movie) {
       throw new Error("Movie not found");
     }
-
+  
     // Update movie fields.
     movie.image = args.input.image;
     movie.name = args.input.name;
     movie.year = args.input.year;
-
+  
     await movie.save();
-
+  
     return movie;
   },
   delete_movie: async (args) => {
     // You should implement a logic to delete a movie by its ID in your database.
     // Here, I'm assuming you have such a method.
-    const movie = await db.movies.findByPk(args.movie_id);
+    const movie = await db.movie.findByPk(args.movie_id);
   
     if (!movie) {
       throw new Error("Movie not found");

@@ -1,0 +1,9 @@
+
+.movie-container{
+    display: grid;
+    place-items: center;
+}
+.movie-image {
+    width: 100px; /* Set the width of the inserted image */
+    height: 150px; /* Set the height of the inserted image */
+}

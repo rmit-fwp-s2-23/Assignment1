@@ -27,7 +27,13 @@ db.review.belongsTo(db.user, {
   onDelete: 'CASCADE' 
 });
 
-db.review.belongsTo(db.movie, { foreignKey: { name: "movie_id", allowNull: false } });
+db.review.belongsTo(db.movie, {
+  foreignKey: {
+    name: "movie_id",
+    allowNull: false
+  },
+  onDelete: 'CASCADE' // This line sets up cascading deletion
+});
 
 // Relate booking to user
 db.booking.belongsTo(db.user, {foreignKey: {name: "user_id", allowNull: false}});

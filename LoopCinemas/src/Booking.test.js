@@ -4,11 +4,9 @@ import { getReviewByMovie, getAllBookings } from './repository2';
 import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('./repository2', () => ({
-  getAllBookings: jest.fn(() => Promise.resolve([
-    // Add your mock bookings here
-    { time: '8:30 AM', seat: '2' }
-  ])),
-  getReviewByMovie: jest.fn(() => Promise.resolve([{ review: "Great movie!" }]))
+  getReviewByMovie: jest.fn(),
+  getAllBookings: jest.fn(),
+  // Add other functions to mock if necessary
 }));
 
 describe('MoviePage Component', () => {
@@ -16,7 +14,6 @@ describe('MoviePage Component', () => {
     const mockMovie = {
       movie_id: '123',
       name: 'Test Movie',
-      // ... other necessary movie properties ...
     };
 
     render(
