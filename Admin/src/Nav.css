@@ -1,0 +1,91 @@
+.navbar {
+    background: #850E35;
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0; 
+    width: 100%;
+    z-index: 100;
+}
+
+.navbar a {
+    color: #FFF5E4;
+    margin-right: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    transition: 0.2s ease-in;
+    color:#F1DBBF
+}
+
+
+.navbar a:last-child {
+    margin-right: 0;
+}
+
+.logo {
+    font-size: 2.2em;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor:pointer;
+}
+
+
+.login-button {
+    border: none;
+    width: 90px;  
+    height: 50px;     
+    border-radius: 5px;
+    font-size: 15px;     
+    font-weight: 600;
+    background-color: #FFF5E4;
+    cursor: pointer;
+    font-display: center;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+}
+
+.button-div a {
+    background-color: #E76161;  /* Using one of your preferred colors */
+    border: none;
+    padding: 12px 24px;  /* Increased padding */
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    color: #FFF5E4;  /* Font color is white */
+}
+
+.login-button:hover {
+    background-color: #aa5154;  /* Using the other preferred color on hover */
+}
+
+.button-div {
+    flex-grow: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.navbar .button-div span {
+    margin-right: 20px;  /* Add space to the right of the welcome message */
+}
+
+.navbar .button-div a {
+    margin-left: 20px;   /* Add space to the left of the My Profile link */
+}
+
+.username-link a{
+    color: #FFF5E4;  /* Assuming this is the color you want for the link */
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 10px;  /* Add some space between "Welcome," and the username */
+}
+
+.username-link a:hover {
+    color: #a9a397;  /* Assuming this is the color you want for the link */
+}
