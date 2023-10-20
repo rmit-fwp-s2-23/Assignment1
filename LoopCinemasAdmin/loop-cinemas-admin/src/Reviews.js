@@ -17,16 +17,19 @@ function Reviews() {
 
   const handleDeleteReview = async (reviewId) => {
     await deleteReview(reviewId);
+    alert("Delete successful!");
     fetchReviews();
   };
 
   const handleBlockUser = async (userId) => {
     await blockUser(userId);
+    alert("Blocked user successfully.");
     fetchReviews();
   };
 
   const handleUnblockUser = async (userId) => {
     await unblockUser(userId);
+    alert("Unblocked user successfully.");
     fetchReviews();
   };
 
