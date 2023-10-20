@@ -83,16 +83,18 @@ graphql.root = {
     return movie;
   },
   update_movie: async (args) => {
-    const movie = await db.movie.findByPk(args.movie_id);
+    const { movie_id, image, name, year } = args; // Destructure the arguments
+    const movie = await db.movie.findByPk(movie_id);
   
     if (!movie) {
       throw new Error("Movie not found");
     }
   
     // Update movie fields.
-    movie.image = args.input.image;
-    movie.name = args.input.name;
-    movie.year = args.input.year;
+    movie.movie_id = movie_id;
+    movie.image = image;
+    movie.name = name;
+    movie.year = year;
   
     await movie.save();
   
