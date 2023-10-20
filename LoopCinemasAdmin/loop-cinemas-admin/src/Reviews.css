@@ -52,7 +52,20 @@
   }
   
   button:nth-child(6) {
-    background-color: #2ecc71;
+    background-color: red;
+    color: white;
+  }
+  /* Reviews.css */
+.blocked {
+    background-color: red;
     color: white;
   }
   
+  .unblocked {
+    background-color: green;
+    color: white;
+  }
+  .active {
+    background-color: blue;
+    color: white;
+  }

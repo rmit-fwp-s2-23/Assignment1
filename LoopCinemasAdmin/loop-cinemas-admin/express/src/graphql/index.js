@@ -31,6 +31,7 @@ graphql.schema = buildSchema(`
     review_id: ID
     user_id: ID
     movie_id: ID
+    user: User
   }
   
   type User {
@@ -48,6 +49,7 @@ graphql.schema = buildSchema(`
     year: Int
   }
   
+  
 
   # Queries (read-only operations).
   type Query {
@@ -55,6 +57,7 @@ graphql.schema = buildSchema(`
     all_reviews: [Review]
   }
 
+  
   # Mutations (modify data in the underlying data-source, i.e., the database).
   type Mutation {
     delete_review(review_id: ID): Boolean
@@ -132,8 +135,9 @@ graphql.root = {
         throw new Error("Review not found");
       }
       
-      // Mark the review as deleted instead of actually deleting it
+      // Mark the review as deleted and update the text
       review.isDeleted = true;
+      review.review = "[**** This review has been deleted by the admin ***]";
       await review.save();
       
       return true;
@@ -142,7 +146,8 @@ graphql.root = {
       console.error('Error in delete_review resolver:', error);
       throw error;
     }
-  },  
+  },
+  
 
   block_user: async (args) => {
     const user = await db.user.findByPk(args.user_id);
@@ -190,9 +195,11 @@ graphql.root = {
   all_reviews: async () => {
     try {
       const reviews = await db.review.findAll({
-        include: [db.user, db.movie] // Including related user and movie info
+        include: [{
+          model: db.user,
+          attributes: ['name'] // Assuming the username is stored in the 'name' attribute
+        }]
       });
-
       console.log('Reviews fetched:', reviews); // Log the fetched reviews for debugging
       return reviews;
     } catch (error) {

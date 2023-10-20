@@ -70,6 +70,9 @@ async function getReviews() {
         rating
         user_id
         movie_id
+        user {
+          name
+        }
       }
     }
   `;

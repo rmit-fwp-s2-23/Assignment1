@@ -406,18 +406,11 @@ const suburbs = [
         totalReviewsIndex += 1;
         return (
           <div key={index} className="reviews-container">
-                      {/* Check whether the review is deleted */}
-          {rev.isDeleted ? (
-            <p>[**** This review has been deleted by the admin ***]</p>
-          ) : (
-            <>
             <div className="review-title">
               {console.log("Username at index " + usernames[index])}
               {usernames[index] ? `${usernames[index].name}` : "Unknown User"}: {<div dangerouslySetInnerHTML={{ __html: rev.review }} />}
             </div>
             <p className="rating">Rating: {rev.rating}/5</p>
-            </>
-                      )}
             {rev.user_id === props.user_id && (
               <div>
                 <button
