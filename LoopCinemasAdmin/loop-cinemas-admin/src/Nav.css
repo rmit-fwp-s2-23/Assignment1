@@ -1,91 +1,86 @@
+/* Styling for the navigation bar (navbar) */
 .navbar {
-    background: #230444;
-    padding: 50px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    top: 0; 
-    width: 100%;
-    z-index: 100;
+    background: #230444;  /* Set the background color to a dark shade (#230444) */
+    padding: 50px;        /* Add 50px of padding to the navbar */
+    display: flex;        /* Use flex layout for positioning items */
+    justify-content: space-between; /* Space elements horizontally */
+    align-items: center;  /* Center items vertically */
+    position: fixed;      /* Fix the navbar at the top */
+    top: 0;
+    width: 100%;          /* Take the full width of the viewport */
+    z-index: 100;        /* Ensure the navbar appears above other content */
 }
 
+/* Styling for navigation links within the navbar */
 .navbar a {
-    color: #FFF5E4;
-    margin-right: 20px;
-    font-weight: bold;
-    text-decoration: none;
+    color: #FFF5E4;      /* Set the font color to an off-white (#FFF5E4) */
+    margin-right: 20px;  /* Add right margin to create space between links */
+    font-weight: bold;   /* Apply bold font weight */
+    text-decoration: none; /* Remove underlines from links */
 }
 
+/* Styling for link hover effect */
 .navbar a:hover {
-    transition: 0.2s ease-in;
-    color:#F1DBBF
+    transition: 0.2s ease-in; /* Add a smooth transition on hover */
+    color: #F1DBBF;          /* Change the font color on hover to a different shade (#F1DBBF) */
 }
 
-
+/* Styling for the last navigation link (no right margin) */
 .navbar a:last-child {
-    margin-right: 0;
+    margin-right: 0;  /* No right margin for the last link */
 }
 
+/* Styling for the logo in the navbar */
 .logo {
-    font-size: 2.2em;
-    text-transform: uppercase;
-    font-weight: bold;
-    cursor:pointer;
+    font-size: 2.2em;     /* Increase font size */
+    text-transform: uppercase; /* Convert text to uppercase */
+    font-weight: bold;   /* Apply bold font weight */
+    cursor: pointer;     /* Change the cursor to a pointer on hover */
 }
 
-
+/* Styling for the login button */
 .login-button {
-    border: none;
-    width: 90px;  
-    height: 50px;     
-    border-radius: 5px;
-    font-size: 15px;     
-    font-weight: 600;
-    background-color: #FFF5E4;
-    cursor: pointer;
-    font-display: center;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-
+    border: none;        /* Remove the border */
+    width: 90px;
+    height: 50px;
+    border-radius: 5px;  /* Apply rounded corners */
+    font-size: 15px;
+    font-weight: 600;    /* Apply bold font weight */
+    background-color: #FFF5E4; /* Set the background color to an off-white */
+    cursor: pointer;     /* Change the cursor to a pointer on hover */
+    font-display: center; /* Center the font */
+    align-items: center;  /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    display: flex;       /* Use flex layout for positioning */
 }
 
-.button-div a {
-    background-color: #E76161;  /* Using one of your preferred colors */
-    border: none;
-    padding: 12px 24px;  /* Increased padding */
-    border-radius: 4px;
-    transition: background-color 0.3s;
-    color: #FFF5E4;  /* Font color is white */
-}
-
-.login-button:hover {
-    background-color: #aa5154;  /* Using the other preferred color on hover */
-}
-
+/* Styling for the button container div */
 .button-div {
-    flex-grow: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    flex-grow: 0;        /* Prevent the div from growing to fill space */
+    display: flex;       /* Use flex layout for positioning */
+    align-items: center; /* Center items vertically */
+    justify-content: flex-end; /* Align items to the right */
 }
 
+/* Styling for the welcome message */
 .navbar .button-div span {
-    margin-right: 20px;  /* Add space to the right of the welcome message */
+    margin-right: 20px;  /* Add right margin to the welcome message */
 }
 
+/* Styling for the My Profile link */
 .navbar .button-div a {
-    margin-left: 20px;   /* Add space to the left of the My Profile link */
+    margin-left: 20px;   /* Add left margin to the My Profile link */
 }
 
-.username-link a{
-    color: #FFF5E4;  /* Assuming this is the color you want for the link */
-    text-decoration: none;
-    font-weight: bold;
-    margin-left: 10px;  /* Add some space between "Welcome," and the username */
+/* Styling for the username link */
+.username-link a {
+    color: #FFF5E4;     /* Set the font color for the username link */
+    text-decoration: none; /* Remove underlines from the link */
+    font-weight: bold;   /* Apply bold font weight */
+    margin-left: 10px;   /* Add left margin to create space between "Welcome" and the username */
 }
 
+/* Styling for the username link on hover */
 .username-link a:hover {
-    color: #a9a397;  /* Assuming this is the color you want for the link */
+    color: #a9a397;      /* Change the font color on hover to a different shade (#a9a397) */
 }

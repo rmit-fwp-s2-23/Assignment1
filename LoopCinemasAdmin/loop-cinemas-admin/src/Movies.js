@@ -3,7 +3,9 @@ import "./Movies.css";
 import { addMovie, getMovies, updateMovie, deleteMovie } from "./repository.js";
 import PopUp from './PopUp.js';
 
+// Define a functional component for managing movies.
 function Movies() {
+  // State variables for managing movies and pop-up visibility.
   const [movies, setMovies] = useState([]);
   const [buttonPopup, setButtonPopup] = useState(false);
   const [AddbuttonPopup, setAddButtonPopup] = useState(false);
@@ -11,11 +13,10 @@ function Movies() {
   const [editingMovie, setEditingMovie] = useState(null); // State for the currently editing movie
   const [addfields, setAddFields] = useState({ image: "", name: "", year: "" });
 
+  // Function to handle input changes in the edit form.
   const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-
-    console.log(name, value);
 
     setFields((prevFields) => ({
       ...prevFields,
@@ -23,11 +24,10 @@ function Movies() {
     }));
   };
 
+  // Function to handle input changes in the add form.
   const handleAddChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-
-    console.log(name, value);
 
     setAddFields((prevFields) => ({
       ...prevFields,
@@ -35,6 +35,7 @@ function Movies() {
     }));
   };
 
+  // Function to fetch all movies from the server.
   const fetchAllMovies = async () => {
     try {
       const allMovies = await getMovies();
@@ -44,16 +45,19 @@ function Movies() {
     }
   };
 
+  // Effect to fetch movies when the component mounts.
   useEffect(() => {
     fetchAllMovies();
   }, []);
 
+  // Function to handle movie deletion.
   const handleDelete = (movieID) => {
     deleteMovie(movieID);
     alert("Delete successful!");
     fetchAllMovies();
   };
 
+  // Function to initiate the movie editing process.
   const handleEdit = (movie) => {
     setEditingMovie(movie);
     setButtonPopup(true);
@@ -64,6 +68,7 @@ function Movies() {
     });
   };
 
+  // Function to handle the submission of movie edits.
   const handleEditSubmit = () => {
     if (editingMovie) {
       updateMovie({
@@ -79,12 +84,13 @@ function Movies() {
     }
   };
 
+  // Function to handle the initiation of adding a new movie.
   const handleAdd = () => {
     setAddButtonPopup(true);
   };
 
+  // Function to handle the submission of a new movie addition.
   const handleAddSubmit = () => {
-    console.log("handleAddSubmit called");
     const yearInt = parseInt(addfields.year, 10);
 
     if (addfields.image && addfields.name && addfields.year) {
@@ -101,15 +107,18 @@ function Movies() {
     }
   };
 
+  // Render the movies, editing pop-up, and add pop-up.
   return (
     <div className="movie-container">
-      <button className="add-movie-button" onClick={() => handleAdd()}>
+      <button className="button-style" onClick={() => handleAdd()}>
         Add Movie
       </button>
 
+      {/* Pop-up for adding a movie */}
       <PopUp trigger={AddbuttonPopup} setTrigger={setAddButtonPopup}>
         <h2 className="edit-review-text">Please enter the movie details you want to add.</h2>
         <form onSubmit={handleAddSubmit}>
+          {/* Form for adding a movie */}
           <div className="form-group">
             <label htmlFor="image" className="control-label">
               Image
@@ -118,7 +127,7 @@ function Movies() {
               name="image"
               id="image"
               type="text"
-              value={addfields.image} // Use addfields here
+              value={addfields.image}
               className="form-control"
               onChange={handleAddChange}
             />
@@ -131,7 +140,7 @@ function Movies() {
               name="name"
               id="name"
               type="text"
-              value={addfields.name} // Use addfields here
+              value={addfields.name}
               className="form-control"
               onChange={handleAddChange}
             />
@@ -144,17 +153,18 @@ function Movies() {
               name="year"
               id="year"
               type="text"
-              value={addfields.year} // Use addfields here
+              value={addfields.year}
               className="form-control"
               onChange={handleAddChange}
             />
           </div>
           <div className="submit-add">
-            <button type="submit" onClick={handleAddSubmit}>Add Movie</button>
+            <button className="button-style" type="submit" onClick={handleAddSubmit}>Add Movie</button>
           </div>
         </form>
       </PopUp>
 
+      {/* Display movie data in a table */}
       {movies && movies.length > 0 ? (
         <table className="bookings-table">
           <thead>
@@ -165,36 +175,38 @@ function Movies() {
             </tr>
           </thead>
           <tbody>
-  {movies.map((movie, index) => (
-    <tr key={index}>
-      <td>
-        <img className="movie-image" src={movie.image} alt={movie.name} />
-      </td>
-      <td>{movie.name}</td>
-      <td>{movie.year}</td>
-      <td>
-        <button
-          className="delete-movie-button"
-          onClick={() => handleDelete(movie.movie_id)}
-        >
-          Delete Movie
-        </button>
-      </td>
-      <td>
-        <button className="edit-movie-button" onClick={() => handleEdit(movie)}>
-          Edit Movie
-        </button>
-      </td>
-    </tr>
-  ))}
-</tbody>
+            {movies.map((movie, index) => (
+              <tr key={index}>
+                <td>
+                  <img className="movie-image" src={movie.image} alt={movie.name} />
+                </td>
+                <td>{movie.name}</td>
+                <td>{movie.year}</td>
+                <td>
+                  <button
+                  className="button-style"
+                    onClick={() => handleDelete(movie.movie_id)}>
+                    Delete Movie
+                  </button>
+                </td>
+                <td>
+                  <button  className="button-style" onClick={() => handleEdit(movie)}>
+                    Edit Movie
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       ) : (
         <p>You have no movies.</p>
       )}
+
+      {/* Pop-up for editing a movie */}
       <PopUp trigger={buttonPopup} setTrigger={setButtonPopup}>
         <h2 className="edit-review-text">Please Enter The Edits Required.</h2>
         <form onSubmit={handleEditSubmit}>
+          {/* Form for editing a movie */}
           <div className="form-group">
             <label htmlFor="image" className="control-label">
               Image
@@ -234,13 +246,12 @@ function Movies() {
               onChange={handleInputChange}
             />
           </div>
-          <div className="submit-review">
-            <button onClick={handleEditSubmit}>Submit</button>
-          </div>
+            <button className="button-style" onClick={handleEditSubmit}>Submit</button>
         </form>
       </PopUp>
     </div>
   );
 }
 
+// Export the Movies component for use in other parts of the application.
 export default Movies;

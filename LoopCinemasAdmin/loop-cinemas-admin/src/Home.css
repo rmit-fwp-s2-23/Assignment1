@@ -1,9 +1,11 @@
+/* CSS for centering content within a container */
 .container {
     display: grid;
     place-items: center;
     padding: 5%;
 }
 
+/* Styling for a home page text */
 .home-text {
     font-weight: bold;
     text-transform: uppercase;
@@ -11,8 +13,9 @@
     color: #230444;
 }
 
+/* Styling for a home page image */
 .home-image {
     display: block;
-    margin: 0 auto;
+    margin: 0 auto; 
     cursor: pointer;
 }

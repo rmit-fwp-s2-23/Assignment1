@@ -6,7 +6,6 @@ import { MemoryRouter } from 'react-router-dom';
 jest.mock('./repository2', () => ({
   getReviewByMovie: jest.fn(),
   getAllBookings: jest.fn(),
-  // Add other functions to mock if necessary
 }));
 
 describe('MoviePage Component', () => {
@@ -30,7 +29,6 @@ describe('MoviePage Component', () => {
     const mockMovie = {
       movie_id: '123',
       name: 'Test Movie',
-      // ... other necessary movie properties ...
     };
 
     render(

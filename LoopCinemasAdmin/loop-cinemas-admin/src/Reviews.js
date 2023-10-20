@@ -7,7 +7,7 @@ function Reviews() {
 
   useEffect(() => {
     fetchReviews();
-  }, []); // Added an empty dependency array to avoid infinite loop
+  }, []); 
 
   const fetchReviews = async () => {
     const reviewsData = await getReviews();

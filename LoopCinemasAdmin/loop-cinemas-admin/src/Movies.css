@@ -4,6 +4,37 @@
     place-items: center;
 }
 .movie-image {
-    width: 100px; /* Set the width of the inserted image */
-    height: 150px; /* Set the height of the inserted image */
+    width: 100px; 
+    height: 150px; 
+}
+
+.button-style {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.button-style:hover {
+    opacity: 0.9;
+}
+
+/* Styles for specific buttons */
+.button-style:nth-child(4) {
+    background-color: #e74c3c; /* Red button style */
+    color: white;
+}
+
+.button-style:nth-child(5) {
+    background-color: #f39c12; /* Orange button style */
+    color: white;
+}
+
+.button-style:nth-child(6) {
+    background-color: #2ecc71; /* Green button style */
+    color: white;
 }
