@@ -60,7 +60,7 @@ graphql.schema = buildSchema(`
     delete_review(review_id: ID): Boolean
     block_user(user_id: ID): Boolean
     unblock_user(user_id: ID): Boolean
-    update_movie(movie_id: ID, image: String, name: String, year: Int): Boolean
+    update_movie(movie_id: ID, image: String, name: String, year: Int): Movie
     delete_movie(movie_id: ID): Boolean
     create_movie(image: String, name: String, year: Int): Boolean
   }
@@ -98,7 +98,7 @@ graphql.root = {
   
     await movie.save();
   
-    return true;
+    return movie;
   },
   delete_movie: async (args) => {
     // You should implement a logic to delete a movie by its ID in your database.
