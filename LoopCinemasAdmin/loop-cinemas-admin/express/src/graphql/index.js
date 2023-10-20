@@ -59,6 +59,9 @@ graphql.schema = buildSchema(`
   type Mutation {
     update_movie(movie_id: ID, image: String, name: String, year: Int): Boolean
     delete_movie(movie_id: ID): Boolean
+    delete_review(review_id: ID): Boolean
+    block_user(user_id: ID): Boolean
+    unblock_user(user_id: ID): Boolean
   }
 `);
 
