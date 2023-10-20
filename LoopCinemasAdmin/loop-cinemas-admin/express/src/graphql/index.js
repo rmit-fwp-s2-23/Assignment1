@@ -132,14 +132,17 @@ graphql.root = {
         throw new Error("Review not found");
       }
       
-      await review.destroy();
+      // Mark the review as deleted instead of actually deleting it
+      review.isDeleted = true;
+      await review.save();
+      
       return true;
       
     } catch (error) {
       console.error('Error in delete_review resolver:', error);
       throw error;
     }
-  },
+  },  
 
   block_user: async (args) => {
     const user = await db.user.findByPk(args.user_id);

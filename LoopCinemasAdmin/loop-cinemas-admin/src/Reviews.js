@@ -33,16 +33,19 @@ function Reviews() {
     <div className="review-container">
       <h2>Reviews</h2>
       <div className="reviews">
-        {reviews.map((review) => (
-          <div key={review.review_id} className="review-item">
-            <p>User ID: {review.user_id}</p>
-            <p>Review: {review.review}</p>
-            <p>Rating: {review.rating}</p>
-            <button onClick={() => handleDeleteReview(review.review_id)}>Delete Review</button>
-            <button onClick={() => handleBlockUser(review.user_id)}>Block User</button>
-            <button onClick={() => handleUnblockUser(review.user_id)}>Unblock User</button>
-          </div>
-        ))}
+          {reviews.map((review) => (
+      <div key={review.review_id} className="review-item">
+        <p>User ID: {review.user_id}</p>
+        <strong>Review:</strong> 
+        <div 
+          dangerouslySetInnerHTML={{ __html: review.review }}
+        ></div>
+        <p>Rating: {review.rating}</p>
+        <button onClick={() => handleDeleteReview(review.review_id)}>Delete Review</button>
+        <button onClick={() => handleBlockUser(review.user_id)}>Block User</button>
+        <button onClick={() => handleUnblockUser(review.user_id)}>Unblock User</button>
+      </div>
+    ))}
       </div>
     </div>
   );

@@ -26,4 +26,8 @@ module.exports = (sequelize, DataTypes) =>
       allowNull: false,
       foreignKey: true
     },
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+  }
   });
