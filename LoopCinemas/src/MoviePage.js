@@ -2,7 +2,7 @@ import "./MoviePage.css"; // Include 'src/' in the import path
 import React, { useState, useEffect } from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the stylesheet for the 'snow' theme
-import {getUserNameById, updateReview, createReview, deleteReview, getReviewByMovie, getAllBookings, createBooking} from "./repository2.js"
+import {getUserNameById, updateReview, createReview, deleteReview, getReviewByMovie, getAllBookings, createBooking, getUserById} from "./repository2.js"
 import ReservationPopup from './ReservationPopup';
 import "./Reviews.css"; // Include 'src/' in the import path
 import { useLocation} from "react-router-dom";
@@ -128,42 +128,55 @@ const suburbs = [
   const [editIndex, setEditIndex] = useState(null);
 
 
-const handleReviewSubmit = () => {
-  // Check for review length
-  if (count <= 600 && count > 0 && newReview.trim() !== "") {
-
-    console.log(newUserID + "   " + newMovieID)
-    const reviewData = {
-      rating: newRating,
-      review: newReview,
-      review_id: newReviewID,
-      user_id: newUserID,
-      movie_id: newMovieID,
-    };
-
-    if (editMode) {
-      updateReview(reviewData)
-        .then(() => {
-          alert("Review Updated Successfully");
-          fetchReviews();
+  const handleReviewSubmit = () => {
+    // Check for review length
+    if (count <= 600 && count > 0 && newReview.trim() !== "") {
+      
+      console.log(newUserID + "   " + newMovieID);
+      const reviewData = {
+        rating: newRating,
+        review: newReview,
+        review_id: newReviewID,
+        user_id: newUserID,
+        movie_id: newMovieID,
+      };
+  
+      // Check if the user is blocked
+      isUserBlocked(newUserID)
+        .then((blocked) => {
+          if (blocked) {
+            // If the user is blocked, show an alert
+            alert("You are blocked and cannot submit or edit reviews.");
+          } else {
+            // If the user is not blocked, proceed with review submission or editing
+            if (editMode) {
+              updateReview(reviewData)
+                .then(() => {
+                  alert("Review Updated Successfully");
+                  fetchReviews();
+                })
+                .catch((error) => {
+                  console.error("Error updating review:", error);
+                  alert("Failed to update review. Please try again.");
+                });
+            } else { 
+              // If not in edit mode, create a new review
+              createReview(reviewData)
+                .then(() => {
+                  alert("Review Created Successfully");
+                  fetchReviews();
+                })
+                .catch((error) => {
+                  console.error("Error creating review:", error);
+                  alert("Failed to create a review. Please try again.");
+                });
+            }
+          }
         })
         .catch((error) => {
-          console.error("Error updating review:", error);
-          alert("Failed to update review. Please try again.");
+          console.error("Error checking user block status:", error);
         });
-    } else { 
-      // If not in edit mode, create a new review
-      createReview(reviewData)
-        .then(() => {
-          alert("Review Created Successfully");
-          fetchReviews();
-        })
-        .catch((error) => {
-          console.error("Error creating review:", error);
-          alert("Failed to create a review. Please try again.");
-        });
-    }
-
+  
     // Reset the form and state
     setNewReview("");
     setNewRating(5);
@@ -177,6 +190,17 @@ const handleReviewSubmit = () => {
     setErrorMessage("Please enter a review that is less than 600 characters.");
   }
 };
+  
+  // Function to check if a user is blocked
+  const isUserBlocked = async (userId) => {
+    try {
+      const user = await getUserById(userId); // Assume you have a function to get user details
+      return user.isBlocked; // Assuming the blocked status is stored in the 'isBlocked' attribute
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      throw error;
+    }
+  };
 
   const handleReview = () => {
     if (props.username) {

@@ -28,4 +28,9 @@ module.exports = (sequelize, DataTypes) =>
       type: DataTypes.DATE,
       allowNull: false,
     },
+    isBlocked: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false
+    },
   });
