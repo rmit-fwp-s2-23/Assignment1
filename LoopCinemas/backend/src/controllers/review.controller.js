@@ -1,11 +1,9 @@
 const db = require("../database");
 
 
-// Create a new review.
 exports.createReview = async (req, res) => {
-  const { rating, review, user_id, movie_id } = req.body.rating;
-  console.log("Received user_id from frontend:", user_id);
-
+  const { rating, review, user_id, movie_id } = req.body;
+  console.log(req.body);
   try {
     const newReview = await db.review.create({
       rating,
@@ -16,9 +14,10 @@ exports.createReview = async (req, res) => {
     res.json(newReview);
   } catch (error) {
     console.error("Error creating review:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
+
 
 
 
@@ -74,5 +73,7 @@ exports.deleteReview = async (req, res) => {
     res.json({ message: "Review deleted successfully" });
     return true;
 };
+
+
 
 

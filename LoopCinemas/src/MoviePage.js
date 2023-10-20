@@ -176,8 +176,20 @@ const suburbs = [
         .catch((error) => {
           console.error("Error checking user block status:", error);
         });
-    }
-  };
+  
+    // Reset the form and state
+    setNewReview("");
+    setNewRating(5);
+    setButtonPopup(false);
+    setEditMode(false);
+    setEditIndex(null);
+    setCount(0);
+  } else if (count === 0 || newReview.trim() === "") {
+    setErrorMessage("Please enter a review.");
+  } else if (count > 600) {
+    setErrorMessage("Please enter a review that is less than 600 characters.");
+  }
+};
   
   // Function to check if a user is blocked
   const isUserBlocked = async (userId) => {
