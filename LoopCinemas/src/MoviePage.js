@@ -78,6 +78,7 @@ const suburbs = [
   const [count, setCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState(null);
   const reactQuillRef = React.useRef();
+
   
     async function fetchReviews() {
       try {
@@ -116,6 +117,13 @@ const suburbs = [
   const [newReviewID, setNewReviewID] = useState(null); // Default review_id
   const [newMovieID, setNewMovieID] = useState(movie.movie_id); // Default movie_id
   const [newUserID, setNewUserID] = useState(props.user_id); // Default user_id
+
+  useEffect(() => {
+    if (buttonPopup == false) {
+      setNewReview("");
+      setCount(0);
+    }
+  }, [buttonPopup])
   
   // Handle change in review text area
   const handleReviewChange = (value) => {
@@ -177,9 +185,8 @@ const suburbs = [
           console.error("Error checking user block status:", error);
         });
   
-    // Reset the form and state
+    // Reset the form and stat
     setNewReview("");
-    setNewRating(5);
     setButtonPopup(false);
     setEditMode(false);
     setEditIndex(null);
@@ -217,6 +224,7 @@ const suburbs = [
     } else {
       alert("Please log in.");
       setCount(0)
+      setNewReview("")
     }
   }
 
@@ -239,6 +247,7 @@ const suburbs = [
     // Store the index of the review being edited
     setEditIndex(index);
     setButtonPopup(true);
+    setNewReview("")
   }
   
   // Handle deleting a review
