@@ -108,6 +108,22 @@ async function unblockUser(userId) {
   await request(GRAPH_QL_URL, mutation, { userId });
 }
 
+async function addMovie({ image, name, year }) {
+  const query = gql`
+    mutation AddMovie($image: String, $name: String, $year: Int) {
+      create_movie(image: $image, name: $name, year: $year)
+    }
+  `;
+
+  try {
+    const data = await request(GRAPH_QL_URL, query, { image, name, year });
+    return data.create_movie
+  } catch (error) {
+    console.error("Error adding movie:", error);
+    throw error; // Optionally re-throw the error for higher-level error handling
+  }
+}
+
 export {
-  getMovies, updateMovie, deleteMovie, getReviews, deleteReview, blockUser, unblockUser
+  getMovies, updateMovie, deleteMovie, getReviews, deleteReview, blockUser, unblockUser, addMovie
 }
