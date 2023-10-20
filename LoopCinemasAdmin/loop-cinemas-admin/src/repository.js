@@ -68,7 +68,53 @@ async function deleteMovie(movie_id) {
 
   return data.delete_owner;
 }
+async function getReviews() {
+  const query = gql`
+    query {
+      all_reviews {
+        review_id
+        review
+        rating
+        user_id
+        movie_id
+      }
+    }
+  `;
+
+  const data = await request(GRAPH_QL_URL, query);
+  return data.all_reviews;
+}
+
+async function deleteReview(reviewId) {
+  const mutation = gql`
+    mutation ($reviewId: ID) {
+      delete_review(review_id: $reviewId)
+    }
+  `;
+
+  await request(GRAPH_QL_URL, mutation, { reviewId });
+}
+
+async function blockUser(userId) {
+  const mutation = gql`
+    mutation ($userId: ID) {
+      block_user(user_id: $userId)
+    }
+  `;
+
+  await request(GRAPH_QL_URL, mutation, { userId });
+}
+
+async function unblockUser(userId) {
+  const mutation = gql`
+    mutation ($userId: ID) {
+      unblock_user(user_id: $userId)
+    }
+  `;
+
+  await request(GRAPH_QL_URL, mutation, { userId });
+}
 
 export {
-  getMovies, updateMovie, deleteMovie
+  getMovies, updateMovie, deleteMovie, getReviews, deleteReview, blockUser, unblockUser
 }

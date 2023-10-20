@@ -38,6 +38,7 @@ graphql.schema = buildSchema(`
     email: String
     password_hash: String
     name: String
+    isBlocked: Boolean
   }
   
 
@@ -51,6 +52,7 @@ graphql.schema = buildSchema(`
   # Queries (read-only operations).
   type Query {
     all_movies: [Movie]
+    all_reviews: [Review]
   }
 
   # Mutations (modify data in the underlying data-source, i.e., the database).
@@ -58,6 +60,9 @@ graphql.schema = buildSchema(`
     create_movie(input: MovieInput): Movie
     update_movie(movie_id: ID, image: String, name: String, year: Int): Movie
     delete_movie(movie_id: ID): Boolean
+    delete_review(review_id: ID): Boolean
+    block_user(user_id: ID): Boolean
+    unblock_user(user_id: ID): Boolean
   }
 `);
 
@@ -106,6 +111,89 @@ graphql.root = {
     await movie.destroy();
 
     return true;
+  },
+
+  delete_review: async (args) => {
+    try {
+      // Ensure the review model is properly initialized
+      if (!db || !db.review) {
+        throw new Error("Review model is not initialized");
+      }
+      
+      // Ensure that the reviewId is provided
+      if (!args.review_id) {
+        throw new Error("Review ID is not provided");
+      }
+      
+      const review = await db.review.findByPk(args.review_id);
+      if (!review) {
+        throw new Error("Review not found");
+      }
+      
+      await review.destroy();
+      return true;
+      
+    } catch (error) {
+      console.error('Error in delete_review resolver:', error);
+      throw error;
+    }
+  },
+
+  block_user: async (args) => {
+    const user = await db.user.findByPk(args.user_id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+  
+    user.isBlocked = true;
+    await user.save();
+    
+    return true;
+  },
+  
+
+  unblock_user: async (args) => {
+    const user = await db.user.findByPk(args.user_id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+  
+    user.isBlocked = false;
+    await user.save();
+    
+    return true;
+  },
+  
+
+  create_review: async (args) => {
+    const user = await db.users.findByPk(args.user_id);
+    if (user && user.isBlocked) {
+        throw new Error("User is blocked from submitting reviews.");
+    }
+
+    // Continue with review creation logic...
+    const review = await db.reviews.create({
+      user_id: args.user_id,
+      movie_id: args.movie_id,
+      rating: args.rating,
+      review: args.review
+    });
+
+    return review;
+  },
+
+  all_reviews: async () => {
+    try {
+      const reviews = await db.review.findAll({
+        include: [db.user, db.movie] // Including related user and movie info
+      });
+
+      console.log('Reviews fetched:', reviews); // Log the fetched reviews for debugging
+      return reviews;
+    } catch (error) {
+      console.error('Error fetching reviews:', error); // Log errors if any
+      throw error;
+    }
   }
 };
 

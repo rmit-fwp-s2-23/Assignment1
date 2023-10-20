@@ -1,13 +1,49 @@
-import React from "react";
-import "./Reviews.css"; // Importing the CSS file for Footer styling
+import React, { useState, useEffect } from "react";
+import "./Reviews.css";
+import { getReviews, deleteReview, blockUser, unblockUser } from "./repository.js";
 
 function Reviews() {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, []); // Added an empty dependency array to avoid infinite loop
+
+  const fetchReviews = async () => {
+    const reviewsData = await getReviews();
+    setReviews(reviewsData);
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    await deleteReview(reviewId);
+    fetchReviews(); // Refetching reviews after deletion
+  };
+
+  const handleBlockUser = async (userId) => {
+    await blockUser(userId);
+    fetchReviews(); // Refetching reviews to reflect the blocked user's status
+  };
+
+  const handleUnblockUser = async (userId) => {
+    await unblockUser(userId);
+    fetchReviews(); // Refetching reviews to reflect the unblocked user's status
+  };
+
   return (
-    <div className="container">
-        <div className="home-container">
-            <p className="home-text">REVIEWS</p>
-            <img className="home-image" src="/SMS.png" alt="SMS Icon" width="300" height="200" />
-        </div>
+    <div className="review-container">
+      <h2>Reviews</h2>
+      <div className="reviews">
+        {reviews.map((review) => (
+          <div key={review.review_id} className="review-item">
+            <p>User ID: {review.user_id}</p>
+            <p>Review: {review.review}</p>
+            <p>Rating: {review.rating}</p>
+            <button onClick={() => handleDeleteReview(review.review_id)}>Delete Review</button>
+            <button onClick={() => handleBlockUser(review.user_id)}>Block User</button>
+            <button onClick={() => handleUnblockUser(review.user_id)}>Unblock User</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
