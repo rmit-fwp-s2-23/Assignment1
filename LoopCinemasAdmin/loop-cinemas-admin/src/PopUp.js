@@ -1,8 +1,8 @@
-import './EditPopUp.css';
+import './PopUp.css';
 import React from "react";
 
 // A functional component that renders a pop-up based on the 'trigger' prop value
-function EditPopUp(props) {
+function PopUp(props) {
   // If 'trigger' prop is true, render the pop-up
   return props.trigger ? (
     <div className="pop-up">
@@ -20,4 +20,4 @@ function EditPopUp(props) {
   );
 }
 
-export default EditPopUp;
+export default PopUp;

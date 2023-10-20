@@ -62,6 +62,22 @@ async function deleteMovie(movie_id) {
   return data.delete_owner;
 }
 
+async function addMovie({ image, name, year }) {
+  const query = gql`
+    mutation AddMovie($image: String, $name: String, $year: Int) {
+      create_movie(image: $image, name: $name, year: $year)
+    }
+  `;
+
+  try {
+    const data = await request(GRAPH_QL_URL, query, { image, name, year });
+    return data.create_movie
+  } catch (error) {
+    console.error("Error adding movie:", error);
+    throw error; // Optionally re-throw the error for higher-level error handling
+  }
+}
+
 export {
-  getMovies, updateMovie, deleteMovie
+  getMovies, updateMovie, deleteMovie, addMovie
 }

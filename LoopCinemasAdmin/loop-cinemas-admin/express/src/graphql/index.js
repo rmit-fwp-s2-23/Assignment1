@@ -55,9 +55,9 @@ graphql.schema = buildSchema(`
 
   # Mutations (modify data in the underlying data-source, i.e., the database).
   type Mutation {
-    create_movie(input: MovieInput): Movie
-    update_movie(movie_id: ID, image: String, name: String, year: Int): Movie
+    update_movie(movie_id: ID, image: String, name: String, year: Int): Boolean
     delete_movie(movie_id: ID): Boolean
+    create_movie(image: String, name: String, year: Int): Boolean
   }
 `);
 
@@ -70,12 +70,12 @@ graphql.root = {
   // Mutations.
   create_movie: async (args) => {
     const movie = await db.movie.create({
-      image: args.input.image,
-      name: args.input.name,
-      year: args.input.year
+      image: args.image,
+      name: args.name,
+      year: args.year
     });
 
-    return movie;
+  return true;
   },
   update_movie: async (args) => {
     const { movie_id, image, name, year } = args; // Destructure the arguments
