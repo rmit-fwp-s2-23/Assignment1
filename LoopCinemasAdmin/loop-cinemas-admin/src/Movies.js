@@ -29,7 +29,7 @@ function Movies() {
       }
     };
     fetchAllMovies();
-  }, []);
+  }, [movies]);
 
   const handleDelete = (movieID) => {
     deleteMovie(movieID);
@@ -49,7 +49,7 @@ function Movies() {
     if (editingMovie) {
       console.log("MOVIE ID " + editingMovie.movie_id + " NAME " + editingMovie.name + " YEAR "  + editingMovie.year)
       updateMovie({
-        movie_id: editingMovie.movie_id,
+        movie_id: (editingMovie.movie_id).toString(),
         image: fields.image,
         name: fields.name,
         year: fields.year,

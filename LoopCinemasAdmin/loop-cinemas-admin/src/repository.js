@@ -21,16 +21,16 @@ async function getMovies() {
 
   return data.all_movies;
 }
-
-async function updateMovie(movie_id, image, name, year) {
+async function updateMovie(argument) {
   const query = gql`
-    mutation($movie_id: ID, $image: String, $name: String, $year: Int) {
+    mutation UpdateMovie($movie_id: ID, $image: String, $name: String, $year: Int) {
       update_movie(
         movie_id: $movie_id,
         image: $image,
         name: $name,
         year: $year
       ) {
+        movie_id
         image
         name
         year
@@ -38,15 +38,8 @@ async function updateMovie(movie_id, image, name, year) {
     }
   `;
 
-  const variables = {
-    movie_id,
-    image,
-    name,
-    year
-  };
-
   try {
-    const data = await request(GRAPH_QL_URL, query, variables);
+    const data = await request(GRAPH_QL_URL, query, argument);
     return data.update_movie;
   } catch (error) {
     console.error("Error updating movie:", error);
